@@ -1,0 +1,10 @@
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/ogg.lib
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/bin/ogg.dll
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/include/ogg/config_types.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/include/ogg/ogg.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/include/ogg/os_types.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/cmake/Ogg/OggTargets.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/cmake/Ogg/OggTargets-debug.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/cmake/Ogg/OggConfig.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/cmake/Ogg/OggConfigVersion.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libogg_x64-windows/debug/lib/pkgconfig/ogg.pc

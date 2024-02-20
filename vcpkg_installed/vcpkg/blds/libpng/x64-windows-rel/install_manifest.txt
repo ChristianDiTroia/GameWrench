@@ -1,0 +1,12 @@
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/lib/libpng16.lib
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/bin/libpng16.dll
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/png.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/pngconf.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/pnglibconf.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/libpng16/png.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/libpng16/pngconf.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/include/libpng16/pnglibconf.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/lib/pkgconfig/libpng16.pc
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/lib/libpng/libpng16.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/lib/libpng/libpng16-release.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libpng_x64-windows/lib/libpng/libpng-config.cmake

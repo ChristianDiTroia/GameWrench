@@ -1,0 +1,10 @@
+C:\Dev\GameWrench\GameWrench\bin\sfml-graphics-d-2.dll
+C:\Dev\GameWrench\GameWrench\bin\sfml-window-d-2.dll
+C:\Dev\GameWrench\GameWrench\bin\sfml-system-d-2.dll
+C:\Dev\GameWrench\GameWrench\bin\freetyped.dll
+C:\Dev\GameWrench\GameWrench\bin\zlibd1.dll
+C:\Dev\GameWrench\GameWrench\bin\bz2d.dll
+C:\Dev\GameWrench\GameWrench\bin\libpng16d.dll
+C:\Dev\GameWrench\GameWrench\bin\brotlidec.dll
+C:\Dev\GameWrench\GameWrench\bin\brotlicommon.dll
+C:\Dev\GameWrench\GameWrench\intermediates\GameWren.9167447D.Up2Date

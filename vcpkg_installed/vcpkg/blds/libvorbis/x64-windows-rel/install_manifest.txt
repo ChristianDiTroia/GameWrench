@@ -1,0 +1,16 @@
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/pkgconfig/vorbis.pc
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/pkgconfig/vorbisenc.pc
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/pkgconfig/vorbisfile.pc
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/include/vorbis/codec.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/include/vorbis/vorbisenc.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/include/vorbis/vorbisfile.h
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/vorbis.lib
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/bin/vorbis.dll
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/vorbisenc.lib
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/bin/vorbisenc.dll
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/vorbisfile.lib
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/bin/vorbisfile.dll
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/cmake/Vorbis/VorbisTargets.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/cmake/Vorbis/VorbisTargets-release.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/cmake/Vorbis/VorbisConfig.cmake
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libvorbis_x64-windows/lib/cmake/Vorbis/VorbisConfigVersion.cmake

@@ -1,0 +1,8 @@
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/common.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/OpenAL.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/ex-common.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/edit_cache.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/rebuild_cache.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/list_install_components.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/install.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/openal-soft/x64-windows-rel/CMakeFiles/install/local.dir

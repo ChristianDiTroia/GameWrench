@@ -1,0 +1,10 @@
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/genfiles.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/png.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/pngfix.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/png-fix-itxt.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/test.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/edit_cache.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/rebuild_cache.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/list_install_components.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/install.dir
+C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/libpng/x64-windows-rel/CMakeFiles/install/local.dir

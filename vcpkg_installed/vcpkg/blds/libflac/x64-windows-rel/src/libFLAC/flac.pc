@@ -1,0 +1,12 @@
+prefix=C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libflac_x64-windows
+exec_prefix=C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libflac_x64-windows
+libdir=C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libflac_x64-windows/lib
+includedir=C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/pkgs/libflac_x64-windows/include
+
+Name: FLAC
+Description: Free Lossless Audio Codec Library
+Version: 1.4.2
+Requires.private: ogg
+Libs: -L${libdir} -lFLAC
+Libs.private: -lm
+Cflags: -I${includedir}

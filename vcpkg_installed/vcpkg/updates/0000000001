@@ -1,0 +1,9 @@
+Package: sfml
+Version: 2.6.0
+Port-Version: 18
+Depends: freetype, libflac, libogg, libvorbis, openal-soft, opengl, stb, vcpkg-cmake, vcpkg-cmake-config
+Architecture: x64-windows
+Multi-Arch: same
+Abi: fb33fd9b5e2145eed2b4ff678c56c4afe62071394af4518fae908bc527bb433d
+Description: Simple and fast multimedia library
+Status: purge ok not-installed
