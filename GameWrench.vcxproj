@@ -141,6 +141,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpp\GameRoom.cpp" />
+    <ClCompile Include="src\cpp\GameMap.cpp" />
     <ClCompile Include="src\cpp\Effect.cpp" />
     <ClCompile Include="src\cpp\Entity.cpp" />
     <ClCompile Include="src\cpp\Game.cpp" />
@@ -149,6 +151,8 @@
     <ClCompile Include="src\cpp\Vector2u.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\GameRoom.h" />
+    <ClInclude Include="src\headers\GameMap.h" />
     <ClInclude Include="src\headers\AnimatedSprite.h" />
     <ClInclude Include="src\headers\Effect.h" />
     <ClInclude Include="src\headers\Entity.h" />
@@ -159,6 +163,9 @@
     <ClInclude Include="src\headers\Vector2u.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="README.md" />
     <None Include="vcpkg-configuration.json" />
     <None Include="vcpkg.json" />
   </ItemGroup>

@@ -4,33 +4,45 @@
 
 namespace gw {
 
+/// Sprite that can store and play multiple animations with movement.
+/// Specify animations as a list of subsprites in the order they are to be displayed.
 class Entity : public gw::AnimatedSprite
 {
 public:
 
-	///// Constructors /////
+	//////////////////////////////////////////////////////
+	//////////////////// Constructors ////////////////////
+	//////////////////////////////////////////////////////
 
 	Entity(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
 
-	///// Mutators /////
+	//////////////////////////////////////////////////
+	//////////////////// Mutators ////////////////////
+	//////////////////////////////////////////////////
 
 	void addAnimation(std::string name, std::vector<Vector2u> subSprites);
-	bool animate(std::string animation, float timePerFrame, bool interuptable = true);
+	bool animate(std::string animation, float timePerFrame, bool interruptible = true);
 	void setVelocity(float xVelocity, float yVelocity);
 	void update(float deltaTime) override;
 
-	///// Accessors /////
+	///////////////////////////////////////////////////
+	//////////////////// Accessors ////////////////////
+	///////////////////////////////////////////////////
 
 	std::vector<std::string> getAnimationList() const;
 	std::string getCurrentAnimation() const;
 
 private:
 
-	///// Private Methods /////
+	/////////////////////////////////////////////////////////
+	//////////////////// Private Methods ////////////////////
+	/////////////////////////////////////////////////////////
 
 	int findAnimation(std::string animation);
 
-	///// Private Members /////
+	/////////////////////////////////////////////////////////
+	//////////////////// Private Members ////////////////////
+	/////////////////////////////////////////////////////////
 
 	std::vector<std::vector<Vector2u>> animations;  // SubSprites used for each animation
 	std::vector<std::string> animationNames;		// Parallel array to ID animations by name
@@ -39,7 +51,7 @@ private:
 	int prevAnimation;						// Animation played on latest update call
 	int curFrame;							// Current frame in the animation
 	float animationTime;					// Time to display one frame of an animation
-	bool canInterupt;						// Can current animation be interupted
+	bool canInterrupt;						// Can current animation be interupted
 	Vector2f velocity;						// X, Y pixels per second
 	float timer;
 };

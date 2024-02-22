@@ -2,6 +2,10 @@
 
 using namespace gw;
 
+//////////////////////////////////////////////////////
+//////////////////// Constructors ////////////////////
+//////////////////////////////////////////////////////
+
 gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
 	AnimatedSprite(filePath, cellSize),
 	timer(0),
@@ -12,6 +16,10 @@ gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
 	hide();
 }
 
+//////////////////////////////////////////////////
+//////////////////// Mutators ////////////////////
+//////////////////////////////////////////////////
+
 void gw::Effect::setAnimation(std::vector<Vector2u> subSprites) { animation = subSprites; }
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
@@ -20,8 +28,8 @@ void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
 }
 
 void gw::Effect::update(float deltaTime) {
+	timer += deltaTime;
 	if (animationCycles > 0) {
-		timer += deltaTime;
 		if (curFrame == -1) { // start new effect animation
 			timer = 0;
 			curFrame = 0;
@@ -29,13 +37,14 @@ void gw::Effect::update(float deltaTime) {
 		}
 		else if (timer >= animationTime) {
 			curFrame = (curFrame + 1) % animation.size();
-			timer -= animationTime;
-			if (curFrame == animation.size() - 1) { animationCycles--; }
+			timer -= animationTime; // keep extra time so next frame shown sooner
+			if (curFrame == animation.size() - 1) { animationCycles--; } // one cycle completed
 		}
 		setSubSprite(animation[curFrame]);
 	}
-	else { 
-		curFrame = -1; 
+	else if (curFrame == -1 || timer >= animationTime) { // ensure last frame displayed long enough
+		// all effect animation cycles completed
+		curFrame = -1;
 		timer = 0;
 		hide();
 	}

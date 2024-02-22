@@ -38,7 +38,7 @@ int main() {
 	gw::Effect explode(sfxPath, gw::Vector2u(128, 128));
 	explode.setAnimation(animationRange(5, 0, 13));
 	explode.playEffect(5, 0.06);
-	explode.setPosition(400, 400);
+	explode.setPosition(600, 600);
 
 	// Main game loop
 	while (window.isOpen()) {
