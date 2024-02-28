@@ -1,5 +1,48 @@
 #pragma once
+
+#include "GameRoom.h"
+
+namespace gw {
+
+/// Multidirectional linked list of GameRooms which makeup a map.
+/// Each GameRoom holds a list of references to the sprites for that room.
 class GameMap
 {
+public:
+
+    //////////////////////////////////////////////////////
+    //////////////////// Constructors ////////////////////
+    //////////////////////////////////////////////////////
+
+    GameMap(std::string firstRoomName = "Origin");
+
+    ~GameMap();
+
+    //////////////////////////////////////////////////
+    //////////////////// Mutators ////////////////////
+    //////////////////////////////////////////////////
+
+    void addRoomTop(std::string name = "No name");
+    void addRoomBottom(std::string name = "No name");
+    void addRoomLeft(std::string name = "No name");
+    void addRoomRight(std::string name = "No name");
+    void curToHead() { curRoom = head; }
+
+private:
+
+    /////////////////////////////////////////////////////////
+    //////////////////// Private Members ////////////////////
+    /////////////////////////////////////////////////////////
+
+    GameRoom* head; // The first room created in the map
+
+public: // head needs to be declared before curRoom for proper initialization
+
+    ////////////////////////////////////////////////////////
+    //////////////////// Public Members ////////////////////
+    ////////////////////////////////////////////////////////
+
+    GameRoom* curRoom;  // Currently selected room in the list of GameRooms
 };
 
+} // namespace gw

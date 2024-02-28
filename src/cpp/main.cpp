@@ -12,13 +12,15 @@ static std::vector<gw::Vector2u> animationRange(int row, int col, int range) {
 
 int main() {
 
-	sf::RenderWindow window(sf::VideoMode(2560, 1440), "GameWrench", sf::Style::Default);
+	sf::RenderWindow window(sf::VideoMode(1920, 1080), "GameWrench", sf::Style::Default);
 	window.setVerticalSyncEnabled(true);
 	window.setFramerateLimit(165);
 	sf::Clock time;
 	float timer = 0;
 	float printTimer = 0;
 	float deltaTime = 0;
+
+	bool executed = false;
 
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
@@ -39,6 +41,25 @@ int main() {
 	explode.setAnimation(animationRange(5, 0, 13));
 	explode.playEffect(5, 0.06);
 	explode.setPosition(600, 600);
+
+	// Create game map
+	gw::GameMap map("Origin");
+	map.curRoom->addSprite(&player);
+	map.addRoomRight("Origin - right");
+	map.curRoom->right->addSprite(&explode);
+
+	// add backgrounds
+	spritePath = "./sprites/blue_city.png";
+	gw::Sprite background1(spritePath, gw::Vector2u(2302, 1395));
+	map.curRoom->addSprite(&background1);
+	spritePath = "./sprites/misty_city.png";
+	gw::Sprite background2(spritePath, gw::Vector2u(2302, 1395));
+	map.curRoom->right->addSprite(&background2);
+	map.curRoom->right->addSprite(&player);
+
+	background1.setPosition(960, 540);
+	background2.setPosition(960, 540);
+
 
 	// Main game loop
 	while (window.isOpen()) {
@@ -99,12 +120,19 @@ int main() {
 
 		// Draw sprites
 		window.clear(sf::Color::White);
-		window.draw(player);
-		window.draw(explode);
+		for (gw::Sprite* sprite : map.curRoom->spriteList()) {
+			window.draw(*sprite);
+		}	// draw static sprites first to put in background
+		for (gw::Sprite* sprite : map.curRoom->animatedSpriteList()) {
+			window.draw(*sprite);
+		}
 
 		// Output frame to window
 		window.display();
 		
+		if (timer > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
 	}
 
+	int x;
+	std::cin >> x;
 }

@@ -86,5 +86,11 @@
     <Image Include="sprites\skeleton_spritesheet.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="sprites\blue_city.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="sprites\misty_city.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

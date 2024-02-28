@@ -170,7 +170,9 @@
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="sprites\blue_city.png" />
     <Image Include="sprites\fireball_spritesheet.png" />
+    <Image Include="sprites\misty_city.png" />
     <Image Include="sprites\skeleton_spritesheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
