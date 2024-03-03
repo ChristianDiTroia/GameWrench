@@ -11,7 +11,7 @@ gw::Sprite::Sprite(std::string filePath, Vector2u cellSize) :
 {}
 
 gw::Sprite::Sprite(std::string filePath, int cellSizeX, int cellSizeY) :
-    spriteSheet(std::make_shared<sf::Texture>()), // Init new Texture on heap
+    spriteSheet(std::make_shared<sf::Texture>()), // init new Texture on heap
     cellSize(Vector2u(cellSizeX, cellSizeY)),
     mirroredX(false),
     mirroredY(false),

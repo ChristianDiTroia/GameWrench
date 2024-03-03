@@ -16,9 +16,19 @@ public:
 // Constructors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Needed only to call sprite constructor
+	//// Needed only to call sprite constructors
+
 	AnimatedSprite(std::string filePath, Vector2u cellSize = Vector2u(1, 1)) :
 		Sprite(filePath, cellSize) 
+	{}
+
+	AnimatedSprite(std::string filePath, int cellSizeX, int cellSizeY) :
+		Sprite(filePath, cellSizeX, cellSizeY)
+	{}
+
+	// Copy constructor
+	AnimatedSprite(const AnimatedSprite& other) :
+		Sprite(other)
 	{}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

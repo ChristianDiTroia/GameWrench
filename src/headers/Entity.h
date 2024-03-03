@@ -16,12 +16,19 @@ public:
 
 	Entity(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
 
+	Entity(std::string filePath, int cellSizeX = 1, int cellSizeY = 1);
+
+	// Copy construcor
+	Entity(const Entity& other);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void addAnimation(std::string name, std::vector<Vector2f> subSprites);
+	void addAnimation(std::string name, std::vector<Vector2f> subSprites, 
+										Vector2f subSpriteSize = Vector2f(1, 1));
 	bool animate(std::string animation, float timePerFrame, bool interruptible = true);
+	void setVelocity(Vector2f velocity);
 	void setVelocity(float xVelocity, float yVelocity);
 
 	// Implement pure virtual method from AnimatedSprite
@@ -31,8 +38,8 @@ public:
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::vector<std::string> getAnimationList() const;
-	std::string getCurrentAnimation() const;
+	const std::vector<std::string>& getAnimationList() const;
+	const std::string& getCurrentAnimation() const;
 
 private:
 
@@ -44,18 +51,19 @@ private:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Members 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	std::vector<std::vector<Vector2f>> animations;		// SubSprites used for each animation
-//	std::vector<std::vector<Vector2f>> animationSizes;	// Size of each SubSprite in an animation
-	std::vector<std::string> animationNames;			// Parallel array to ID animations by name
+	// Store animation instructions on the heap as a shared resource
+	std::shared_ptr<std::vector<std::vector<Vector2f>>> animations; // Subsprites for each animation
+	std::shared_ptr<std::vector<Vector2f>> sizes; // Size of the SubSprite in each animation
+	std::shared_ptr<std::vector<std::string>> names; // Parallel array to ID animations by name
 
-	int curAnimation;						// Current animation to play
-	int prevAnimation;						// Animation played on latest update call
-	int curFrame;							// Current frame in the animation
-	float animationTime;					// Time to display one frame of an animation
-	bool canInterrupt;						// Can current animation be interupted
-	Vector2f velocity;						// X, Y pixels per second
+	int curAnimation;		// Current animation to play
+	int prevAnimation;		// Animation played on latest update call
+	int curFrame;			// Current frame in the animation
+	float animationTime;	// Time to display one frame of an animation
+	bool canInterrupt;		// Can current animation be interupted
+	Vector2f velocity;		// X, Y pixels per second
 	float timer;
 };
 

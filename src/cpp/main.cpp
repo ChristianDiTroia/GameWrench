@@ -28,15 +28,16 @@ int main() {
 	player.setPosition(900, 500);
 	player.setScale(2.5f, 2.5f);
 
-	// Make new still skeleton from already existing skeleton sprite
-	gw::Sprite stillSkeleton(player);
-
 	// Create animations for the player
 	player.addAnimation("die", animationRange(0, 0, 3));
 	player.addAnimation("attack", animationRange(0, 10, 5));
 	player.addAnimation("jump", animationRange(4, 0, 10));
 	player.addAnimation("run", animationRange(2, 7, 7));
 	player.addAnimation("idle", animationRange(2, 0, 7));
+
+	// Make new still skeleton from already existing skeleton sprite
+	gw::Entity stillSkeleton(player);
+	stillSkeleton.animate("attack", 0.09);
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
@@ -112,6 +113,7 @@ int main() {
 
 		// Update AnimatedSprites
 		player.update(deltaTime);
+		stillSkeleton.update(deltaTime);
 		explode.update(deltaTime);
 
 		// Draw sprites
@@ -129,10 +131,6 @@ int main() {
 		
 		// Change rooms after 8 seconds
 		if (timer > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
-		stillSkeleton = player;
-		stillSkeleton.movePosition(256, 0);
-		stillSkeleton.rotate(30);
-
 
 		//// Debug info to console
 		//if (printTimer >= 0.5) {
@@ -142,6 +140,4 @@ int main() {
 		//}
 	}
 
-	int x;
-	std::cin >> x;
 }
