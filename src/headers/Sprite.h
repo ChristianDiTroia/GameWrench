@@ -1,10 +1,11 @@
 #pragma once
 
-#include "Vector2u.h"
-#include "Vector2f.h"
-#include <string.h>
+#include <string>
+#include <memory>
 #include <SFML/Graphics.hpp>
 
+#include "Vector2u.h"
+#include "Vector2f.h"
 
 namespace gw 
 {
@@ -16,32 +17,43 @@ class Sprite : public sf::Drawable
 {
 public:
 
-    //////////////////////////////////////////////////////
-    //////////////////// Constructors ////////////////////
-    //////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Constructors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
     Sprite(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
 
-    //////////////////////////////////////////////////
-    //////////////////// Mutators ////////////////////
-    //////////////////////////////////////////////////
+    Sprite(std::string filePath, int cellSizeX = 1, int cellSizeY = 1);
 
-    void setSpriteSheet(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
-    void setCellSize(Vector2u cellSize);
-    void setSubSprite(Vector2u spriteCoord, Vector2u spriteSize = Vector2u(1, 1));
+    // Copy constructor
+    Sprite(const Sprite& other);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Mutators 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    void setSubSprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
+    void setSubSprite(float coordX, float coordY, float sizeX, float sizeY);
+    void setPosition(Vector2f position);
     void setPosition(float x, float y);
+    void movePosition(Vector2f distance);
     void movePosition(float x, float y);
+    void setScale(Vector2f scaleFactor);
     void setScale(float xFactor, float yFactor);
+    void scale(Vector2f scaleFactor);
+    void scale(float xFactor, float yFactor);
+    void setRotation(float rotation);
+    void rotate(float rotation);
     void mirrorX();
     void mirrorY();
     void hide() { hidden = true; }
     void show() { hidden = false; }
 
-    ///////////////////////////////////////////////////
-    //////////////////// Accessors ////////////////////
-    ///////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Vector2u getSubSprite() const;
+    Vector2f getSubSprite() const;
     Vector2f getPosition() const;
     Vector2f getScale() const;
     bool isMirroredX() const { return mirroredX; }
@@ -50,22 +62,23 @@ public:
 
 private:
 
-    /////////////////////////////////////////////////////////
-    //////////////////// Private Methods ////////////////////
-    /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
     // Implementation of pure virtual function for SFML drawing
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
-    /////////////////////////////////////////////////////////
-    //////////////////// Private Members ////////////////////
-    /////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Members 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    sf::Texture spriteSheet;	// Image file containing sprites to
-    sf::Sprite sprite;		    // SFML sprite object to be drawn
-    Vector2u cellSize;		    // Size of one cell on the spriteSheet
-    Vector2u subSprite;		    // Cell coordinates of selected sprite from spriteSheet
-    Vector2u spriteSize;		// Size of sprite in cells
+    // Resource-heavy textures stored once on the heap as a shared resource
+    std::shared_ptr<sf::Texture> spriteSheet;   // Image file containing sprites to be drawn
+
+    sf::Sprite sprite;	    // SFML sprite object to be drawn
+    Vector2u cellSize;	    // Size of one cell on the spriteSheet
+    Vector2f subSprite;	    // Cell coordinates of selected sprite from spriteSheet
     bool mirroredX;
     bool mirroredY;
     bool hidden;

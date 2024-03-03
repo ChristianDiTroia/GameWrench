@@ -2,8 +2,8 @@
 #include "GameWrench.h"
 #include <SFML/Graphics.hpp>
 
-static std::vector<gw::Vector2u> animationRange(int row, int col, int range) {
-	std::vector<gw::Vector2u> animation;
+static std::vector<gw::Vector2f> animationRange(int row, int col, int range) {
+	std::vector<gw::Vector2f> animation;
 	for (int i = col; i < col + range; i++) {
 		animation.emplace_back(i, row);
 	}
@@ -27,6 +27,9 @@ int main() {
 	gw::Entity player(spritePath, gw::Vector2u(128, 128));
 	player.setPosition(900, 500);
 	player.setScale(2.5f, 2.5f);
+
+	// Make new still skeleton from already existing skeleton sprite
+	gw::Sprite stillSkeleton(player);
 
 	// Create animations for the player
 	player.addAnimation("die", animationRange(0, 0, 3));
@@ -107,13 +110,6 @@ int main() {
 			explode.playEffect(1, 0.07);
 		}
 
-		// Debug info to console
-		if (printTimer >= 0.5) {
-			std::cout << speed.x << " " << speed.y << std::endl;
-			std::cout << player.getCurrentAnimation() << std::endl;
-			printTimer = 0;
-		}
-
 		// Update AnimatedSprites
 		player.update(deltaTime);
 		explode.update(deltaTime);
@@ -126,11 +122,24 @@ int main() {
 		for (gw::Sprite* sprite : map.curRoom->animatedSpriteList()) {
 			window.draw(*sprite);
 		}
+		window.draw(stillSkeleton);
 
 		// Output frame to window
 		window.display();
 		
+		// Change rooms after 8 seconds
 		if (timer > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
+		stillSkeleton = player;
+		stillSkeleton.movePosition(256, 0);
+		stillSkeleton.rotate(30);
+
+
+		//// Debug info to console
+		//if (printTimer >= 0.5) {
+		//	std::cout << speed.x << " " << speed.y << std::endl;
+		//	std::cout << player.getCurrentAnimation() << std::endl;
+		//	printTimer = 0;
+		//}
 	}
 
 	int x;

@@ -2,47 +2,81 @@
 
 using namespace gw;
 
-//////////////////////////////////////////////////////
-//////////////////// Constructors ////////////////////
-//////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Constructors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 gw::Sprite::Sprite(std::string filePath, Vector2u cellSize) :
+    Sprite(filePath, cellSize.x, cellSize.y)
+{}
+
+gw::Sprite::Sprite(std::string filePath, int cellSizeX, int cellSizeY) :
+    spriteSheet(std::make_shared<sf::Texture>()), // Init new Texture on heap
+    cellSize(Vector2u(cellSizeX, cellSizeY)),
     mirroredX(false),
     mirroredY(false),
     hidden(false)
 {
-    setSpriteSheet(filePath, cellSize);
+    spriteSheet->loadFromFile(filePath); // make spriteSheet Texture from image file
+    sprite.setTexture(*spriteSheet);
+    setSubSprite(Vector2f(0, 0)); // default top-left corner of texture
 }
 
-//////////////////////////////////////////////////
-//////////////////// Mutators ////////////////////
-//////////////////////////////////////////////////
-
-void gw::Sprite::setSpriteSheet(std::string filePath, Vector2u cellSize) {
-    spriteSheet.loadFromFile(filePath);
-    sprite.setTexture(spriteSheet);
-    this->cellSize = cellSize;
-    setSubSprite(Vector2u(0, 0));
+// Copy constructor
+gw::Sprite::Sprite(const Sprite& other) :
+    spriteSheet(other.spriteSheet), // shared_ptr to existing spriteSheet on heap
+    cellSize(other.cellSize),
+    mirroredX(other.mirroredX),
+    mirroredY(other.mirroredY),
+    hidden(other.hidden)
+{
+    sprite.setTexture(*spriteSheet);
+    // Copy current state of other Sprite
+    sprite.setPosition(other.sprite.getPosition());
+    sprite.setScale(other.sprite.getScale());
+    sprite.setRotation(other.sprite.getRotation());
+    setSubSprite(other.getSubSprite());
 }
 
-void gw::Sprite::setCellSize(Vector2u cellSize) { this->cellSize = cellSize; }
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Mutators 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Sprite::setSubSprite(Vector2u spriteCoord, Vector2u spriteSize) {
-    Vector2u pixelCoords = spriteCoord * cellSize;
-    Vector2u pixelSize = spriteSize * cellSize;
-    sprite.setTextureRect(sf::IntRect(pixelCoords.x, pixelCoords.y, 
-                                        pixelSize.x, pixelSize.y));
-    sprite.setOrigin(pixelSize.x / 2.0f, pixelSize.y / 2.0f);
-    subSprite = spriteCoord;
+void gw::Sprite::setSubSprite(Vector2f spriteCoord, Vector2f spriteSize) {
+    setSubSprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
 }
+
+void gw::Sprite::setSubSprite(float coordX, float coordY, float sizeX, float sizeY) {
+    // Scale cell coordinates and sizes to actual pixels
+    float pixelCoordX = coordX * cellSize.x;
+    float pixelCoordY = coordY * cellSize.y;
+    float pixelSizeX = sizeX * cellSize.x;
+    float pixelSizeY = sizeY * cellSize.y;
+    sprite.setTextureRect(sf::IntRect(pixelCoordX, pixelCoordY,
+                                        pixelSizeX, pixelSizeY));
+    sprite.setOrigin(pixelSizeX / 2.0f, pixelSizeY / 2.0f); // center origin
+    subSprite = Vector2f(coordX, coordY);
+}
+
+void gw::Sprite::setPosition(Vector2f position) { setPosition(position.x, position.y); }
 
 void gw::Sprite::setPosition(float x, float y) { sprite.setPosition(x, y); }
 
+void gw::Sprite::movePosition(Vector2f distance) { movePosition(distance.x, distance.y); }
+
 void gw::Sprite::movePosition(float x, float y) { sprite.move(x, y); }
 
-void gw::Sprite::setScale(float xFactor, float yFactor) {
-    sprite.setScale(xFactor, yFactor);
-}
+void gw::Sprite::setScale(Vector2f scaleFactor) { setScale(scaleFactor.x, scaleFactor.y); }
+
+void gw::Sprite::setScale(float xFactor, float yFactor) { sprite.setScale(xFactor, yFactor); }
+
+void gw::Sprite::scale(Vector2f scaleFactor) { scale(scaleFactor.x, scaleFactor.y); }
+
+void gw::Sprite::scale(float xFactor, float yFactor) { sprite.scale(xFactor, yFactor); }
+
+void gw::Sprite::setRotation(float rotation) { sprite.setRotation(rotation); }
+
+void gw::Sprite::rotate(float rotation) { sprite.rotate(rotation); }
 
 void gw::Sprite::mirrorX() {
     sf::Vector2f scale = sprite.getScale();
@@ -60,11 +94,11 @@ void gw::Sprite::mirrorY() {
     }
 }
 
-///////////////////////////////////////////////////
-//////////////////// Accessors ////////////////////
-///////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector2u gw::Sprite::getSubSprite() const { return subSprite; }
+Vector2f gw::Sprite::getSubSprite() const { return subSprite; }
 
 Vector2f gw::Sprite::getPosition() const {
     sf::Vector2f pos = sprite.getPosition();
@@ -76,9 +110,9 @@ Vector2f gw::Sprite::getScale() const {
     return Vector2f(scale.x, scale.y);
 }
 
-/////////////////////////////////////////////////////////
-//////////////////// Private Methods ////////////////////
-/////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Implement pure virtual sf::Drawable::draw() to make gw::Sprite drawable by SFML
 void gw::Sprite::draw(sf::RenderTarget& target, sf::RenderStates states) const {

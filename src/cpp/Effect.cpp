@@ -20,7 +20,7 @@ gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
 //////////////////// Mutators ////////////////////
 //////////////////////////////////////////////////
 
-void gw::Effect::setAnimation(std::vector<Vector2u> subSprites) { animation = subSprites; }
+void gw::Effect::setAnimation(std::vector<Vector2f> subSprites) { animation = subSprites; }
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
 	this->animationCycles += animationCycles * (animationCycles > 0); // ensure animationCycles >= 0

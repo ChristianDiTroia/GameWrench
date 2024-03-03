@@ -19,7 +19,7 @@ public:
 	//////////////////// Mutators ////////////////////
 	//////////////////////////////////////////////////
 
-	void setAnimation(std::vector<Vector2u> animation);
+	void setAnimation(std::vector<Vector2f> animation);
 	void playEffect(int animationCycles, float timePerFrame);
 	void update(float deltaTime) override;
 
@@ -30,7 +30,7 @@ private:
 	/////////////////////////////////////////////////////////
 
 	float timer;
-	std::vector<Vector2u> animation;	// Subsprites in effect animation
+	std::vector<Vector2f> animation;	// Subsprites in effect animation
 	int curFrame;						// Current frame of animation
 	int animationCycles;				// Number of animation cycles per effect
 	float animationTime;				// Time to display one frame of the effect
