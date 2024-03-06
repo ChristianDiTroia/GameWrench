@@ -41,8 +41,10 @@ gw::Entity::Entity(const Entity& other) :
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subSprites, 
-															Vector2f subSpriteSize) 
+/// Store an animation specified by a sequence of subSprites from the sprite sheet.
+/// Returns a reference to this so calls can be chained.
+Entity& gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subSprites, 
+	Vector2f subSpriteSize) 
 {
 	if (int exists = findAnimation(name) > 0) { // overwrite if exists
 		(*animations)[exists] = subSprites;
@@ -53,6 +55,7 @@ void gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subSprites
 		sizes->push_back(subSpriteSize);
 		names->push_back(name);
 	}
+	return *this;
 }
 
 bool gw::Entity::animate(std::string animation, float timePerFrame, bool interruptible) {
@@ -73,6 +76,25 @@ void gw::Entity::setVelocity(float xVelocity, float yVelocity) {
 	velocity.x = xVelocity;
 	velocity.y = yVelocity;
 }
+
+void gw::Entity::addVelocity(Vector2f velocity) { addVelocity(velocity.x, velocity.y); }
+
+void gw::Entity::addVelocity(float xVelocity, float yVelocity) {
+	velocity.x += xVelocity;
+	velocity.y += yVelocity;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+const std::vector<std::string>& gw::Entity::getAnimationList() const { return *names; }
+
+const std::string& gw::Entity::getCurrentAnimation() const { return (*names)[curAnimation]; }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Implementation of pure virtual method of AnimatedSprite
 void gw::Entity::update(float deltaTime) {
@@ -95,18 +117,6 @@ void gw::Entity::update(float deltaTime) {
 	// Update movement //
 	movePosition(velocity.x * deltaTime, velocity.y * deltaTime);
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Accessors 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-const std::vector<std::string>& gw::Entity::getAnimationList() const { return *names; }
-
-const std::string& gw::Entity::getCurrentAnimation() const { return (*names)[curAnimation]; }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Private Methods 
-///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Find a given animation and return its index or -1 if not found
 int gw::Entity::findAnimation(std::string animation) {

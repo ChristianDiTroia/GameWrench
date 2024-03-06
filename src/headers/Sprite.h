@@ -33,7 +33,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     void setSubSprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
-    void setSubSprite(float coordX, float coordY, float sizeX, float sizeY);
+    void setSubSprite(float coordX, float coordY, float sizeX = 1, float sizeY = 1); 
     void setPosition(Vector2f position);
     void setPosition(float x, float y);
     void movePosition(Vector2f distance);

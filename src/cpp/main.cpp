@@ -11,33 +11,23 @@ static std::vector<gw::Vector2f> animationRange(int row, int col, int range) {
 }
 
 int main() {
-
-	sf::RenderWindow window(sf::VideoMode(1920, 1080), "GameWrench", sf::Style::Default);
-	window.setVerticalSyncEnabled(true);
-	window.setFramerateLimit(165);
-	sf::Clock time;
-	float timer = 0;
-	float printTimer = 0;
-	float deltaTime = 0;
-
-	bool executed = false;
-
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
-	gw::Entity player(spritePath, gw::Vector2u(128, 128));
+	gw::Entity player(spritePath, 128, 128);
 	player.setPosition(900, 500);
 	player.setScale(2.5f, 2.5f);
 
 	// Create animations for the player
-	player.addAnimation("die", animationRange(0, 0, 3));
-	player.addAnimation("attack", animationRange(0, 10, 5));
-	player.addAnimation("jump", animationRange(4, 0, 10));
-	player.addAnimation("run", animationRange(2, 7, 7));
-	player.addAnimation("idle", animationRange(2, 0, 7));
+	player.addAnimation("die", animationRange(0, 0, 3))
+		.addAnimation("attack", animationRange(0, 10, 5))
+		.addAnimation("jump_start", animationRange(4, 0, 6))
+		.addAnimation("jump_end", animationRange(4, 6, 4))
+		.addAnimation("run", animationRange(2, 7, 7))
+		.addAnimation("idle", animationRange(2, 0, 7));
 
 	// Make new still skeleton from already existing skeleton sprite
 	gw::Entity stillSkeleton(player);
-	stillSkeleton.animate("attack", 0.09);
+	stillSkeleton.animate("attack", 0.09); // Play attack forever
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
@@ -46,44 +36,32 @@ int main() {
 	explode.playEffect(5, 0.06);
 	explode.setPosition(600, 600);
 
-	// Create game map
-	gw::GameMap map("Origin");
-	map.curRoom->addSprite(&player);
-	map.addRoomRight("Origin - right");
-	map.curRoom->right->addSprite(&explode);
-
-	// add backgrounds
-	spritePath = "./sprites/blue_city.png";
-	gw::Sprite background1(spritePath, gw::Vector2u(2302, 1395));
-	map.curRoom->addSprite(&background1);
-	spritePath = "./sprites/misty_city.png";
-	gw::Sprite background2(spritePath, gw::Vector2u(2302, 1395));
-	map.curRoom->right->addSprite(&background2);
-	map.curRoom->right->addSprite(&player);
-
+	// Create backgrounds
+	gw::Sprite background1("./sprites/blue_city.png", 2302, 1395);
 	background1.setPosition(960, 540);
+	gw::Sprite background2("./sprites/misty_city.png", 2302, 1395);
 	background2.setPosition(960, 540);
 
+	// Create game map
+	gw::GameMap map("Origin");
+	map.addRoomRight("Origin - right");
 
+	//// Add sprites to map
+	// Origin room
+	map.curRoom->addSprite(player)
+		.addSprite(background1)
+		.addSprite(stillSkeleton);
+	// Origin - right room
+	map.curRoom->right->addSprite(background2)
+		.addSprite(player)
+		.addSprite(explode);
+
+	gw::Game game(map, 1920, 1080, "First Game");
+
+	bool executed = false;
+	bool inAir = false;
 	// Main game loop
-	while (window.isOpen()) {
-		deltaTime = time.restart().asSeconds();
-		printTimer += deltaTime;
-		timer += deltaTime;
-
-		// Window events loop
-		sf::Event evnt;
-		while (window.pollEvent(evnt)) {
-			if (evnt.type == sf::Event::Closed) { window.close(); }
-			switch (evnt.type) {
-			case sf::Event::LostFocus:
-				while (evnt.type != sf::Event::GainedFocus) {
-					window.waitEvent(evnt);
-				}
-				break;
-			}
-		};
-
+	while (game.isPlaying()) {
 		// Default animation to idle
 		player.animate("idle", 0.1);
 
@@ -99,10 +77,12 @@ int main() {
 			player.animate("run", 0.07);
 			if (player.isMirroredX()) { player.mirrorX(); }
 		}
-		player.setVelocity(speed.x, speed.y);
+		player.setVelocity(speed.x, player.getVelocity().y);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-			player.animate("jump", 0.07, false);
+			player.animate("jump_start", 0.07, false);
+			player.addVelocity(0, -50);
+			inAir = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 			player.animate("attack", 0.09, false);
@@ -111,33 +91,24 @@ int main() {
 			explode.playEffect(1, 0.07);
 		}
 
-		// Update AnimatedSprites
-		player.update(deltaTime);
-		stillSkeleton.update(deltaTime);
-		explode.update(deltaTime);
-
-		// Draw sprites
-		window.clear(sf::Color::White);
-		for (gw::Sprite* sprite : map.curRoom->spriteList()) {
-			window.draw(*sprite);
-		}	// draw static sprites first to put in background
-		for (gw::Sprite* sprite : map.curRoom->animatedSpriteList()) {
-			window.draw(*sprite);
+		// Jump physics
+		if (inAir) { 
+			player.addVelocity(0, +10);
 		}
-		window.draw(stillSkeleton);
+		if (player.getPosition().y >= 501 && inAir) {
+			gw::Vector2f vel = player.getVelocity();
+			player.setVelocity(vel.x, 0);
+			gw::Vector2f pos = player.getPosition();
+			player.setPosition(pos.x, 500);
+			player.animate("jump_end", 0.07, false);
+			inAir = false;
+		}
 
-		// Output frame to window
-		window.display();
+		// Display frames to the screen
+		game.outputFrame();
 		
 		// Change rooms after 8 seconds
-		if (timer > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
-
-		//// Debug info to console
-		//if (printTimer >= 0.5) {
-		//	std::cout << speed.x << " " << speed.y << std::endl;
-		//	std::cout << player.getCurrentAnimation() << std::endl;
-		//	printTimer = 0;
-		//}
+		if (game.gameTime() > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
 	}
 
 }

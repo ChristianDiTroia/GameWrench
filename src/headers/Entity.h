@@ -25,19 +25,19 @@ public:
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void addAnimation(std::string name, std::vector<Vector2f> subSprites, 
-										Vector2f subSpriteSize = Vector2f(1, 1));
+	Entity& addAnimation(std::string name, std::vector<Vector2f> subSprites, 
+		Vector2f subSpriteSize = Vector2f(1, 1));
 	bool animate(std::string animation, float timePerFrame, bool interruptible = true);
 	void setVelocity(Vector2f velocity);
 	void setVelocity(float xVelocity, float yVelocity);
-
-	// Implement pure virtual method from AnimatedSprite
-	void update(float deltaTime) override;
+	void addVelocity(Vector2f velocity);
+	void addVelocity(float xVelocity, float yVelocity);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+	Vector2f getVelocity() const { return velocity; }
 	const std::vector<std::string>& getAnimationList() const;
 	const std::string& getCurrentAnimation() const;
 
@@ -46,6 +46,9 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Methods 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Implement pure virtual method from AnimatedSprite
+	void update(float deltaTime) override;
 
 	int findAnimation(std::string animation);
 

@@ -1,4 +1,3 @@
-C:\Dev\GameWrench\GameWrench\src\cpp\AnimateSpriteBuilder.cpp;C:\Dev\GameWrench\GameWrench\intermediates\AnimateSpriteBuilder.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\GameRoom.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameRoom.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\GameMap.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameMap.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Effect.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Effect.obj
@@ -6,5 +5,4 @@ C:\Dev\GameWrench\GameWrench\src\cpp\Entity.cpp;C:\Dev\GameWrench\GameWrench\int
 C:\Dev\GameWrench\GameWrench\src\cpp\Game.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Game.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\main.cpp;C:\Dev\GameWrench\GameWrench\intermediates\main.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprite.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Sprite.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\SpriteBuilder.cpp;C:\Dev\GameWrench\GameWrench\intermediates\SpriteBuilder.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Vector2u.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Vector2u.obj

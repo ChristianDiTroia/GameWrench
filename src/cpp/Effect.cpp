@@ -27,6 +27,11 @@ void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
 	animationTime = timePerFrame;
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+// Implementation of pure virtual function from AnimatedSprite
 void gw::Effect::update(float deltaTime) {
 	timer += deltaTime;
 	if (animationCycles > 0) {
