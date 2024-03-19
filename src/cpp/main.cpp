@@ -1,6 +1,6 @@
 #include <iostream>
+
 #include "GameWrench.h"
-#include <SFML/Graphics.hpp>
 
 static std::vector<gw::Vector2f> animationRange(int row, int col, int range) {
 	std::vector<gw::Vector2f> animation;
@@ -20,7 +20,8 @@ int main() {
 	// Create animations for the player
 	player.addAnimation("die", animationRange(0, 0, 3))
 		.addAnimation("attack", animationRange(0, 10, 5))
-		.addAnimation("jump_start", animationRange(4, 0, 6))
+		.addAnimation("jump_start", animationRange(4, 0, 5))
+		.addAnimation("jump_mid", animationRange(4, 6, 1))
 		.addAnimation("jump_end", animationRange(4, 6, 4))
 		.addAnimation("run", animationRange(2, 7, 7))
 		.addAnimation("idle", animationRange(2, 0, 7));
@@ -56,7 +57,7 @@ int main() {
 		.addSprite(player)
 		.addSprite(explode);
 
-	gw::Game game(map, 1920, 1080, "First Game");
+	gw::Game game(map, 2560, 1440, "First Game");
 
 	bool executed = false;
 	bool inAir = false;
@@ -79,9 +80,9 @@ int main() {
 		}
 		player.setVelocity(speed.x, player.getVelocity().y);
 
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
 			player.animate("jump_start", 0.07, false);
-			player.addVelocity(0, -50);
+			player.addVelocity(0, -800);
 			inAir = true;
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
@@ -93,22 +94,27 @@ int main() {
 
 		// Jump physics
 		if (inAir) { 
-			player.addVelocity(0, +10);
+			player.addVelocity(0, 10);
+			player.animate("jump_mid", 1);
 		}
-		if (player.getPosition().y >= 501 && inAir) {
+		if (player.getVelocity().y >= 800 && inAir) {
 			gw::Vector2f vel = player.getVelocity();
 			player.setVelocity(vel.x, 0);
-			gw::Vector2f pos = player.getPosition();
-			player.setPosition(pos.x, 500);
 			player.animate("jump_end", 0.07, false);
 			inAir = false;
 		}
 
 		// Display frames to the screen
 		game.outputFrame();
-		
-		// Change rooms after 8 seconds
-		if (game.gameTime() > 8 && !executed) { map.curRoom = map.curRoom->right; executed = true; }
-	}
 
+		// Change rooms after 8 seconds
+		if (player.getPosition().x >= 1500 && !executed) { 
+			map.curRoom = map.curRoom->right; executed = true;
+			player.setPosition(100, player.getPosition().y);
+		} else if (player.getPosition().x <= 0 && executed) {
+			map.curRoom = map.curRoom->left; executed = false;
+			player.setPosition(1500, player.getPosition().y);
+		}
+	}
+	
 }

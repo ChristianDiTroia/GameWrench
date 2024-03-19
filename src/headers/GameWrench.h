@@ -1,5 +1,9 @@
 #pragma once
 
+///// Dependencies /////
+
+#include <SFML/Graphics.hpp>
+
 ///// Helper classes /////
 
 #include "Vector2f.h"

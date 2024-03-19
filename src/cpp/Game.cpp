@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "Game.h"
 
 using namespace gw;
@@ -26,31 +28,36 @@ gw::Game::Game(GameMap& map, int resolutionX, int resolutionY, std::string name)
 
 /// Displays a graphical frame to the game window.
 /// Should be called repeatedly in a main game loop.
-bool gw::Game::outputFrame() {
-    if (running) {
-        deltaTime = clock.restart().asSeconds();    // record time since last frame outputted
-        totalTime += deltaTime;
-
-        // Poll window events
-        sf::Event evnt;
-        while (window.pollEvent(evnt)) {
-            if (evnt.type == sf::Event::Closed) {
+void gw::Game::outputFrame() {
+    // Poll window events //
+    sf::Event evnt;
+    while (window.pollEvent(evnt)) {
+        switch (evnt.type) {
+            case (sf::Event::Closed):
                 window.close();
                 running = false;
-            }
+                break;
+            case (sf::Event::LostFocus):
+                window.waitEvent(evnt);
+                if (evnt.type == sf::Event::GainedFocus) { break; }
         }
+    }
+    // Run the game //
+    if (running) {
+        deltaTime = clock.restart().asSeconds(); // time between last 2 outputted frames
+        totalTime += deltaTime; // record actual time game is running
+        deltaTime = std::min(deltaTime, 1.0f / 20.0f); // artificially keep deltaTime >= 20fps
 
-        // Clear previous frame
+        // Clear previous frame //
         window.clear();
-        // Draw Sprites
+        // Draw Sprites //
         for (gw::Sprite* sprite : map.curRoom->spriteList()) { window.draw(*sprite); }
-        // Update and draw AnimatedSprites
+        // Update and draw AnimatedSprites //
         for (gw::AnimatedSprite* sprite : map.curRoom->animatedSpriteList()) {
             sprite->update(deltaTime);
             window.draw(*sprite);
         }
-        // Display frame on screen
+        // Display frame on screen //
         window.display();
     }
-    return running;
 }
