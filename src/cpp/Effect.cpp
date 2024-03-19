@@ -7,7 +7,12 @@ using namespace gw;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
-	AnimatedSprite(filePath, cellSize),
+	Effect(filePath, cellSize.x, cellSize.y)
+{}
+
+gw::Effect::Effect(std::string filePath, int cellSizeX, int cellSizeY) :
+	AnimatedSprite(filePath, cellSizeX, cellSizeY),
+	animation(std::make_shared<std::vector<Vector2f>>()), // init anim list on heap
 	timer(0),
 	curFrame(-1),
 	animationCycles(0),
@@ -16,14 +21,34 @@ gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
 	hide();
 }
 
+gw::Effect::Effect(Effect& other) :
+	AnimatedSprite(other),
+	animation(other.animation),	// shared_ptr to existing animation
+	timer(other.timer),
+	curFrame(other.curFrame),
+	animationCycles(other.animationCycles),
+	animationTime(other.animationTime)
+{}
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Effect::setAnimation(std::vector<Vector2f> subSprites) { animation = subSprites; }
+void gw::Effect::setAnimation(std::vector<Vector2f> subSprites) { *animation = subSprites; }
+
+void gw::Effect::playEffect(int animationCycles, float timePerFrame, Vector2f velocity) {
+	playEffect(animationCycles, timePerFrame, velocity.x, velocity.y);
+}
+
+void gw::Effect::playEffect(int animationCycles, float timePerFrame,
+	float velocityX, float velocityY) 
+{
+	playEffect(animationCycles, timePerFrame);
+	setVelocity(velocityX, velocityY);
+}
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
-	this->animationCycles += animationCycles * (animationCycles > 0); // ensure animationCycles >= 0
+	this->animationCycles = animationCycles * (animationCycles > 0); // force animationCycles >= 0
 	animationTime = timePerFrame;
 }
 
@@ -31,8 +56,13 @@ void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
 // Private Methods 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+// Override method from AnimatedSprite to prevent moving when effect isn't playing
+void gw::Effect::updatePosition(float deltaTime) {
+	if (isPlaying()) { movePosition(getVelocity() * deltaTime); }
+}
+
 // Implementation of pure virtual function from AnimatedSprite
-void gw::Effect::update(float deltaTime) {
+void gw::Effect::updateAnimation(float deltaTime) {
 	timer += deltaTime;
 	if (animationCycles > 0) {
 		if (curFrame == -1) { // start new effect animation
@@ -41,13 +71,13 @@ void gw::Effect::update(float deltaTime) {
 			show();
 		}
 		else if (timer >= animationTime) {
-			curFrame = (curFrame + 1) % animation.size();
+			curFrame = (curFrame + 1) % animation->size();
 			timer -= animationTime; // keep extra time so next frame shown sooner
-			if (curFrame == animation.size() - 1) { animationCycles--; } // one cycle completed
+			if (curFrame == animation->size() - 1) { animationCycles--; } // one cycle completed
 		}
-		setSubSprite(animation[curFrame]);
+		setSubSprite((*animation)[curFrame]);
 	}
-	else if (curFrame == -1 || timer >= animationTime) { // ensure last frame displayed long enough
+	else if (timer >= animationTime) { // ensure last frame displayed long enough
 		// all effect animation cycles completed
 		curFrame = -1;
 		timer = 0;

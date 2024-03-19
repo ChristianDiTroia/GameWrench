@@ -70,20 +70,6 @@ bool gw::Entity::animate(std::string animation, float timePerFrame, bool interru
 	return animationExists;
 }
 
-void gw::Entity::setVelocity(Vector2f velocity) { setVelocity(velocity.x, velocity.y); }
-
-void gw::Entity::setVelocity(float xVelocity, float yVelocity) {
-	velocity.x = xVelocity;
-	velocity.y = yVelocity;
-}
-
-void gw::Entity::addVelocity(Vector2f velocity) { addVelocity(velocity.x, velocity.y); }
-
-void gw::Entity::addVelocity(float xVelocity, float yVelocity) {
-	velocity.x += xVelocity;
-	velocity.y += yVelocity;
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,8 +83,7 @@ const std::string& gw::Entity::getCurrentAnimation() const { return (*names)[cur
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Implementation of pure virtual method of AnimatedSprite
-void gw::Entity::update(float deltaTime) {
-	// Update animation //
+void gw::Entity::updateAnimation(float deltaTime) {
 	if (curAnimation > -1) { // Ensure an animation is selected and exists
 		timer += deltaTime;
 		if (curAnimation != prevAnimation) { // start new animation
@@ -113,9 +98,6 @@ void gw::Entity::update(float deltaTime) {
 		}
 		setSubSprite((*animations)[curAnimation][curFrame], (*sizes)[curAnimation]);
 	}
-
-	// Update movement //
-	movePosition(velocity.x * deltaTime, velocity.y * deltaTime);
 }
 
 // Find a given animation and return its index or -1 if not found

@@ -28,16 +28,11 @@ public:
 	Entity& addAnimation(std::string name, std::vector<Vector2f> subSprites, 
 		Vector2f subSpriteSize = Vector2f(1, 1));
 	bool animate(std::string animation, float timePerFrame, bool interruptible = true);
-	void setVelocity(Vector2f velocity);
-	void setVelocity(float xVelocity, float yVelocity);
-	void addVelocity(Vector2f velocity);
-	void addVelocity(float xVelocity, float yVelocity);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Vector2f getVelocity() const { return velocity; }
 	const std::vector<std::string>& getAnimationList() const;
 	const std::string& getCurrentAnimation() const;
 
@@ -48,7 +43,7 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Implement pure virtual method from AnimatedSprite
-	void update(float deltaTime) override;
+	void updateAnimation(float deltaTime) override;
 
 	int findAnimation(std::string animation);
 
@@ -66,7 +61,6 @@ private:
 	int curFrame;			// Current frame in the animation
 	float animationTime;	// Time to display one frame of an animation
 	bool canInterrupt;		// Can current animation be interupted
-	Vector2f velocity;		// X, Y pixels per second
 	float timer;
 };
 

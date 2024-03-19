@@ -34,8 +34,11 @@ int main() {
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
 	gw::Effect explode(sfxPath, gw::Vector2u(128, 128));
 	explode.setAnimation(animationRange(5, 0, 13));
-	explode.playEffect(5, 0.06);
 	explode.setPosition(600, 600);
+	// Duplicate the effect
+	gw::Effect explode2(explode);
+	// Start first effect, not second
+	explode.playEffect(1, 0.04, 300, 0);
 
 	// Create backgrounds
 	gw::Sprite background1("./sprites/blue_city.png", 2302, 1395);
@@ -55,7 +58,8 @@ int main() {
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
 		.addSprite(player)
-		.addSprite(explode);
+		.addSprite(explode)
+		.addSprite(explode2);
 
 	gw::Game game(map, 1920, 1080, "First Game");
 
@@ -84,18 +88,20 @@ int main() {
 			player.animate("jump_start", 0.07, false);
 			player.addVelocity(0, -800);
 			inAir = true;
+			explode2.setPosition(player.getPosition().x, player.getPosition().y + 128);
+			explode2.playEffect(1, .02);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
 			player.animate("attack", 0.09, false);
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-			explode.playEffect(1, 0.07);
+			explode.playEffect(10, 0.07);
 		}
 
 		// Jump physics
 		if (inAir) { 
 			player.addVelocity(0, 10);
-			player.animate("jump_mid", 1);
+			player.animate("jump_mid", 0.01);
 		}
 		if (player.getVelocity().y >= 800 && inAir) {
 			gw::Vector2f vel = player.getVelocity();
@@ -103,6 +109,11 @@ int main() {
 			player.animate("jump_end", 0.07, false);
 			inAir = false;
 		}
+
+		// effect logic
+		if (explode.getPosition().x >= 1920) { explode.setVelocity(-300, 0); }
+		else if (explode.getPosition().x <= 0) { explode.setVelocity(300, 0); }
+		if (!explode.isPlaying()) { explode.playEffect(1, 0.04); }
 
 		// Allow player to move between rooms
 		if (player.getPosition().x >= 1920 && !executed) {

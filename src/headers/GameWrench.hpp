@@ -8,6 +8,7 @@
 
 #include "Vector2f.hpp"
 #include "Vector2u.hpp"
+#include "Helpers.hpp"
 
 ///// Sprite management classes /////
 
