@@ -1,5 +1,6 @@
-#include "Vector2u.h"
 #include <stdlib.h>
+
+#include "Vector2u.hpp"
 
 using namespace gw;
 

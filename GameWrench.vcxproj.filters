@@ -41,34 +41,34 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\AnimatedSprite.h">
+    <ClInclude Include="src\headers\AnimatedSprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Effect.h">
+    <ClInclude Include="src\headers\Effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Entity.h">
+    <ClInclude Include="src\headers\Entity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Game.h">
+    <ClInclude Include="src\headers\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\GameWrench.h">
+    <ClInclude Include="src\headers\GameWrench.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Sprite.h">
+    <ClInclude Include="src\headers\Sprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Vector2f.h">
+    <ClInclude Include="src\headers\Vector2f.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Vector2u.h">
+    <ClInclude Include="src\headers\Vector2u.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\GameMap.h">
+    <ClInclude Include="src\headers\GameMap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\GameRoom.h">
+    <ClInclude Include="src\headers\GameRoom.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

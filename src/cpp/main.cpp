@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "GameWrench.h"
+#include "GameWrench.hpp"
 
 static std::vector<gw::Vector2f> animationRange(int row, int col, int range) {
 	std::vector<gw::Vector2f> animation;
@@ -57,7 +57,7 @@ int main() {
 		.addSprite(player)
 		.addSprite(explode);
 
-	gw::Game game(map, 2560, 1440, "First Game");
+	gw::Game game(map, 1920, 1080, "First Game");
 
 	bool executed = false;
 	bool inAir = false;
@@ -104,17 +104,18 @@ int main() {
 			inAir = false;
 		}
 
-		// Display frames to the screen
-		game.outputFrame();
-
-		// Change rooms after 8 seconds
-		if (player.getPosition().x >= 1500 && !executed) { 
+		// Allow player to move between rooms
+		if (player.getPosition().x >= 1920 && !executed) {
 			map.curRoom = map.curRoom->right; executed = true;
 			player.setPosition(100, player.getPosition().y);
-		} else if (player.getPosition().x <= 0 && executed) {
-			map.curRoom = map.curRoom->left; executed = false;
-			player.setPosition(1500, player.getPosition().y);
 		}
+		else if (player.getPosition().x <= 0 && executed) {
+			map.curRoom = map.curRoom->left; executed = false;
+			player.setPosition(1920, player.getPosition().y);
+		}
+
+		// Display frames to the screen
+		game.outputFrame();
 	}
 	
 }

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Sprite.h"
-#include "AnimatedSprite.h"
+#include "GameMap.hpp"
 
 namespace gw {
 
-/// A single room node in the GameMap
-class GameRoom
+/// The class resonpsible for running the game.
+/// Manages the game window, updating game state, and displaying each frame.
+class Game
 {
 public:
 
@@ -14,44 +14,43 @@ public:
 // Constructors
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    GameRoom(std::string name = "No name");
+    Game(GameMap& map, Vector2u resolution = Vector2u(800, 800), std::string name = "GameWrench");
 
-    virtual ~GameRoom();
+    Game(GameMap& map, int resolutionX = 800, int resolutionY = 800,
+        std::string name = "GameWrench");
+
+    virtual ~Game() = default;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    GameRoom& addSprite(Sprite& sprite);
-    GameRoom& addSprite(AnimatedSprite& animSprite);
+    void outputFrame();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    const std::vector<Sprite*>& spriteList() const { return sprites; }
-    const std::vector<AnimatedSprite*>& animatedSpriteList() const { return animSprites; }
+    bool isPlaying() const { return running; }
+    float elapsedTime() const { return totalTime; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Public Members
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    std::string roomName;
-    // Connections to other GameRooms //
-    GameRoom* top;
-    GameRoom* bottom;
-    GameRoom* left;
-    GameRoom* right;
+    GameMap& map;   // Map of the video game
 
 private:
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Members
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // References to all the sprites that exist in this GameRoom //
-    std::vector<Sprite*> sprites;
-    std::vector<AnimatedSprite*> animSprites;
-};
+    
+    sf::RenderWindow window;    // App window that displays the game
+    sf::Clock clock;            // Timer used to get deltaTime
+    float deltaTime;            // The time between the previous two frames
+    float totalTime;            // Total in-game seconds since first frame output
+    bool running;               // Has the game been paused or closed
+};  
 
 } // namespace gw

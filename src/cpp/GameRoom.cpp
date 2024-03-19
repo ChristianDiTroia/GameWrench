@@ -1,4 +1,4 @@
-#include "GameRoom.h"
+#include "GameRoom.hpp"
 
 using namespace gw;
 

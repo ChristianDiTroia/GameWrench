@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GameRoom.h"
+#include "GameRoom.hpp"
 
 namespace gw {
 

@@ -1,6 +1,6 @@
 #include <algorithm>
 
-#include "Game.h"
+#include "Game.hpp"
 
 using namespace gw;
 

@@ -1,4 +1,4 @@
-#include "Effect.h"
+#include "Effect.hpp"
 
 using namespace gw;
 

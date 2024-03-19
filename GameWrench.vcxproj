@@ -151,16 +151,16 @@
     <ClCompile Include="src\cpp\Vector2u.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\GameRoom.h" />
-    <ClInclude Include="src\headers\GameMap.h" />
-    <ClInclude Include="src\headers\AnimatedSprite.h" />
-    <ClInclude Include="src\headers\Effect.h" />
-    <ClInclude Include="src\headers\Entity.h" />
-    <ClInclude Include="src\headers\Game.h" />
-    <ClInclude Include="src\headers\GameWrench.h" />
-    <ClInclude Include="src\headers\Sprite.h" />
-    <ClInclude Include="src\headers\Vector2f.h" />
-    <ClInclude Include="src\headers\Vector2u.h" />
+    <ClInclude Include="src\headers\GameRoom.hpp" />
+    <ClInclude Include="src\headers\GameMap.hpp" />
+    <ClInclude Include="src\headers\AnimatedSprite.hpp" />
+    <ClInclude Include="src\headers\Effect.hpp" />
+    <ClInclude Include="src\headers\Entity.hpp" />
+    <ClInclude Include="src\headers\Game.hpp" />
+    <ClInclude Include="src\headers\GameWrench.hpp" />
+    <ClInclude Include="src\headers\Sprite.hpp" />
+    <ClInclude Include="src\headers\Vector2f.hpp" />
+    <ClInclude Include="src\headers\Vector2u.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />

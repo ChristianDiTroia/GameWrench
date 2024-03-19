@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AnimatedSprite.h"
+#include "AnimatedSprite.hpp"
 
 namespace gw {
 
