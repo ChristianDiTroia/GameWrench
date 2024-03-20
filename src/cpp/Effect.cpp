@@ -34,7 +34,7 @@ gw::Effect::Effect(Effect& other) :
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Effect::setAnimation(std::vector<Vector2f> subSprites) { *animation = subSprites; }
+void gw::Effect::setAnimation(std::vector<Vector2f> subsprites) { *animation = subsprites; }
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame, Vector2f velocity) {
 	playEffect(animationCycles, timePerFrame, velocity.x, velocity.y);
@@ -75,7 +75,7 @@ void gw::Effect::updateAnimation(float deltaTime) {
 			timer -= animationTime; // keep extra time so next frame shown sooner
 			if (curFrame == animation->size() - 1) { animationCycles--; } // one cycle completed
 		}
-		setSubSprite((*animation)[curFrame]);
+		setsubsprite((*animation)[curFrame]);
 	}
 	else if (timer >= animationTime) { // ensure last frame displayed long enough
 		// all effect animation cycles completed

@@ -19,7 +19,7 @@ gw::Sprite::Sprite(std::string filePath, int cellSizeX, int cellSizeY) :
 {
     spriteSheet->loadFromFile(filePath); // make spriteSheet Texture from image file
     sprite.setTexture(*spriteSheet);
-    setSubSprite(Vector2f(0, 0)); // default top-left corner of texture
+    setsubsprite(Vector2f(0, 0)); // default top-left corner of texture
 }
 
 // Copy constructor
@@ -35,18 +35,18 @@ gw::Sprite::Sprite(const Sprite& other) :
     sprite.setPosition(other.sprite.getPosition());
     sprite.setScale(other.sprite.getScale());
     sprite.setRotation(other.sprite.getRotation());
-    setSubSprite(other.getSubSprite());
+    setsubsprite(other.getsubsprite());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Sprite::setSubSprite(Vector2f spriteCoord, Vector2f spriteSize) {
-    setSubSprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
+void gw::Sprite::setsubsprite(Vector2f spriteCoord, Vector2f spriteSize) {
+    setsubsprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
 }
 
-void gw::Sprite::setSubSprite(float coordX, float coordY, float sizeX, float sizeY) {
+void gw::Sprite::setsubsprite(float coordX, float coordY, float sizeX, float sizeY) {
     // Scale cell coordinates and sizes to actual pixels
     float pixelCoordX = coordX * cellSize.x;
     float pixelCoordY = coordY * cellSize.y;
@@ -55,7 +55,7 @@ void gw::Sprite::setSubSprite(float coordX, float coordY, float sizeX, float siz
     sprite.setTextureRect(sf::IntRect(pixelCoordX, pixelCoordY,
                                         pixelSizeX, pixelSizeY));
     sprite.setOrigin(pixelSizeX / 2.0f, pixelSizeY / 2.0f); // center origin
-    subSprite = Vector2f(coordX, coordY);
+    subsprite = Vector2f(coordX, coordY);
 }
 
 void gw::Sprite::setPosition(Vector2f position) { setPosition(position.x, position.y); }
@@ -98,7 +98,7 @@ void gw::Sprite::mirrorY() {
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector2f gw::Sprite::getSubSprite() const { return subSprite; }
+Vector2f gw::Sprite::getsubsprite() const { return subsprite; }
 
 Vector2f gw::Sprite::getPosition() const {
     sf::Vector2f pos = sprite.getPosition();

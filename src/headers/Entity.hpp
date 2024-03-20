@@ -25,8 +25,8 @@ public:
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Entity& addAnimation(std::string name, std::vector<Vector2f> subSprites, 
-		Vector2f subSpriteSize = Vector2f(1, 1));
+	Entity& addAnimation(std::string name, std::vector<Vector2f> subsprites, 
+		Vector2f subspriteSize = Vector2f(1, 1));
 	bool animate(std::string animation, float timePerFrame, bool interruptible = true);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,8 +52,8 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Store animation instructions on the heap as a shared resource
-	std::shared_ptr<std::vector<std::vector<Vector2f>>> animations; // Subsprites for each animation
-	std::shared_ptr<std::vector<Vector2f>> sizes; // Size of the SubSprite in each animation
+	std::shared_ptr<std::vector<std::vector<Vector2f>>> animations; // subsprites for each animation
+	std::shared_ptr<std::vector<Vector2f>> sizes; // Size of the subsprite in each animation
 	std::shared_ptr<std::vector<std::string>> names; // Parallel array to ID animations by name
 
 	int curAnimation;		// Current animation to play

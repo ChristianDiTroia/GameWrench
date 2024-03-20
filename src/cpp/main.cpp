@@ -2,14 +2,6 @@
 
 #include "GameWrench.hpp"
 
-static std::vector<gw::Vector2f> animationRange(int row, int col, int range) {
-	std::vector<gw::Vector2f> animation;
-	for (int i = col; i < col + range; i++) {
-		animation.emplace_back(i, row);
-	}
-	return animation;
-}
-
 int main() {
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
@@ -18,22 +10,25 @@ int main() {
 	player.setScale(2.5f, 2.5f);
 
 	// Create animations for the player
-	player.addAnimation("die", animationRange(0, 0, 3))
-		.addAnimation("attack", animationRange(0, 10, 5))
-		.addAnimation("jump_start", animationRange(4, 0, 5))
-		.addAnimation("jump_mid", animationRange(4, 6, 1))
-		.addAnimation("jump_end", animationRange(4, 6, 4))
-		.addAnimation("run", animationRange(2, 7, 7))
-		.addAnimation("idle", animationRange(2, 0, 7));
+	player.addAnimation("die", gw::helpers::rowAnimation(0, 0, 3))
+		.addAnimation("hurt", gw::helpers::rowAnimation(3, 0, 5))
+		.addAnimation("attack", gw::helpers::rowAnimation(10, 0, 14))
+		.addAnimation("jump_start", gw::helpers::rowAnimation(0, 4, 5))
+		.addAnimation("jump_mid", gw::helpers::rowAnimation(5, 4, 5))
+		.addAnimation("jump_end", gw::helpers::rowAnimation(6, 4, 9))
+		.addAnimation("jump_full", gw::helpers::rowAnimation(0, 4, 9))
+		.addAnimation("run", gw::helpers::rowAnimation(7, 2, 13))
+		.addAnimation("idle", gw::helpers::rowAnimation(0, 2, 6))
+		.addAnimation("all", gw::helpers::multiRowAnimation(0, 0, {14, 13 ,13, 7, 9}));
 
 	// Make new still skeleton from already existing skeleton sprite
 	gw::Entity stillSkeleton(player);
-	stillSkeleton.animate("attack", 0.09); // Play attack forever
+	stillSkeleton.animate("all", 0.1); // Play all forever
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
 	gw::Effect explode(sfxPath, gw::Vector2u(128, 128));
-	explode.setAnimation(animationRange(5, 0, 13));
+	explode.setAnimation(gw::helpers::rowAnimation(0, 5, 12));
 	explode.setPosition(600, 600);
 	// Duplicate the effect
 	gw::Effect explode2(explode);
@@ -54,7 +49,8 @@ int main() {
 	// Origin room
 	map.curRoom->addSprite(player)
 		.addSprite(background1)
-		.addSprite(stillSkeleton);
+		.addSprite(stillSkeleton)
+		.addSprite(explode2);
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
 		.addSprite(player)
@@ -85,7 +81,7 @@ int main() {
 		player.setVelocity(speed.x, player.getVelocity().y);
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
-			player.animate("jump_start", 0.07, false);
+			player.animate("jump_start", 0.05, false);
 			player.addVelocity(0, -800);
 			inAir = true;
 			explode2.setPosition(player.getPosition().x, player.getPosition().y + 128);
@@ -101,12 +97,12 @@ int main() {
 		// Jump physics
 		if (inAir) { 
 			player.addVelocity(0, 10);
-			player.animate("jump_mid", 0.01);
+			player.animate("jump_mid", 0.05);
 		}
 		if (player.getVelocity().y >= 800 && inAir) {
 			gw::Vector2f vel = player.getVelocity();
 			player.setVelocity(vel.x, 0);
-			player.animate("jump_end", 0.07, false);
+			player.animate("jump_end", 0.05, false);
 			inAir = false;
 		}
 
@@ -114,15 +110,18 @@ int main() {
 		if (explode.getPosition().x >= 1920) { explode.setVelocity(-300, 0); }
 		else if (explode.getPosition().x <= 0) { explode.setVelocity(300, 0); }
 		if (!explode.isPlaying()) { explode.playEffect(1, 0.04); }
+		if (abs(player.getPosition().x - explode.getPosition().x) <= 20 && map.curRoom != map.head) player.animate("hurt", 0.1, false);
 
 		// Allow player to move between rooms
 		if (player.getPosition().x >= 1920 && !executed) {
 			map.curRoom = map.curRoom->right; executed = true;
 			player.setPosition(100, player.getPosition().y);
+			explode.hide();
 		}
 		else if (player.getPosition().x <= 0 && executed) {
 			map.curRoom = map.curRoom->left; executed = false;
 			player.setPosition(1920, player.getPosition().y);
+			explode.hide();
 		}
 
 		// Display frames to the screen

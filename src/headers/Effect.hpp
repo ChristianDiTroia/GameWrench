@@ -24,7 +24,7 @@ public:
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void setAnimation(std::vector<Vector2f> subSprites);
+	void setAnimation(std::vector<Vector2f> subsprites);
 	void playEffect(int animationCycles, float timePerFrame, Vector2f velocity);
 	void playEffect(int animationCycles, float timePerFrame, float velocityX, float velocityY);
 	void playEffect(int animationCycles, float timePerFrame);
@@ -52,7 +52,7 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	// Store animation instructions on the heap as a shared resource
-	std::shared_ptr<std::vector<Vector2f>> animation; // Subsprites in effect animation
+	std::shared_ptr<std::vector<Vector2f>> animation; // subsprites in effect animation
 
 	float timer;
 	int curFrame;						// Current frame of animation

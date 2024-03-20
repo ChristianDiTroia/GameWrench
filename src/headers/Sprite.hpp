@@ -32,8 +32,8 @@ public:
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void setSubSprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
-    void setSubSprite(float coordX, float coordY, float sizeX = 1, float sizeY = 1); 
+    void setsubsprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
+    void setsubsprite(float coordX, float coordY, float sizeX = 1, float sizeY = 1); 
     void setPosition(Vector2f position);
     void setPosition(float x, float y);
     void movePosition(Vector2f distance);
@@ -53,7 +53,7 @@ public:
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Vector2f getSubSprite() const;
+    Vector2f getsubsprite() const;
     Vector2f getPosition() const;
     Vector2f getScale() const;
     bool isMirroredX() const { return mirroredX; }
@@ -78,7 +78,7 @@ private:
 
     sf::Sprite sprite;	    // SFML sprite object to be drawn
     Vector2u cellSize;	    // Size of one cell on the spriteSheet
-    Vector2f subSprite;	    // Cell coordinates of selected sprite from spriteSheet
+    Vector2f subsprite;	    // Cell coordinates of selected sprite from spriteSheet
     bool mirroredX;
     bool mirroredY;
     bool hidden;

@@ -41,18 +41,18 @@ gw::Entity::Entity(const Entity& other) :
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-/// Store an animation specified by a sequence of subSprites from the sprite sheet.
+/// Store an animation specified by a sequence of subsprites from the sprite sheet.
 /// Returns a reference to this so calls can be chained.
-Entity& gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subSprites, 
-	Vector2f subSpriteSize) 
+Entity& gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subsprites, 
+	Vector2f subspriteSize) 
 {
 	if (int exists = findAnimation(name) > 0) { // overwrite if exists
-		(*animations)[exists] = subSprites;
-		(*sizes)[exists] = subSpriteSize;
+		(*animations)[exists] = subsprites;
+		(*sizes)[exists] = subspriteSize;
 	}
 	else {
-		animations->push_back(subSprites);
-		sizes->push_back(subSpriteSize);
+		animations->push_back(subsprites);
+		sizes->push_back(subspriteSize);
 		names->push_back(name);
 	}
 	return *this;
@@ -96,7 +96,7 @@ void gw::Entity::updateAnimation(float deltaTime) {
 			timer -= animationTime;
 			if (curFrame == 0) { canInterrupt = true; } // curFrame inc to 0, animation completed
 		}
-		setSubSprite((*animations)[curAnimation][curFrame], (*sizes)[curAnimation]);
+		setsubsprite((*animations)[curAnimation][curFrame], (*sizes)[curAnimation]);
 	}
 }
 
