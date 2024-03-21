@@ -1,0 +1,53 @@
+#pragma once
+
+#include "AnimatedSprite.hpp"
+
+namespace gw
+{
+
+/// Container for a large group of related Sprites.
+class SpriteCollection
+{
+public:
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Constructors
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    SpriteCollection() = default;
+
+    // Copy constructor - initialize with sprites from another collection
+    SpriteCollection(SpriteCollection& other);
+
+    virtual ~SpriteCollection() = default;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Mutators
+////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    /// Add a sprite to this collection. Returns reference to this for chaining.
+    SpriteCollection& addSprite(Sprite& sprite);
+    /// Add a sprite to this collection. Returns reference to this for chaining.
+    SpriteCollection& addSprite(AnimatedSprite& animatedSprite);
+    /// Add a SpriteCollection to this collection. Returns reference to this for chaining.
+    SpriteCollection& addCollection(SpriteCollection& collection);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    const std::vector<Sprite*>& getSprites() const { return sprites; }
+    const std::vector<AnimatedSprite*>& getAnimatedSprites() const { return animatedSprites; }
+
+private:
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Members
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // References to all the sprites that exist in this collection //
+    std::vector<Sprite*> sprites;
+    std::vector<AnimatedSprite*> animatedSprites;
+};
+
+} // namespace gw

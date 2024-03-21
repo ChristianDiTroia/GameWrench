@@ -46,16 +46,15 @@ int main() {
 	map.addRoomRight("Origin - right");
 
 	//// Add sprites to map
+	// Global Sprites
+	map.addGlobalSprite(player)
+		.addGlobalSprite(explode2);
 	// Origin room
-	map.curRoom->addSprite(player)
-		.addSprite(background1)
-		.addSprite(stillSkeleton)
-		.addSprite(explode2);
+	map.curRoom->addSprite(background1)
+		.addSprite(stillSkeleton);
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
-		.addSprite(player)
-		.addSprite(explode)
-		.addSprite(explode2);
+		.addSprite(explode);
 
 	gw::Game game(map, 1920, 1080, "First Game");
 

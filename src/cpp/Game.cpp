@@ -39,7 +39,9 @@ void gw::Game::outputFrame() {
                 break;
             case (sf::Event::LostFocus):
                 window.waitEvent(evnt);
-                if (evnt.type == sf::Event::GainedFocus) { break; }
+                if (evnt.type == sf::Event::GainedFocus) {
+                    break;
+                }
         }
     }
     // Run the game //
@@ -51,9 +53,14 @@ void gw::Game::outputFrame() {
         // Clear previous frame //
         window.clear();
         // Draw Sprites //
-        for (gw::Sprite* sprite : map.curRoom->spriteList()) { window.draw(*sprite); }
+        for (gw::Sprite* sprite : map.curRoom->getSprites()) { window.draw(*sprite); }
+        for (gw::Sprite* sprite : map.getGlobalSprites()) { window.draw(*sprite); }
         // Update and draw AnimatedSprites //
-        for (gw::AnimatedSprite* sprite : map.curRoom->animatedSpriteList()) {
+        for (gw::AnimatedSprite* sprite : map.curRoom->getAnimatedSprites()) {
+            sprite->update(deltaTime);
+            window.draw(*sprite);
+        }
+        for (gw::AnimatedSprite* sprite : map.getGlobalAnimatedSprites()) {
             sprite->update(deltaTime);
             window.draw(*sprite);
         }

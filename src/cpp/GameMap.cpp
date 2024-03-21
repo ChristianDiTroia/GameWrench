@@ -8,7 +8,8 @@ using namespace gw;
 
 gw::GameMap::GameMap(std::string firstRoomName) :
     head(new GameRoom(firstRoomName)),
-    curRoom(const_cast<GameRoom*>(head))
+    curRoom(const_cast<GameRoom*>(head)),
+    globalRoom("Global")
 {}
 
 gw::GameMap::~GameMap() {
@@ -38,4 +39,31 @@ void gw::GameMap::addRoomLeft(std::string name) {
 void gw::GameMap::addRoomRight(std::string name) {
     curRoom->right = new GameRoom(name);
     curRoom->right->left = curRoom;
+}
+
+GameMap& gw::GameMap::addGlobalSprite(Sprite& sprite) {
+    globalRoom.addSprite(sprite);
+    return *this;
+}
+
+GameMap& gw::GameMap::addGlobalSprite(AnimatedSprite& sprite) {
+    globalRoom.addSprite(sprite);
+    return *this;
+}
+
+GameMap& gw::GameMap::addGlobalSpriteCollection(SpriteCollection& collection) {
+    globalRoom.addCollection(collection);
+    return *this;
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const std::vector<Sprite*>& gw::GameMap::getGlobalSprites() const {
+    return globalRoom.getSprites();
+}
+
+const std::vector<AnimatedSprite*>& gw::GameMap::getGlobalAnimatedSprites() const {
+    return globalRoom.getAnimatedSprites();
 }

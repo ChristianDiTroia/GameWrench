@@ -26,21 +26,3 @@ gw::GameRoom::~GameRoom() {
     delete left;
     delete right;
 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// Mutators
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/// Add sprites that should appear in this GameRoom. 
-/// Returns reference to this for chaining calls.
-GameRoom& gw::GameRoom::addSprite(Sprite& sprite) { 
-    sprites.push_back(&sprite);
-    return *this;
-}
-
-/// Add sprites that should appear in this GameRoom. 
-/// Returns reference to this for chaining calls.
-GameRoom& gw::GameRoom::addSprite(AnimatedSprite& animSprite) { 
-    animSprites.push_back(&animSprite);
-    return *this;
-}

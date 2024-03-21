@@ -56,21 +56,20 @@ private:
 
 	/// Update is used by Game class to update all states of this AnimatedSprite.
 	void update(float deltaTime);
+
+	/// <summary>Determines and sets the position of the sprite</summary>
+	/// <param name="deltaTime">Time the previous frame was displayed</param>
 	virtual void updatePosition(float deltaTime);
+
+	/// <summary>Determines and sets the subsprite to be displayed next frame.</summary>
+	/// <param name="deltaTime">Time the previous frame was displayed</param>
+	virtual void updateAnimation(float deltaTime) = 0;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Members
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Vector2f velocity;	// X, Y pixels per second
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Private Pure Virtual Methods
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/// <summary>Determines what the next frame on screen should display for this Sprite.</summary>
-	/// <param name="deltaTime">Time the previous frame was displayed</param>
-	virtual void updateAnimation(float deltaTime) = 0;
 };
 
 } // namespace gw

@@ -154,7 +154,7 @@
     <ClCompile Include="src\cpp\Vector2u.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\SpriteCollection.h" />
+    <ClInclude Include="src\headers\SpriteCollection.hpp" />
     <ClInclude Include="src\headers\GameRoom.hpp" />
     <ClInclude Include="src\headers\GameMap.hpp" />
     <ClInclude Include="src\headers\AnimatedSprite.hpp" />
