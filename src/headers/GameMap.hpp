@@ -54,7 +54,7 @@ private:
 // Private Members
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    GameRoom globalRoom; // Room that holds Sprites which exist across every GameRoom in this map
+    SpriteCollection globals; // Sprites that exist in every GameRoom in the map
 };
 
 } // namespace gw
