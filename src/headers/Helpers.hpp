@@ -15,22 +15,23 @@ namespace helpers
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	/// <summary>
-	/// Builds a vector of subsprite coordinates for an animation across a single row.
+	/// Builds an animation vector for a single row on a sprite sheet
 	/// </summary>
-	/// <param name="startX">The X coordinate of the first subsprite</param>
-	/// <param name="y">The Y coordinate for all the subsprites</param>
-	/// <param name="endX">The X coordinate of the last subsprite</param>
-	/// <returns></returns>
-	std::vector<gw::Vector2f> rowAnimation(int startX, int y, int endX);
+	/// <param name="row">The row for all the subsprites</param>
+	/// <param name="column">The column of the first subsprite</param>
+	/// <param name="endColumn">The column of the last subsprite</param>
+	/// <returns>Vector of subsprite (row, col) coordinates for the animation</returns>
+	std::vector<gw::Vector2f> rowAnimation(int row, int column, int endColumn);
 
 	/// <summary>
-	/// Builds a vector of subsprite coordinates across multiple rows proceeding the first.
+	/// Builds an animation vector for multiple rows on a sprite sheet
 	/// </summary>
-	/// <param name="startX">The X coordinate of the first subsprite</param>
-	/// <param name="startY">The Y coordinate of the first subsprite</param>
-	/// <param name="rowStops">The X coordinate of the last subsprite for each row</param>
-	/// <returns></returns>
-	std::vector<gw::Vector2f> multiRowAnimation(int startX, int startY, std::vector<int> rowStops);
+	/// <param name="startRow">The row of the first subsprite</param>
+	/// <param name="startCol">The column of the first subsprite</param>
+	/// <param name="rowStops">The columns of the last subsprite on each row</param>
+	/// <returns>Vector of (row, col) subsprite coordinates for the animation</returns>
+	std::vector<gw::Vector2f> multiRowAnimation(int startRow, int startCol, 
+		std::vector<int> rowStops);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Terrain Builders

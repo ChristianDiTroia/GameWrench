@@ -11,7 +11,7 @@ namespace gw
 {
 
 /// Sprite class for managing sprites and their sprite sheets.
-/// Sprites are selected by specifying a cell coordinate on the sprite sheet.
+/// Sprites are selected by specifying a (row, col) cell coordinate on the sprite sheet.
 /// Recommended to set cell size to size of one sprite. Default is 1x1 pixels.
 class Sprite : public sf::Drawable
 {
@@ -33,7 +33,7 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     void setsubsprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
-    void setsubsprite(float coordX, float coordY, float sizeX = 1, float sizeY = 1); 
+    void setsubsprite(float row, float column, float sizeX = 1, float sizeY = 1); 
     void setPosition(Vector2f position);
     void setPosition(float x, float y);
     void movePosition(Vector2f distance);

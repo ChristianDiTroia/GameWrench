@@ -46,16 +46,15 @@ void gw::Sprite::setsubsprite(Vector2f spriteCoord, Vector2f spriteSize) {
     setsubsprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
 }
 
-void gw::Sprite::setsubsprite(float coordX, float coordY, float sizeX, float sizeY) {
-    // Scale cell coordinates and sizes to actual pixels
-    float pixelCoordX = coordX * cellSize.x;
-    float pixelCoordY = coordY * cellSize.y;
+void gw::Sprite::setsubsprite(float row, float column, float sizeX, float sizeY) {
+    // Scale cell coords and sizes to actual pixels and convert from row, col to x, y
+    float pixelCoordX = column * cellSize.x;    // find x coord from column
+    float pixelCoordY = row * cellSize.y;       // find y coord from row
     float pixelSizeX = sizeX * cellSize.x;
     float pixelSizeY = sizeY * cellSize.y;
     sprite.setTextureRect(sf::IntRect(pixelCoordX, pixelCoordY,
                                         pixelSizeX, pixelSizeY));
     sprite.setOrigin(pixelSizeX / 2.0f, pixelSizeY / 2.0f); // center origin
-    subsprite = Vector2f(coordX, coordY);
 }
 
 void gw::Sprite::setPosition(Vector2f position) { setPosition(position.x, position.y); }

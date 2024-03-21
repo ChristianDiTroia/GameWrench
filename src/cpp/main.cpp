@@ -11,14 +11,14 @@ int main() {
 
 	// Create animations for the player
 	player.addAnimation("die", gw::helpers::rowAnimation(0, 0, 3))
-		.addAnimation("hurt", gw::helpers::rowAnimation(3, 0, 5))
-		.addAnimation("attack", gw::helpers::rowAnimation(10, 0, 14))
-		.addAnimation("jump_start", gw::helpers::rowAnimation(0, 4, 5))
-		.addAnimation("jump_mid", gw::helpers::rowAnimation(5, 4, 5))
-		.addAnimation("jump_end", gw::helpers::rowAnimation(6, 4, 9))
-		.addAnimation("jump_full", gw::helpers::rowAnimation(0, 4, 9))
-		.addAnimation("run", gw::helpers::rowAnimation(7, 2, 13))
-		.addAnimation("idle", gw::helpers::rowAnimation(0, 2, 6))
+		.addAnimation("hurt", gw::helpers::rowAnimation(0, 3, 5))
+		.addAnimation("attack", gw::helpers::rowAnimation(0, 10, 14))
+		.addAnimation("jump_start", gw::helpers::rowAnimation(4, 0, 5))
+		.addAnimation("jump_mid", gw::helpers::rowAnimation(4, 5, 5))
+		.addAnimation("jump_end", gw::helpers::rowAnimation(4, 6, 9))
+		.addAnimation("jump_full", gw::helpers::rowAnimation(4, 0, 9))
+		.addAnimation("run", gw::helpers::rowAnimation(2, 7, 13))
+		.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 6))
 		.addAnimation("all", gw::helpers::multiRowAnimation(0, 0, {14, 13 ,13, 7, 9}));
 
 	// Make new still skeleton from already existing skeleton sprite
@@ -28,7 +28,7 @@ int main() {
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
 	gw::Effect explode(sfxPath, gw::Vector2u(128, 128));
-	explode.setAnimation(gw::helpers::rowAnimation(0, 5, 12));
+	explode.setAnimation(gw::helpers::rowAnimation(5, 0, 12));
 	explode.setPosition(600, 600);
 	// Duplicate the effect
 	gw::Effect explode2(explode);
