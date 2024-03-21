@@ -27,6 +27,7 @@ public:
     void addRoomLeft(std::string name = "No name");
     void addRoomRight(std::string name = "No name");
     void curToHead() { curRoom = const_cast<GameRoom*>(head); }
+    
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Public Members

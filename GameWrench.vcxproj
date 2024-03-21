@@ -141,17 +141,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpp\SpriteCollection.cpp" />
     <ClCompile Include="src\cpp\AnimatedSprite.cpp" />
     <ClCompile Include="src\cpp\GameRoom.cpp" />
     <ClCompile Include="src\cpp\GameMap.cpp" />
     <ClCompile Include="src\cpp\Effect.cpp" />
     <ClCompile Include="src\cpp\Entity.cpp" />
     <ClCompile Include="src\cpp\Game.cpp" />
+    <ClCompile Include="src\cpp\Helpers.cpp" />
     <ClCompile Include="src\cpp\main.cpp" />
     <ClCompile Include="src\cpp\Sprite.cpp" />
     <ClCompile Include="src\cpp\Vector2u.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\headers\SpriteCollection.h" />
     <ClInclude Include="src\headers\GameRoom.hpp" />
     <ClInclude Include="src\headers\GameMap.hpp" />
     <ClInclude Include="src\headers\AnimatedSprite.hpp" />
