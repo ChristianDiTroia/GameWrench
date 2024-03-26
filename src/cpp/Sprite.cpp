@@ -12,14 +12,14 @@ gw::Sprite::Sprite(std::string filePath, Vector2u cellSize) :
 
 gw::Sprite::Sprite(std::string filePath, int cellSizeX, int cellSizeY) :
     spriteSheet(std::make_shared<sf::Texture>()), // init new Texture on heap
-    cellSize(Vector2u(cellSizeX, cellSizeY)),
+    cellSize(cellSizeX, cellSizeY),
     mirroredX(false),
     mirroredY(false),
     hidden(false)
 {
     spriteSheet->loadFromFile(filePath); // make spriteSheet Texture from image file
     sprite.setTexture(*spriteSheet);
-    setsubsprite(Vector2f(0, 0)); // default top-left corner of texture
+    setSubsprite(Vector2f(0, 0)); // default top-left corner of texture
 }
 
 // Copy constructor
@@ -35,18 +35,18 @@ gw::Sprite::Sprite(const Sprite& other) :
     sprite.setPosition(other.sprite.getPosition());
     sprite.setScale(other.sprite.getScale());
     sprite.setRotation(other.sprite.getRotation());
-    setsubsprite(other.getsubsprite());
+    setSubsprite(other.getSubsprite());
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Sprite::setsubsprite(Vector2f spriteCoord, Vector2f spriteSize) {
-    setsubsprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
+void gw::Sprite::setSubsprite(Vector2f spriteCoord, Vector2f spriteSize) {
+    setSubsprite(spriteCoord.x, spriteCoord.y, spriteSize.x, spriteSize.y);
 }
 
-void gw::Sprite::setsubsprite(float row, float column, float sizeX, float sizeY) {
+void gw::Sprite::setSubsprite(float row, float column, float sizeX, float sizeY) {
     // Scale cell coords and sizes to actual pixels and convert from row, col to x, y
     float pixelCoordX = column * cellSize.x;    // find x coord from column
     float pixelCoordY = row * cellSize.y;       // find y coord from row
@@ -55,6 +55,7 @@ void gw::Sprite::setsubsprite(float row, float column, float sizeX, float sizeY)
     sprite.setTextureRect(sf::IntRect(pixelCoordX, pixelCoordY,
                                         pixelSizeX, pixelSizeY));
     sprite.setOrigin(pixelSizeX / 2.0f, pixelSizeY / 2.0f); // center origin
+    size = Vector2f(sizeX, sizeY);
 }
 
 void gw::Sprite::setPosition(Vector2f position) { setPosition(position.x, position.y); }
@@ -97,11 +98,14 @@ void gw::Sprite::mirrorY() {
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-Vector2f gw::Sprite::getsubsprite() const { return subsprite; }
-
 Vector2f gw::Sprite::getPosition() const {
     sf::Vector2f pos = sprite.getPosition();
     return Vector2f(pos.x, pos.y);
+}
+
+Vector2f gw::Sprite::getOrigin() const {
+    sf::Vector2f origin = sprite.getOrigin();
+    return Vector2f(origin.x, origin.y);
 }
 
 Vector2f gw::Sprite::getScale() const {

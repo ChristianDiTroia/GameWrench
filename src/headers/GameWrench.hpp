@@ -4,7 +4,7 @@
 
 #include <SFML/Graphics.hpp>
 
-///// Helper classes /////
+///// Utilities /////
 
 #include "Vector2f.hpp"
 #include "Vector2u.hpp"
@@ -13,6 +13,7 @@
 ///// Sprite management classes /////
 
 #include "Sprite.hpp"
+#include "TileStructure.hpp"
 #include "AnimatedSprite.hpp"
 #include "Entity.hpp"
 #include "Effect.hpp"

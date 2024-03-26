@@ -32,8 +32,8 @@ public:
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void setsubsprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
-    void setsubsprite(float row, float column, float sizeX = 1, float sizeY = 1); 
+    void setSubsprite(Vector2f spriteCoord, Vector2f spriteSize = Vector2f(1, 1));
+    void setSubsprite(float row, float column, float sizeX = 1, float sizeY = 1); 
     void setPosition(Vector2f position);
     void setPosition(float x, float y);
     void movePosition(Vector2f distance);
@@ -53,12 +53,26 @@ public:
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Vector2f getsubsprite() const;
+    Vector2f getSubsprite() const { return subsprite; }
     Vector2f getPosition() const;
+    Vector2f getOrigin() const;
     Vector2f getScale() const;
+    /// Size of one cell in pixels
+    Vector2u getCellSize() const { return cellSize; }
+    /// Size of the current subsprite in cells
+    Vector2f getSize() const { return size; }
     bool isMirroredX() const { return mirroredX; }
     bool isMirroredY() const { return mirroredY; }
     bool isHidden() const { return hidden; }
+
+protected:
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Protected Accessors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Subclasses can safely access their SFML Sprite if needed
+    const sf::Sprite& getSprite() const { return sprite; }
 
 private:
 
@@ -79,6 +93,7 @@ private:
     sf::Sprite sprite;	    // SFML sprite object to be drawn
     Vector2u cellSize;	    // Size of one cell on the spriteSheet
     Vector2f subsprite;	    // Cell coordinates of selected sprite from spriteSheet
+    Vector2f size;          // Size in cells of the current subsprite
     bool mirroredX;
     bool mirroredY;
     bool hidden;

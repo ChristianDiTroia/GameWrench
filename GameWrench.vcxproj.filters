@@ -48,6 +48,9 @@
     <ClCompile Include="src\cpp\SpriteCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\TileStructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\AnimatedSprite.hpp">
@@ -86,6 +89,9 @@
     <ClInclude Include="src\headers\SpriteCollection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\headers\TileStructure.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="vcpkg-configuration.json" />
@@ -105,6 +111,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="sprites\misty_city.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="sprites\pixel_adventure_sprites\Terrain\Terrain_(16x16).png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

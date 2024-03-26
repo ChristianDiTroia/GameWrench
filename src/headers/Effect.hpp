@@ -18,7 +18,7 @@ public:
 	Effect(std::string filePath, int cellSizeX = 1, int cellSizeY = 1);
 
 	// Copy constructor
-	Effect(Effect& other);
+	Effect(const Effect& other);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
@@ -51,15 +51,11 @@ private:
 // Private Members 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Store animation instructions on the heap as a shared resource
-	std::shared_ptr<std::vector<Vector2f>> animation; // subsprites in effect animation
-
+	std::vector<Vector2f> animation;	// All subsprites in the effect animation
 	float timer;
 	int curFrame;						// Current frame of animation
 	int animationCycles;				// Number of animation cycles per effect
 	float animationTime;				// Time to display one frame of the effect
-
-	int count = 0;
 };
 
 } // namespace gw

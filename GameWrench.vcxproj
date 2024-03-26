@@ -152,6 +152,7 @@
     <ClCompile Include="src\cpp\main.cpp" />
     <ClCompile Include="src\cpp\Sprite.cpp" />
     <ClCompile Include="src\cpp\Vector2u.cpp" />
+    <ClCompile Include="src\cpp\TileStructure.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\SpriteCollection.hpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="src\headers\Sprite.hpp" />
     <ClInclude Include="src\headers\Vector2f.hpp" />
     <ClInclude Include="src\headers\Vector2u.hpp" />
+    <ClInclude Include="src\headers\TileStructure.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -178,6 +180,7 @@
     <Image Include="sprites\blue_city.png" />
     <Image Include="sprites\fireball_spritesheet.png" />
     <Image Include="sprites\misty_city.png" />
+    <Image Include="sprites\pixel_adventure_sprites\Terrain\Terrain_(16x16).png" />
     <Image Include="sprites\skeleton_spritesheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

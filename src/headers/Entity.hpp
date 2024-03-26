@@ -51,17 +51,17 @@ private:
 // Private Members 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Store animation instructions on the heap as a shared resource
-	std::shared_ptr<std::vector<std::vector<Vector2f>>> animations; // subsprites for each animation
-	std::shared_ptr<std::vector<Vector2f>> sizes; // Size of the subsprite in each animation
-	std::shared_ptr<std::vector<std::string>> names; // Parallel array to ID animations by name
+	// Animation instructions //
+	std::vector<std::vector<Vector2f>> animations;	// Subsprites for each animation
+	std::vector<Vector2f> sizes;					// Size of the subsprite in each animation
+	std::vector<std::string> names;					// Parallel array to ID animations by name
 
 	int curAnimation;		// Current animation to play
 	int prevAnimation;		// Animation played on latest update call
 	int curFrame;			// Current frame in the animation
 	float animationTime;	// Time to display one frame of an animation
 	bool canInterrupt;		// Can current animation be interupted
-	float timer;
+	float timer;			// Keep track of overall time of an animation
 };
 
 } // namespace gw

@@ -12,7 +12,6 @@ gw::Effect::Effect(std::string filePath, Vector2u cellSize) :
 
 gw::Effect::Effect(std::string filePath, int cellSizeX, int cellSizeY) :
 	AnimatedSprite(filePath, cellSizeX, cellSizeY),
-	animation(std::make_shared<std::vector<Vector2f>>()), // init anim list on heap
 	timer(0),
 	curFrame(-1),
 	animationCycles(0),
@@ -21,9 +20,10 @@ gw::Effect::Effect(std::string filePath, int cellSizeX, int cellSizeY) :
 	hide();
 }
 
-gw::Effect::Effect(Effect& other) :
+// Copy constructor
+gw::Effect::Effect(const Effect& other) :
 	AnimatedSprite(other),
-	animation(other.animation),	// shared_ptr to existing animation
+	animation(other.animation),
 	timer(other.timer),
 	curFrame(other.curFrame),
 	animationCycles(other.animationCycles),
@@ -34,7 +34,7 @@ gw::Effect::Effect(Effect& other) :
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Effect::setAnimation(std::vector<Vector2f> subsprites) { *animation = subsprites; }
+void gw::Effect::setAnimation(std::vector<Vector2f> subsprites) { animation = subsprites; }
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame, Vector2f velocity) {
 	playEffect(animationCycles, timePerFrame, velocity.x, velocity.y);
@@ -71,11 +71,11 @@ void gw::Effect::updateAnimation(float deltaTime) {
 			show();
 		}
 		else if (timer >= animationTime) {
-			curFrame = (curFrame + 1) % animation->size();
+			curFrame = (curFrame + 1) % animation.size();
 			timer -= animationTime; // keep extra time so next frame shown sooner
-			if (curFrame == animation->size() - 1) { animationCycles--; } // one cycle completed
+			if (curFrame == animation.size() - 1) { animationCycles--; } // one cycle completed
 		}
-		setsubsprite((*animation)[curFrame]);
+		setSubsprite(animation[curFrame]);
 	}
 	else if (timer >= animationTime) { // ensure last frame displayed long enough
 		// all effect animation cycles completed

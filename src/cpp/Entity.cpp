@@ -12,9 +12,6 @@ gw::Entity::Entity(std::string filePath, Vector2u cellSize) :
 
 gw::Entity::Entity(std::string filePath, int cellSizeX, int cellSizeY) :
 	AnimatedSprite(filePath, cellSizeX, cellSizeY),
-	animations(std::make_shared<std::vector<std::vector<Vector2f>>>()), // init anim list on heap
-	sizes(std::make_shared<std::vector<Vector2f>>()), // init anim size list on heap
-	names(std::make_shared<std::vector<std::string>>()), // init anim name list on heap
 	curAnimation(-1),
 	prevAnimation(-1),
 	curFrame(-1),
@@ -26,9 +23,9 @@ gw::Entity::Entity(std::string filePath, int cellSizeX, int cellSizeY) :
 // Copy constructor
 gw::Entity::Entity(const Entity& other) :
 	AnimatedSprite(other), // call base class copy constructor
-	animations(other.animations), // shared_ptr to existing animations
-	sizes(other.sizes), // shared_ptr to existing size list
-	names(other.names), // shared_ptr to existing name list
+	animations(other.animations),
+	sizes(other.sizes),
+	names(other.names),
 	curAnimation(other.curAnimation),
 	prevAnimation(other.prevAnimation),
 	curFrame(other.curFrame),
@@ -47,13 +44,13 @@ Entity& gw::Entity::addAnimation(std::string name, std::vector<Vector2f> subspri
 	Vector2f subspriteSize) 
 {
 	if (int exists = findAnimation(name) > 0) { // overwrite if exists
-		(*animations)[exists] = subsprites;
-		(*sizes)[exists] = subspriteSize;
+		animations[exists] = subsprites;
+		sizes[exists] = subspriteSize;
 	}
 	else {
-		animations->push_back(subsprites);
-		sizes->push_back(subspriteSize);
-		names->push_back(name);
+		animations.push_back(subsprites);
+		sizes.push_back(subspriteSize);
+		names.push_back(name);
 	}
 	return *this;
 }
@@ -74,9 +71,9 @@ bool gw::Entity::animate(std::string animation, float timePerFrame, bool interru
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-const std::vector<std::string>& gw::Entity::getAnimationList() const { return *names; }
+const std::vector<std::string>& gw::Entity::getAnimationList() const { return names; }
 
-const std::string& gw::Entity::getCurrentAnimation() const { return (*names)[curAnimation]; }
+const std::string& gw::Entity::getCurrentAnimation() const { return names[curAnimation]; }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Methods 
@@ -92,19 +89,19 @@ void gw::Entity::updateAnimation(float deltaTime) {
 			prevAnimation = curAnimation;
 		}
 		else if (timer >= animationTime) { // display next animation frame
-			curFrame = (curFrame + 1) % (*animations)[curAnimation].size();
+			curFrame = (curFrame + 1) % animations[curAnimation].size();
 			timer -= animationTime;
 			if (curFrame == 0) { canInterrupt = true; } // curFrame inc to 0, animation completed
 		}
-		setsubsprite((*animations)[curAnimation][curFrame], (*sizes)[curAnimation]);
+		setSubsprite(animations[curAnimation][curFrame], sizes[curAnimation]);
 	}
 }
 
 // Find a given animation and return its index or -1 if not found
 int gw::Entity::findAnimation(std::string animation) {
 	int found = -1;
-	for (int i = 0; i < names->size(); i++) {
-		if ((*names)[i] == animation) {
+	for (int i = 0; i < names.size(); i++) {
+		if (names[i] == animation) {
 			found = i;
 			break;
 		}

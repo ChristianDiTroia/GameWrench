@@ -41,6 +41,13 @@ int main() {
 	gw::Sprite background2("./sprites/misty_city.png", 2302, 1395);
 	background2.setPosition(960, 540);
 
+	// Create tile 
+	gw::TileStructure structure("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
+	structure.setScale(3, 3);
+	structure.setSubsprite(8, 0, 3, 3);
+	structure.asRectangle(4, 4, true);
+	structure.setSubsprite(9, 18, 2, 2);
+
 	// Create game map
 	gw::GameMap map("Origin");
 	map.addRoomRight("Origin - right");
@@ -51,7 +58,8 @@ int main() {
 		.addGlobalSprite(explode2);
 	// Origin room
 	map.curRoom->addSprite(background1)
-		.addSprite(stillSkeleton);
+		.addSprite(stillSkeleton)
+		.addSprite(structure);
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
 		.addSprite(explode);
@@ -73,7 +81,7 @@ int main() {
 			if (!player.isMirroredX()) { player.mirrorX(); }
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { 
-			speed.x += 512.0f; 
+			speed.x += 512.0f;
 			player.animate("run", 0.07);
 			if (player.isMirroredX()) { player.mirrorX(); }
 		}

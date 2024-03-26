@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Vector2u.hpp"
+
 namespace gw
 {
 
@@ -14,6 +16,8 @@ public:
 
 	Vector2f(float x = 0.0f, float y = 0.0f) { this->x = x; this->y = y; }
 
+	Vector2f(Vector2u v) { x = v.x; y = v.y; }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Operators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -22,6 +26,11 @@ public:
 	Vector2f operator-(float n) { return Vector2f(x - n, y - n); }
 	Vector2f operator*(float n) { return Vector2f(x * n, y * n); }
 	Vector2f operator/(float n) { return Vector2f(x / n, y / n); }
+
+	Vector2f operator+(Vector2f v) { return Vector2f(x + v.x, y + v.y); }
+	Vector2f operator-(Vector2f v) { return Vector2f(x - v.x, y - v.y); }
+	Vector2f operator*(Vector2f v) { return Vector2f(x * v.x, y * v.y); }
+	Vector2f operator/(Vector2f v) { return Vector2f(x / v.x, y / v.y); }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public Members 
