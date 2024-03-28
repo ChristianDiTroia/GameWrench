@@ -67,7 +67,7 @@ void gw::TileStructure::asCircle(int radius, bool fill) {
 // Implementation of pure virtual function for SFML drawing
 void gw::TileStructure::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     if (!isHidden()) {
-        // size in cells * size of one cell * scale == size in pixels
+        // size in pixels == size in cells * size of one cell * scale
         Vector2f tileSize = getSize() * getCellSize() * getScale();
         sf::Transformable tf;
         for (Vector2f tile : tiles) {

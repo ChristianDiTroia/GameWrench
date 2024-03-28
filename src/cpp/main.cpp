@@ -43,10 +43,9 @@ int main() {
 
 	// Create tile 
 	gw::TileStructure structure("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
-	structure.setScale(3, 3);
-	structure.setSubsprite(8, 0, 3, 3);
-	structure.asRectangle(4, 4, true);
 	structure.setSubsprite(9, 18, 2, 2);
+	structure.setScale(3, 3);
+	structure.asRow(20);
 
 	// Create game map
 	gw::GameMap map("Origin");

@@ -57,6 +57,7 @@ public:
     Vector2f getPosition() const;
     Vector2f getOrigin() const;
     Vector2f getScale() const;
+    float getRotation() const;
     /// Size of one cell in pixels
     Vector2u getCellSize() const { return cellSize; }
     /// Size of the current subsprite in cells
