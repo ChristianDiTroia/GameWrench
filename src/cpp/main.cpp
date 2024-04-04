@@ -41,11 +41,15 @@ int main() {
 	gw::Sprite background2("./sprites/misty_city.png", 2302, 1395);
 	background2.setPosition(960, 540);
 
-	// Create tile 
+	// Create TileStructure 
 	gw::TileStructure structure("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
 	structure.setSubsprite(9, 18, 2, 2);
 	structure.setScale(3, 3);
-	structure.asRow(20);
+	structure.asRow(5);
+	structure.setPosition(300, 300);
+	gw::TileStructure structure2(structure);
+	structure2.asRectangle(8, 8, true);
+	structure2.positionRelativeTo(structure, gw::TileStructure::xCenter, gw::TileStructure::bottom);
 
 	// Create game map
 	gw::GameMap map("Origin");
@@ -57,8 +61,9 @@ int main() {
 		.addGlobalSprite(explode2);
 	// Origin room
 	map.curRoom->addSprite(background1)
-		.addSprite(stillSkeleton)
-		.addSprite(structure);
+		//.addSprite(stillSkeleton)
+		.addSprite(structure)
+		.addSprite(structure2);
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
 		.addSprite(explode);

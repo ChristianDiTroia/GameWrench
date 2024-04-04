@@ -11,14 +11,22 @@ gw::TileStructure::TileStructure(std::string filePath, Vector2u cellSize) :
 {}
 
 gw::TileStructure::TileStructure(std::string filePath, int cellSizeX, int cellSizeY) :
-    Sprite(filePath, cellSizeX, cellSizeY)
-{}
+    Sprite(filePath, cellSizeX, cellSizeY),
+    length(1),
+    height(1)
+{
+    calculateBounds();
+}
 
 // Copy constructor
 gw::TileStructure::TileStructure(const TileStructure& other) :
     Sprite(other),
-    tiles(other.tiles)
-{}
+    tiles(other.tiles),
+    length(other.length),
+    height(other.height)
+{
+    calculateBounds();
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
@@ -27,11 +35,15 @@ gw::TileStructure::TileStructure(const TileStructure& other) :
 void gw::TileStructure::asRow(int length) {
     tiles.clear();
     for (int tile = 1; tile <= length; tile++) { tiles.emplace_back(tile, 1); }
+    this->length = length;
+    height = 1;
 }
 
 void gw::TileStructure::asColumn(int height) {
     tiles.clear();
     for (int tile = 1; tile <= height; tile++) { tiles.emplace_back(1, tile); }
+    length = 1;
+    this->height = height;
 }
 
 void gw::TileStructure::asRectangle(int length, int height, bool fill) {
@@ -54,10 +66,35 @@ void gw::TileStructure::asRectangle(int length, int height, bool fill) {
             }
         }
     }
+    this->length = length;
+    this->height = height;
 }
 
-void gw::TileStructure::asCircle(int radius, bool fill) {
-    tiles.clear();
+//TODO
+//void gw::TileStructure::asCircle(int radius, bool fill) {
+//    tiles.clear();
+//}
+
+void gw::TileStructure::positionRelativeTo(TileStructure other, HorizontalBound xBound, 
+    VerticalBound yBound) 
+{   
+    calculateBounds();
+    float x = other.resolveBound(xBound);
+    float y = other.resolveBound(yBound);
+    /* Since TileStructures' origin tile is the top-left-most tile, the coodinates must be offset
+    *  by the structure's length or height when placing to the left or top of other.
+    *  In the case of centers, must only offset half of the length or height.
+    *  Also must offset by the local origin of the tile towards the opposite direction of other.
+    */
+    Vector2f pixels = getSizeInPixels();
+    Vector2f origin = getOrigin();
+    if (xBound == left) { x -= length * pixels.x - origin.x; }
+    else if (xBound == xCenter) { x -= (length - 1) / 2.0f * pixels.x - origin.x; }
+    else { x += pixels.x / 2; }
+    if (yBound == top) {  y -= height * pixels.y - origin.y; }
+    else if (yBound == yCenter) { y -= (height - 1) / 2.0f * pixels.y - origin.y; }
+    else { y += origin.y; }
+    setPosition(x, y);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,13 +104,40 @@ void gw::TileStructure::asCircle(int radius, bool fill) {
 // Implementation of pure virtual function for SFML drawing
 void gw::TileStructure::draw(sf::RenderTarget& target, sf::RenderStates states) const {
     if (!isHidden()) {
-        // size in pixels == size in cells * size of one cell * scale
-        Vector2f tileSize = getSize() * getCellSize() * getScale();
+        Vector2f tileSize = getSizeInPixels();
         sf::Transformable tf;
         for (Vector2f tile : tiles) {
             tf.setPosition(tile.x * tileSize.x, tile.y * tileSize.y);
             states.transform = tf.getTransform(); // Transform sprite into each tile to draw
             target.draw(getSprite(), states);
         }
+    }
+}
+
+void gw::TileStructure::calculateBounds() {
+    Vector2f origin = getOrigin();
+    Vector2f position = getPosition();
+    Vector2f pixels = getSizeInPixels();
+    leftBound = position.x - origin.x;
+    rightBound = position.x - origin.x + pixels.x * length;
+    topBound = position.y - origin.y;
+    bottomBound = position.y - origin.y + pixels.y * height;
+    centerX = position.x - origin.x + pixels.x * (length - 1) / 2.0f;
+    centerY = position.y - origin.y + pixels.y * (height - 1) / 2.0f;
+}
+
+float gw::TileStructure::resolveBound(HorizontalBound h) const {
+    switch (h) {
+        case(left): return leftBound;
+        case(right): return rightBound;
+        case(xCenter): return centerX;
+    }
+}
+
+float gw::TileStructure::resolveBound(VerticalBound v) const {
+    switch (v) {
+        case(top): return topBound;
+        case(bottom): return bottomBound;
+        case(yCenter): return centerY;
     }
 }

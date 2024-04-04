@@ -8,6 +8,20 @@ class TileStructure : public Sprite
 {
 public:
 
+    enum HorizontalBound
+    {
+        left,
+        right,
+        xCenter
+    };
+
+    enum VerticalBound
+    {
+        top,
+        bottom,
+        yCenter
+    };
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Constructors
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -26,8 +40,8 @@ public:
     void asRow(int length);
     void asColumn(int height);
     void asRectangle(int length, int height, bool fill);
-    void asCircle(int radius, bool fill);
-    /*void setPositionRelativeTo();*/
+    //void asCircle(int radius, bool fill);
+    void positionRelativeTo(TileStructure other, HorizontalBound xBound, VerticalBound yBound);
 
 private:
 
@@ -38,11 +52,26 @@ private:
     // Implementation of pure virtual function for SFML drawing
     void draw(sf::RenderTarget& target, sf::RenderStates states) const override;
 
+    void calculateBounds();
+    // Return the boundary coordinate associated with the given enum //
+    float resolveBound(HorizontalBound h) const;
+    float resolveBound(VerticalBound v) const;
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Members 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     std::vector<Vector2u> tiles;    // The local coordinates of each tile in the structure
+    int length;                     // Length of the structure in tiles
+    int height;                     // Height of the structure in tiles
+
+    // Boundaries pixel coords for relative positioning of other TileStructures //
+    float leftBound;
+    float rightBound;
+    float topBound;
+    float bottomBound;
+    float centerX;
+    float centerY;
 };
 
 } // namespace gw

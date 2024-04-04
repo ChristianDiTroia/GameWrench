@@ -1,5 +1,7 @@
 #include "Sprite.hpp"
 
+#include <iostream>
+
 using namespace gw;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +37,10 @@ gw::Sprite::Sprite(const Sprite& other) :
     sprite.setPosition(other.sprite.getPosition());
     sprite.setScale(other.sprite.getScale());
     sprite.setRotation(other.sprite.getRotation());
-    setSubsprite(other.getSubsprite());
+    setSubsprite(other.getSubsprite(), other.getSize());
+
+    std::cout << other.getSubsprite().x << std::endl;
+    std::cout << other.getSubsprite().y << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -55,6 +60,7 @@ void gw::Sprite::setSubsprite(float row, float column, float sizeX, float sizeY)
     sprite.setTextureRect(sf::IntRect(pixelCoordX, pixelCoordY,
                                         pixelSizeX, pixelSizeY));
     sprite.setOrigin(pixelSizeX / 2.0f, pixelSizeY / 2.0f); // center origin
+    subsprite.x = row, subsprite.y = column;
     size = Vector2f(sizeX, sizeY);
 }
 
@@ -105,7 +111,7 @@ Vector2f gw::Sprite::getPosition() const {
 
 Vector2f gw::Sprite::getOrigin() const {
     sf::Vector2f origin = sprite.getOrigin();
-    return Vector2f(origin.x, origin.y);
+    return Vector2f(origin.x, origin.y) * getScale();
 }
 
 Vector2f gw::Sprite::getScale() const {
@@ -115,6 +121,11 @@ Vector2f gw::Sprite::getScale() const {
 
 float gw::Sprite::getRotation() const {
     return sprite.getRotation();
+}
+
+Vector2f gw::Sprite::getSizeInPixels() const {
+    // size in pixels == size in cells * size of one cell * scale
+    return getSize() * getCellSize() * getScale();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

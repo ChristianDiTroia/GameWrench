@@ -62,6 +62,7 @@ public:
     Vector2u getCellSize() const { return cellSize; }
     /// Size of the current subsprite in cells
     Vector2f getSize() const { return size; }
+    Vector2f getSizeInPixels() const;
     bool isMirroredX() const { return mirroredX; }
     bool isMirroredY() const { return mirroredY; }
     bool isHidden() const { return hidden; }
@@ -93,7 +94,7 @@ private:
 
     sf::Sprite sprite;	    // SFML sprite object to be drawn
     Vector2u cellSize;	    // Size of one cell on the spriteSheet
-    Vector2f subsprite;	    // Cell coordinates of selected sprite from spriteSheet
+    Vector2f subsprite;	    // Cell row, col coordinates of selected sprite from spriteSheet
     Vector2f size;          // Size in cells of the current subsprite
     bool mirroredX;
     bool mirroredY;
