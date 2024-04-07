@@ -1,25 +1,24 @@
 #pragma once
 
-///// Dependencies /////
-
-#include <SFML/Graphics.hpp>
-
-///// Utilities /////
-
-#include "Vector2f.hpp"
-#include "Vector2u.hpp"
-#include "Helpers.hpp"
-
 ///// Sprite management classes /////
 
-#include "Sprite.hpp"
-#include "TileStructure.hpp"
-#include "AnimatedSprite.hpp"
-#include "Entity.hpp"
-#include "Effect.hpp"
+#include "Sprites/Sprite.hpp"
+#include "Sprites/TileStructure.hpp"
+#include "Sprites/AnimatedSprite.hpp"
+#include "Sprites/Entity.hpp"
+#include "Sprites/Effect.hpp"
 
 ///// Game and map building classes /////
 
-#include "GameRoom.hpp"
-#include "GameMap.hpp"
-#include "Game.hpp"
+#include "Game/SpriteCollection.hpp"
+#include "Game/GameRoom.hpp"
+#include "Game/GameMap.hpp"
+#include "Game/Game.hpp"
+
+///// Utilities /////
+
+#include "Utility/Vector2f.hpp"
+#include "Utility/Vector2u.hpp"
+#include "Utility/Helpers.hpp"
+#include "Utility/UnitConverter.hpp"
+#include "Utility/PixelConverter.hpp"

@@ -88,6 +88,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Dev\GameWrench\GameWrench\src\headers;C:\Dev\GameWrench\GameWrench\src\cpp</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,6 +104,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\Dev\GameWrench\GameWrench\src\headers;C:\Dev\GameWrench\GameWrench\src\cpp</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -116,7 +120,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\GameWrench\GameWrench\src\headers;C:\Dev\GameWrench\GameWrench\src\cpp</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -131,7 +136,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)src\headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Dev\GameWrench\GameWrench\src\headers;C:\Dev\GameWrench\GameWrench\src\cpp</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,33 +147,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\SpriteCollection.cpp" />
-    <ClCompile Include="src\cpp\AnimatedSprite.cpp" />
-    <ClCompile Include="src\cpp\GameRoom.cpp" />
-    <ClCompile Include="src\cpp\GameMap.cpp" />
-    <ClCompile Include="src\cpp\Effect.cpp" />
-    <ClCompile Include="src\cpp\Entity.cpp" />
-    <ClCompile Include="src\cpp\Game.cpp" />
-    <ClCompile Include="src\cpp\Helpers.cpp" />
+    <ClCompile Include="src\cpp\Utility\PixelConverter.cpp" />
+    <ClCompile Include="src\cpp\Game\SpriteCollection.cpp" />
+    <ClCompile Include="src\cpp\Sprites\AnimatedSprite.cpp" />
+    <ClCompile Include="src\cpp\Game\GameRoom.cpp" />
+    <ClCompile Include="src\cpp\Game\GameMap.cpp" />
+    <ClCompile Include="src\cpp\Sprites\Effect.cpp" />
+    <ClCompile Include="src\cpp\Sprites\Entity.cpp" />
+    <ClCompile Include="src\cpp\Game\Game.cpp" />
+    <ClCompile Include="src\cpp\Utility\Helpers.cpp" />
     <ClCompile Include="src\cpp\main.cpp" />
-    <ClCompile Include="src\cpp\Sprite.cpp" />
-    <ClCompile Include="src\cpp\Vector2u.cpp" />
-    <ClCompile Include="src\cpp\TileStructure.cpp" />
+    <ClCompile Include="src\cpp\Sprites\Sprite.cpp" />
+    <ClCompile Include="src\cpp\Utility\UnitConverter.cpp" />
+    <ClCompile Include="src\cpp\Utility\Vector2u.cpp" />
+    <ClCompile Include="src\cpp\Sprites\TileStructure.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\SpriteCollection.hpp" />
-    <ClInclude Include="src\headers\GameRoom.hpp" />
-    <ClInclude Include="src\headers\GameMap.hpp" />
-    <ClInclude Include="src\headers\AnimatedSprite.hpp" />
-    <ClInclude Include="src\headers\Effect.hpp" />
-    <ClInclude Include="src\headers\Entity.hpp" />
     <ClInclude Include="src\headers\Game.hpp" />
+    <ClInclude Include="src\headers\Sprites.hpp" />
+    <ClInclude Include="src\headers\Utility.hpp" />
+    <ClInclude Include="src\headers\Utility\PixelConverter.hpp" />
+    <ClInclude Include="src\headers\Game\SpriteCollection.hpp" />
+    <ClInclude Include="src\headers\Game\GameRoom.hpp" />
+    <ClInclude Include="src\headers\Game\GameMap.hpp" />
+    <ClInclude Include="src\headers\Sprites\AnimatedSprite.hpp" />
+    <ClInclude Include="src\headers\Sprites\Effect.hpp" />
+    <ClInclude Include="src\headers\Sprites\Entity.hpp" />
+    <ClInclude Include="src\headers\Game\Game.hpp" />
     <ClInclude Include="src\headers\GameWrench.hpp" />
-    <ClInclude Include="src\headers\Helpers.hpp" />
-    <ClInclude Include="src\headers\Sprite.hpp" />
-    <ClInclude Include="src\headers\Vector2f.hpp" />
-    <ClInclude Include="src\headers\Vector2u.hpp" />
-    <ClInclude Include="src\headers\TileStructure.hpp" />
+    <ClInclude Include="src\headers\Utility\Helpers.hpp" />
+    <ClInclude Include="src\headers\Sprites\Sprite.hpp" />
+    <ClInclude Include="src\headers\Utility\UnitConverter.hpp" />
+    <ClInclude Include="src\headers\Utility\Vector2f.hpp" />
+    <ClInclude Include="src\headers\Utility\Vector2u.hpp" />
+    <ClInclude Include="src\headers\Sprites\TileStructure.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />

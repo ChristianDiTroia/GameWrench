@@ -1,6 +1,6 @@
 #include <stdlib.h>
 
-#include "Vector2u.hpp"
+#include "Utility/Vector2u.hpp"
 
 using namespace gw;
 

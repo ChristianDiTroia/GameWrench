@@ -1,6 +1,4 @@
-#include "Sprite.hpp"
-
-#include <iostream>
+#include "Sprites/Sprite.hpp"
 
 using namespace gw;
 
@@ -38,9 +36,6 @@ gw::Sprite::Sprite(const Sprite& other) :
     sprite.setScale(other.sprite.getScale());
     sprite.setRotation(other.sprite.getRotation());
     setSubsprite(other.getSubsprite(), other.getSize());
-
-    std::cout << other.getSubsprite().x << std::endl;
-    std::cout << other.getSubsprite().y << std::endl;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

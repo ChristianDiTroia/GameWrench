@@ -1,4 +1,4 @@
-#include "Effect.hpp"
+#include "Sprites/Effect.hpp"
 
 using namespace gw;
 

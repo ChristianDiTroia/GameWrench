@@ -15,81 +15,102 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\Effect.cpp">
+    <ClCompile Include="src\cpp\Sprites\Effect.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\Entity.cpp">
+    <ClCompile Include="src\cpp\Sprites\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\Game.cpp">
+    <ClCompile Include="src\cpp\Game\Game.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\cpp\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\Sprite.cpp">
+    <ClCompile Include="src\cpp\Sprites\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\Vector2u.cpp">
+    <ClCompile Include="src\cpp\Utility\Vector2u.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\GameMap.cpp">
+    <ClCompile Include="src\cpp\Game\GameMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\GameRoom.cpp">
+    <ClCompile Include="src\cpp\Game\GameRoom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\AnimatedSprite.cpp">
+    <ClCompile Include="src\cpp\Sprites\AnimatedSprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\Helpers.cpp">
+    <ClCompile Include="src\cpp\Utility\Helpers.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\SpriteCollection.cpp">
+    <ClCompile Include="src\cpp\Game\SpriteCollection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\cpp\TileStructure.cpp">
+    <ClCompile Include="src\cpp\Sprites\TileStructure.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\Utility\UnitConverter.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\cpp\Utility\PixelConverter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\AnimatedSprite.hpp">
+    <ClInclude Include="src\headers\Sprites\AnimatedSprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Effect.hpp">
+    <ClInclude Include="src\headers\Sprites\Effect.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Entity.hpp">
+    <ClInclude Include="src\headers\Sprites\Entity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Game.hpp">
+    <ClInclude Include="src\headers\Game\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\GameWrench.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Sprite.hpp">
+    <ClInclude Include="src\headers\Sprites\Sprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Vector2f.hpp">
+    <ClInclude Include="src\headers\Utility\Vector2f.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Vector2u.hpp">
+    <ClInclude Include="src\headers\Utility\Vector2u.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\GameMap.hpp">
+    <ClInclude Include="src\headers\Game\GameMap.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\GameRoom.hpp">
+    <ClInclude Include="src\headers\Game\GameRoom.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Helpers.hpp">
+    <ClInclude Include="src\headers\Utility\Helpers.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\SpriteCollection.hpp">
+    <ClInclude Include="src\headers\Game\SpriteCollection.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\TileStructure.hpp">
+    <ClInclude Include="src\headers\Sprites\TileStructure.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utility\UnitConverter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utility\PixelConverter.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Utility.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Sprites.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\Game.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,8 +4,8 @@
 #include <memory>
 #include <SFML/Graphics.hpp>
 
-#include "Vector2u.hpp"
-#include "Vector2f.hpp"
+#include "Utility/Vector2u.hpp"
+#include "Utility/Vector2f.hpp"
 
 namespace gw 
 {

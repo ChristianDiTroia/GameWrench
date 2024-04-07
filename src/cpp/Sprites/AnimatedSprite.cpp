@@ -1,4 +1,4 @@
-#include "AnimatedSprite.hpp"
+#include "Sprites/AnimatedSprite.hpp"
 
 using namespace gw;
 

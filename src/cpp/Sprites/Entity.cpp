@@ -1,4 +1,4 @@
-#include "Entity.hpp"
+#include "Sprites/Entity.hpp"
 
 using namespace gw;
 

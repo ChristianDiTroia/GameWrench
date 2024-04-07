@@ -1,13 +1,41 @@
 #include <iostream>
+#include<cstdlib>
 
 #include "GameWrench.hpp"
 
+static gw::TileStructure::HorizontalBound randHBound() {
+	int n = rand() % 3;
+	switch (n) {
+		case(0):
+			return gw::TileStructure::HorizontalBound::left;
+		case(1):
+			return gw::TileStructure::HorizontalBound::right;
+		case(2):
+			return gw::TileStructure::HorizontalBound::xCenter;
+	}
+}
+
+static gw::TileStructure::VerticalBound randVBound() {
+	int n = rand() % 3;
+	switch (n) {
+	case(0):
+		return gw::TileStructure::VerticalBound::top;
+	case(1):
+		return gw::TileStructure::VerticalBound::bottom;
+	case(2):
+		return gw::TileStructure::VerticalBound::yCenter;
+	}
+}
+
 int main() {
+	// Define 1 in-game meter
+	gw::helpers::PixelConverter meter(64);
+
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
 	gw::Entity player(spritePath, 128, 128);
-	player.setPosition(900, 500);
-	player.setScale(2.5f, 2.5f);
+	player.setPosition(meter.toPixels(20), meter.toPixels(8));
+	meter.scaleSprite(player, 5, 5);
 
 	// Create animations for the player
 	player.addAnimation("die", gw::helpers::rowAnimation(0, 0, 3))
@@ -45,10 +73,10 @@ int main() {
 	gw::TileStructure structure("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
 	structure.setSubsprite(9, 18, 2, 2);
 	structure.setScale(3, 3);
-	structure.asRow(5);
+	structure.asRectangle(5, 5, false);
 	structure.setPosition(300, 300);
 	gw::TileStructure structure2(structure);
-	structure2.asRectangle(8, 8, true);
+	structure2.asColumn(9);
 	structure2.positionRelativeTo(structure, gw::TileStructure::xCenter, gw::TileStructure::bottom);
 
 	// Create game map
@@ -72,11 +100,12 @@ int main() {
 
 	bool executed = false;
 	bool inAir = false;
+	sf::Clock timer;
 	// Main game loop
 	while (game.isPlaying()) {
 		// Default animation to idle
 		player.animate("idle", 0.1);
-
+		
 		// Movement animations and positioning
 		gw::Vector2f speed;
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { 
@@ -103,6 +132,12 @@ int main() {
 		}
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
 			explode.playEffect(10, 0.07);
+		}
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
+			if (timer.getElapsedTime().asSeconds() >= 0.1) {
+				structure2.positionRelativeTo(structure, randHBound(), randVBound());
+				timer.restart();
+			}
 		}
 
 		// Jump physics

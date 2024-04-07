@@ -1,4 +1,4 @@
-#include "TileStructure.hpp"
+#include "Sprites/TileStructure.hpp"
 
 using namespace gw;
 
@@ -69,11 +69,6 @@ void gw::TileStructure::asRectangle(int length, int height, bool fill) {
     this->length = length;
     this->height = height;
 }
-
-//TODO
-//void gw::TileStructure::asCircle(int radius, bool fill) {
-//    tiles.clear();
-//}
 
 void gw::TileStructure::positionRelativeTo(TileStructure other, HorizontalBound xBound, 
     VerticalBound yBound) 

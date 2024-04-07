@@ -1,4 +1,4 @@
-#include "GameMap.hpp"
+#include "Game/GameMap.hpp"
 
 using namespace gw;
 

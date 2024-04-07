@@ -40,7 +40,6 @@ public:
     void asRow(int length);
     void asColumn(int height);
     void asRectangle(int length, int height, bool fill);
-    //void asCircle(int radius, bool fill);
     void positionRelativeTo(TileStructure other, HorizontalBound xBound, VerticalBound yBound);
 
 private:

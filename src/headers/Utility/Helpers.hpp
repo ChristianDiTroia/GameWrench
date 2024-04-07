@@ -4,10 +4,7 @@
 
 #include "Vector2f.hpp"
 
-namespace gw
-{
-
-namespace helpers 
+namespace gw::helpers 
 {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,16 +30,4 @@ namespace helpers
 	std::vector<gw::Vector2f> multiRowAnimation(int startRow, int startCol, 
 		std::vector<int> rowStops);
 
-////////////////////////////////////////////////////////////////////////////////////////////////////
-// Terrain Builders
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		// IDEA: these should return spriteCollection objects
-		// Make it possible to merge sprite collections together so these builder functions can be continually used to build out a collection
-		
-		//IDEA: make tile class that has special functions for connecting to one another
-
-
-} // namespace helpers
-
-} // namespace gw
+} // namespace gw::helpers
