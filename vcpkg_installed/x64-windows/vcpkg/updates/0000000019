@@ -1,8 +1,9 @@
-Package: libflac
-Version: 1.4.2
-Depends: libogg, vcpkg-cmake, vcpkg-cmake-config
+Package: libpng
+Version: 1.6.39
+Port-Version: 1
+Depends: vcpkg-cmake, vcpkg-cmake-config, zlib
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 2cd86feafca57c241dcedab36843766125fbb6d7bb7996fa2d8b6252cc36db55
-Description: Library for manipulating FLAC files
-Status: install ok installed
+Abi: a84249034e3009102e9210290573abca35909502e3b6ed3a0ab213624cf35f51
+Description: libpng is a library implementing an interface for reading and writing PNG (Portable Network Graphics) format files
+Status: purge ok not-installed

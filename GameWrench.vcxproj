@@ -163,7 +163,7 @@
     <ClCompile Include="src\cpp\Sprites\TileStructure.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\headers\Game.hpp" />
+    <ClInclude Include="src\headers\GameManagement.hpp" />
     <ClInclude Include="src\headers\Sprites.hpp" />
     <ClInclude Include="src\headers\Utility.hpp" />
     <ClInclude Include="src\headers\Utility\PixelConverter.hpp" />

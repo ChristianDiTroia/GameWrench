@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/openal-soft-x64-windows-1.23.1-b5b64c74-1bb5-4c0c-a845-e410864ea1eb",
-  "name": "openal-soft:x64-windows@1.23.1 19768e6f72841b07d90d5a19536c89a69bccefc19af53cce482eec4b533f8817",
+  "documentNamespace": "https://spdx.org/spdxdocs/openal-soft-x64-windows-1.23.1-3329e07a-020c-41be-af78-c7ab1d35d5bf",
+  "name": "openal-soft:x64-windows@1.23.1 fa32b8663f23edd5ee7346f8b83711950598b5fc9e4edb6b7eae37bb623317ec",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-ac02a9f660977426b8ec6392919fbb1d51b10998"
+      "Tool: vcpkg-1c9ec1978a6b0c2b39c9e9554a96e3e275f7556e"
     ],
-    "created": "2024-02-08T20:51:36Z"
+    "created": "2024-04-08T20:19:19Z"
   },
   "relationships": [
     {
@@ -79,7 +79,7 @@
     {
       "name": "openal-soft:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "19768e6f72841b07d90d5a19536c89a69bccefc19af53cce482eec4b533f8817",
+      "versionInfo": "fa32b8663f23edd5ee7346f8b83711950598b5fc9e4edb6b7eae37bb623317ec",
       "downloadLocation": "NONE",
       "licenseConcluded": "LGPL-2.0-or-later",
       "licenseDeclared": "NOASSERTION",

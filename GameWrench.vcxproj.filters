@@ -110,7 +110,7 @@
     <ClInclude Include="src\headers\Sprites.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\headers\Game.hpp">
+    <ClInclude Include="src\headers\GameManagement.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

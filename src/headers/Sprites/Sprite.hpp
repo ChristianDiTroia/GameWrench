@@ -23,7 +23,7 @@ public:
 
     Sprite(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
 
-    Sprite(std::string filePath, int cellSizeX = 1, int cellSizeY = 1);
+    Sprite(std::string filePath, int cellSizeX, int cellSizeY);
 
     // Copy constructor
     Sprite(const Sprite& other);

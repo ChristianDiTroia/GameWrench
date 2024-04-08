@@ -1,0 +1,12 @@
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/tools/brotli/brotli.exe
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/brotlienc.lib
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/bin/brotlienc.dll
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/brotlidec.lib
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/bin/brotlidec.dll
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/brotlicommon.lib
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/bin/brotlicommon.dll
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/share/unofficial-brotli/unofficial-brotli-targets.cmake
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/share/unofficial-brotli/unofficial-brotli-targets-debug.cmake
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/pkgconfig/libbrotlicommon.pc
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/pkgconfig/libbrotlidec.pc
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/pkgs/brotli_x64-windows/debug/lib/pkgconfig/libbrotlienc.pc

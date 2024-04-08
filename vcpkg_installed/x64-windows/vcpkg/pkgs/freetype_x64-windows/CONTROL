@@ -4,7 +4,7 @@ Port-Version: 3
 Depends: vcpkg-cmake, vcpkg-cmake-config
 Architecture: x64-windows
 Multi-Arch: same
-Abi: 04a5c497e565362ea16a078d4619596eaa3b71eea3f76b91a8385796e2f97d22
+Abi: 34a604a94fdf2955f61f6798056edd40ead833a3ca2406435254cc8dac4b71f7
 Description: A library to render fonts.
 Default-Features: brotli, bzip2, png, zlib
 

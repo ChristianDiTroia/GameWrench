@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/libogg-x64-windows-1.3.5#1-bb9cebe0-815e-4b58-a02b-6de2a5f4d488",
-  "name": "libogg:x64-windows@1.3.5#1 f4fe194aa42e99735cf320f54a1729bf9b8352fe7be5061a603f81a78888615b",
+  "documentNamespace": "https://spdx.org/spdxdocs/libogg-x64-windows-1.3.5#1-24a25f59-27e5-47d4-898d-e7dd49cab173",
+  "name": "libogg:x64-windows@1.3.5#1 ac491604bc04479874d610fa416b80f904c714bf8cbd5bfaf83715d893d9bbdb",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-ac02a9f660977426b8ec6392919fbb1d51b10998"
+      "Tool: vcpkg-1c9ec1978a6b0c2b39c9e9554a96e3e275f7556e"
     ],
-    "created": "2024-02-08T20:51:47Z"
+    "created": "2024-04-08T20:19:29Z"
   },
   "relationships": [
     {
@@ -59,7 +59,7 @@
     {
       "name": "libogg:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "f4fe194aa42e99735cf320f54a1729bf9b8352fe7be5061a603f81a78888615b",
+      "versionInfo": "ac491604bc04479874d610fa416b80f904c714bf8cbd5bfaf83715d893d9bbdb",
       "downloadLocation": "NONE",
       "licenseConcluded": "BSD-3-Clause",
       "licenseDeclared": "NOASSERTION",

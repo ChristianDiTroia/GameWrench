@@ -1,0 +1,12 @@
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlicommon.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlidec.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlienc.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlicommon-static.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlidec-static.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotlienc-static.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/brotli.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/edit_cache.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/rebuild_cache.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/list_install_components.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/install.dir
+C:/Dev/GameWrench/GameWrench/vcpkg_installed/x64-windows/vcpkg/blds/brotli/x64-windows-dbg/CMakeFiles/install/local.dir

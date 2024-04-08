@@ -3,13 +3,13 @@
   "spdxVersion": "SPDX-2.2",
   "dataLicense": "CC0-1.0",
   "SPDXID": "SPDXRef-DOCUMENT",
-  "documentNamespace": "https://spdx.org/spdxdocs/stb-x64-windows-2023-04-11#1-81899c57-f8e3-4d99-8c99-db90e8d1053c",
-  "name": "stb:x64-windows@2023-04-11#1 4f117ba7af897521863bca49ac740494ceb557bc5f3de40ca158d6d076fc4d94",
+  "documentNamespace": "https://spdx.org/spdxdocs/stb-x64-windows-2023-04-11#1-9530470f-3bee-4da7-a6dd-b052c10a12f8",
+  "name": "stb:x64-windows@2023-04-11#1 885574378240e0f7c62bdfe3e1d46a526ddec30a24eca47eb6d85a19a86b283a",
   "creationInfo": {
     "creators": [
-      "Tool: vcpkg-ac02a9f660977426b8ec6392919fbb1d51b10998"
+      "Tool: vcpkg-1c9ec1978a6b0c2b39c9e9554a96e3e275f7556e"
     ],
-    "created": "2024-02-08T20:50:59Z"
+    "created": "2024-04-08T20:18:45Z"
   },
   "relationships": [
     {
@@ -89,7 +89,7 @@
     {
       "name": "stb:x64-windows",
       "SPDXID": "SPDXRef-binary",
-      "versionInfo": "4f117ba7af897521863bca49ac740494ceb557bc5f3de40ca158d6d076fc4d94",
+      "versionInfo": "885574378240e0f7c62bdfe3e1d46a526ddec30a24eca47eb6d85a19a86b283a",
       "downloadLocation": "NONE",
       "licenseConcluded": "MIT OR CC-PDDC",
       "licenseDeclared": "NOASSERTION",
