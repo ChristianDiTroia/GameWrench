@@ -27,9 +27,104 @@ static gw::TileStructure::VerticalBound randVBound() {
 	}
 }
 
+class bReleased
+{
+public:
+
+	bool operator () () {
+		bool released = false;
+
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) isPressed = true;
+		else isPressed = false;
+
+		if (wasPressed && !isPressed) released = true;
+
+		if (isPressed) wasPressed = true;
+		else wasPressed = false;
+
+		return released;
+	}
+
+private:
+	bool isPressed;
+	bool wasPressed;
+};
+
+bReleased bRelease;
+
+// Define 1 in-game meter
+gw::helpers::PixelConverter meter(64);
+
+void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool &inAir) {
+	gw::Entity& player = dynamic_cast<gw::Entity&>(self);
+	// Default animation to idle
+	player.animate("idle", 0.1);
+
+	// Movement animations and positioning
+	gw::Vector2f speed;
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+		speed.x -= 512.0f;
+		player.animate("run", 0.07);
+		if (!player.isMirroredX()) { player.mirrorX(); }
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+		speed.x += 512.0f;
+		player.animate("run", 0.07);
+		if (player.isMirroredX()) { player.mirrorX(); }
+	}
+	player.setVelocity(speed.x, player.getVelocity().y);
+
+	// Actions
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
+		player.animate("jump_start", 0.05, false);
+		player.addVelocity(0, -800);
+		inAir = true;
+		explode.setPosition(player.getPosition().x, player.getPosition().y + 128);
+		explode.playEffect(1, .02);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
+		player.animate("attack", 0.09, false);
+	}
+
+	// Jump physics
+	if (inAir) {
+		player.addVelocity(0, 10);
+		player.animate("jump_mid", 0.05);
+	}
+	if (player.getVelocity().y >= 800 && inAir) {
+		gw::Vector2f vel = player.getVelocity();
+		player.setVelocity(vel.x, 0);
+		player.animate("jump_end", 0.05, false);
+		inAir = false;
+	}
+}
+
+void static enemyActions(gw::AnimatedSprite& self, gw::Entity& player) {
+	gw::Entity& enemy = dynamic_cast<gw::Entity&>(self);
+	enemy.animate("idle", 0.1);
+	int posDif = player.getPosition().x - enemy.getPosition().x;
+	if (abs(posDif) <= meter.toPixels(4)) {
+		if (posDif < 0 && !enemy.isMirroredX()) enemy.mirrorX();
+		else if (posDif > 0 && enemy.isMirroredX()) enemy.mirrorX();
+		enemy.animate("attack", 0.1, false);
+		if (abs(posDif) <= meter.toPixels(3)) player.animate("hurt", 0.1, false);
+	}
+	if (abs(posDif) < meter.toPixels(10) && abs(posDif) > meter.toPixels(4)) {
+		enemy.animate("run", 0.1);
+		float speed = meter.toPixels(4);
+		if (posDif < 0) {
+			enemy.setVelocity(-speed, 0);
+			if (!enemy.isMirroredX()) enemy.mirrorX();
+		}
+		else if (posDif > 0) {
+			enemy.setVelocity(speed, 0);
+			if (enemy.isMirroredX()) enemy.mirrorX();
+		}
+	}
+	else { enemy.setVelocity(0, 0); }
+}
+
 int main() {
-	// Define 1 in-game meter
-	gw::helpers::PixelConverter meter(64);
 
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
@@ -51,7 +146,9 @@ int main() {
 
 	// Make new still skeleton from already existing skeleton sprite
 	gw::Entity stillSkeleton(player);
-	stillSkeleton.animate("all", 0.1); // Play all forever
+	stillSkeleton.defineBehavior(
+		[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
+	);
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
@@ -60,6 +157,11 @@ int main() {
 	explode.setPosition(600, 600);
 	// Duplicate the effect
 	gw::Effect explode2(explode);
+	bool inAir = false;
+	player.defineBehavior(
+		[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
+	);
+
 	// Start first effect, not second
 	explode.playEffect(1, 0.04, 300, 0);
 
@@ -89,7 +191,7 @@ int main() {
 		.addGlobalSprite(explode2);
 	// Origin room
 	map.curRoom->addSprite(background1)
-		//.addSprite(stillSkeleton)
+		.addSprite(stillSkeleton)
 		.addSprite(structure)
 		.addSprite(structure2);
 	// Origin - right room
@@ -99,58 +201,15 @@ int main() {
 	gw::Game game(map, 1920, 1080, "First Game");
 
 	bool executed = false;
-	bool inAir = false;
 	sf::Clock timer;
 	// Main game loop
 	while (game.isPlaying()) {
-		// Default animation to idle
-		player.animate("idle", 0.1);
 		
-		// Movement animations and positioning
-		gw::Vector2f speed;
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { 
-			speed.x -= 512.0f;
-			player.animate("run", 0.07);
-			if (!player.isMirroredX()) { player.mirrorX(); }
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { 
-			speed.x += 512.0f;
-			player.animate("run", 0.07);
-			if (player.isMirroredX()) { player.mirrorX(); }
-		}
-		player.setVelocity(speed.x, player.getVelocity().y);
-
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
-			player.animate("jump_start", 0.05, false);
-			player.addVelocity(0, -800);
-			inAir = true;
-			explode2.setPosition(player.getPosition().x, player.getPosition().y + 128);
-			explode2.playEffect(1, .02);
-		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-			player.animate("attack", 0.09, false);
-		}
+		// Some keyboard controls for testing
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
 			explode.playEffect(10, 0.07);
 		}
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::B)) {
-			if (timer.getElapsedTime().asSeconds() >= 0.1) {
-				structure2.positionRelativeTo(structure, randHBound(), randVBound());
-				timer.restart();
-			}
-		}
-
-		// Jump physics
-		if (inAir) { 
-			player.addVelocity(0, 10);
-			player.animate("jump_mid", 0.05);
-		}
-		if (player.getVelocity().y >= 800 && inAir) {
-			gw::Vector2f vel = player.getVelocity();
-			player.setVelocity(vel.x, 0);
-			player.animate("jump_end", 0.05, false);
-			inAir = false;
-		}
+		if (bRelease()) { structure2.positionRelativeTo(structure, randHBound(), randVBound());}
 
 		// effect logic
 		if (explode.getPosition().x >= 1920) { explode.setVelocity(-300, 0); }

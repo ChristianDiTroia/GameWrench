@@ -1,5 +1,7 @@
 #pragma once
 
+#include <functional>
+
 #include "Sprite.hpp"
 
 namespace gw 
@@ -18,20 +20,12 @@ public:
 // Constructors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	//// Needed only to call sprite constructors
+	AnimatedSprite(std::string filePath, Vector2u cellSize = Vector2u(1, 1));
 
-	AnimatedSprite(std::string filePath, Vector2u cellSize = Vector2u(1, 1)) :
-		Sprite(filePath, cellSize) 
-	{}
-
-	AnimatedSprite(std::string filePath, int cellSizeX, int cellSizeY) :
-		Sprite(filePath, cellSizeX, cellSizeY)
-	{}
+	AnimatedSprite(std::string filePath, int cellSizeX, int cellSizeY);
 
 	// Copy constructor
-	AnimatedSprite(const AnimatedSprite& other) :
-		Sprite(other)
-	{}
+	AnimatedSprite(const AnimatedSprite& other);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
@@ -41,6 +35,13 @@ public:
 	void setVelocity(float xVelocity, float yVelocity);
 	void addVelocity(Vector2f velocity);
 	void addVelocity(float xVelocity, float yVelocity);
+	/// <summary>
+	/// Define a behavior function that will execute before every frame to update this sprite
+	/// </summary>
+	/// <param name="behavior(self)">
+	/// A custom behavior function where self is a reference to this sprite
+	/// </param>
+	void defineBehavior(std::function<void(AnimatedSprite& self)>behavior);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors 
@@ -69,7 +70,8 @@ private:
 // Private Members
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	Vector2f velocity;	// X, Y pixels per second
+	Vector2f velocity;									// X, Y pixels per second
+	std::function<void(AnimatedSprite& self)>behavior;	// User-defined behavior function
 };
 
 } // namespace gw
