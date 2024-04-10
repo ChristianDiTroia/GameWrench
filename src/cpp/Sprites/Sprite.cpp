@@ -119,8 +119,8 @@ float gw::Sprite::getRotation() const {
 }
 
 Vector2f gw::Sprite::getSizeInPixels() const {
-    // size in pixels == size in cells * size of one cell * scale
-    return getSize() * getCellSize() * getScale();
+    sf::FloatRect boundingBox = sprite.getGlobalBounds();
+    return Vector2f(boundingBox.width, boundingBox.height);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

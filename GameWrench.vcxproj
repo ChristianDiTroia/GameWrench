@@ -148,13 +148,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\cpp\Utility\PixelConverter.cpp" />
-    <ClCompile Include="src\cpp\Game\SpriteCollection.cpp" />
+    <ClCompile Include="src\cpp\GameManagement\SpriteCollection.cpp" />
     <ClCompile Include="src\cpp\Sprites\AnimatedSprite.cpp" />
-    <ClCompile Include="src\cpp\Game\GameRoom.cpp" />
-    <ClCompile Include="src\cpp\Game\GameMap.cpp" />
+    <ClCompile Include="src\cpp\GameManagement\GameRoom.cpp" />
+    <ClCompile Include="src\cpp\GameManagement\GameMap.cpp" />
     <ClCompile Include="src\cpp\Sprites\Effect.cpp" />
     <ClCompile Include="src\cpp\Sprites\Entity.cpp" />
-    <ClCompile Include="src\cpp\Game\Game.cpp" />
+    <ClCompile Include="src\cpp\GameManagement\Game.cpp" />
     <ClCompile Include="src\cpp\Utility\Helpers.cpp" />
     <ClCompile Include="src\cpp\main.cpp" />
     <ClCompile Include="src\cpp\Sprites\Sprite.cpp" />
@@ -167,13 +167,13 @@
     <ClInclude Include="src\headers\Sprites.hpp" />
     <ClInclude Include="src\headers\Utility.hpp" />
     <ClInclude Include="src\headers\Utility\PixelConverter.hpp" />
-    <ClInclude Include="src\headers\Game\SpriteCollection.hpp" />
-    <ClInclude Include="src\headers\Game\GameRoom.hpp" />
-    <ClInclude Include="src\headers\Game\GameMap.hpp" />
+    <ClInclude Include="src\headers\GameManagement\SpriteCollection.hpp" />
+    <ClInclude Include="src\headers\GameManagement\GameRoom.hpp" />
+    <ClInclude Include="src\headers\GameManagement\GameMap.hpp" />
     <ClInclude Include="src\headers\Sprites\AnimatedSprite.hpp" />
     <ClInclude Include="src\headers\Sprites\Effect.hpp" />
     <ClInclude Include="src\headers\Sprites\Entity.hpp" />
-    <ClInclude Include="src\headers\Game\Game.hpp" />
+    <ClInclude Include="src\headers\GameManagement\Game.hpp" />
     <ClInclude Include="src\headers\GameWrench.hpp" />
     <ClInclude Include="src\headers\Utility\Helpers.hpp" />
     <ClInclude Include="src\headers\Sprites\Sprite.hpp" />

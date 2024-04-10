@@ -2,7 +2,7 @@
 
 ///// Game and map building classes /////
 
-#include "Game/SpriteCollection.hpp"
-#include "Game/GameRoom.hpp"
-#include "Game/GameMap.hpp"
-#include "Game/Game.hpp"
+#include "GameManagement/SpriteCollection.hpp"
+#include "GameManagement/GameRoom.hpp"
+#include "GameManagement/GameMap.hpp"
+#include "GameManagement/Game.hpp"

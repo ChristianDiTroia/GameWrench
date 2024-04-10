@@ -101,7 +101,7 @@ void gw::TileStructure::draw(sf::RenderTarget& target, sf::RenderStates states) 
     if (!isHidden()) {
         Vector2f tileSize = getSizeInPixels();
         sf::Transformable tf;
-        for (Vector2f tile : tiles) {
+        for (Vector2u tile : tiles) {
             tf.setPosition(tile.x * tileSize.x, tile.y * tileSize.y);
             states.transform = tf.getTransform(); // Transform sprite into each tile to draw
             target.draw(getSprite(), states);

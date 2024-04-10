@@ -37,7 +37,8 @@ public:
 // Public Members 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	unsigned int x, y;
+	// not using actual usigned int here so conversions to other types will be cleaner
+	int x, y;
 };
 
 }

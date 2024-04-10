@@ -1,4 +1,4 @@
-#include "Game/SpriteCollection.hpp"
+#include "GameManagement/SpriteCollection.hpp"
 
 using namespace gw;
 

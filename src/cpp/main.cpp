@@ -1,7 +1,35 @@
 #include <iostream>
-#include<cstdlib>
+#include <cstdlib>
 
 #include "GameWrench.hpp"
+
+static gw::Vector2f boxCollision(gw::Sprite s1, gw::Sprite s2) {
+	using namespace gw;
+
+	Vector2f radius1 = s1.getSizeInPixels() / 2;
+	Vector2f radius2 = s2.getSizeInPixels() / 2;
+	float totalRadiusX = radius1.x + radius2.x;
+	float totalRadiusY = radius1.y + radius2.y;
+
+	Vector2f displacement = s1.getPosition() - s2.getPosition();
+	float dx = abs(displacement.x);
+	float dy = abs(displacement.y);
+
+	Vector2f collision(0, 0);
+	if (dx <= totalRadiusX && dy <= totalRadiusY) { // is colliding
+		float colX = dx / totalRadiusX;
+		float colY = dy / totalRadiusY;
+		if (colX > colY) { collision.x = dx - totalRadiusX; }		// x-axis collision
+		else if (colY > colX) { collision.y = dy - totalRadiusY; }	// y-axis collision
+		else {														// equal collision on both axes
+			collision.x = dx - totalRadiusX;
+			collision.y = dy - totalRadiusY;
+		}
+	}
+	if (s1.getPosition().x > s2.getPosition().x) { collision.x *= -1; }
+	if (s1.getPosition().y > s2.getPosition().y) { collision.y *= -1; }
+	return collision;
+}
 
 static gw::TileStructure::HorizontalBound randHBound() {
 	int n = rand() % 3;
@@ -55,62 +83,62 @@ bReleased bRelease;
 // Define 1 in-game meter
 gw::helpers::PixelConverter meter(64);
 
-void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool &inAir) {
+void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool& inAir) {
 	gw::Entity& player = dynamic_cast<gw::Entity&>(self);
 	// Default animation to idle
-	player.animate("idle", 0.1);
+	player.animate("idle", 0.1f);
 
 	// Movement animations and positioning
 	gw::Vector2f speed;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 		speed.x -= 512.0f;
-		player.animate("run", 0.07);
+		player.animate("run", 0.07f);
 		if (!player.isMirroredX()) { player.mirrorX(); }
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
 		speed.x += 512.0f;
-		player.animate("run", 0.07);
+		player.animate("run", 0.07f);
 		if (player.isMirroredX()) { player.mirrorX(); }
 	}
 	player.setVelocity(speed.x, player.getVelocity().y);
 
 	// Actions
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
-		player.animate("jump_start", 0.05, false);
+		player.animate("jump_start", 0.05f, false);
 		player.addVelocity(0, -800);
 		inAir = true;
 		explode.setPosition(player.getPosition().x, player.getPosition().y + 128);
-		explode.playEffect(1, .02);
+		explode.playEffect(1, .02f);
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Enter)) {
-		player.animate("attack", 0.09, false);
+		player.animate("attack", 0.09f, false);
 	}
 
 	// Jump physics
 	if (inAir) {
-		player.addVelocity(0, 10);
-		player.animate("jump_mid", 0.05);
+		player.addVelocity(0, 8);
+		player.animate("jump_mid", 0.05f);
 	}
 	if (player.getVelocity().y >= 800 && inAir) {
 		gw::Vector2f vel = player.getVelocity();
 		player.setVelocity(vel.x, 0);
-		player.animate("jump_end", 0.05, false);
+		player.animate("jump_end", 0.05f, false);
 		inAir = false;
 	}
 }
 
 void static enemyActions(gw::AnimatedSprite& self, gw::Entity& player) {
 	gw::Entity& enemy = dynamic_cast<gw::Entity&>(self);
-	enemy.animate("idle", 0.1);
-	int posDif = player.getPosition().x - enemy.getPosition().x;
+	enemy.animate("idle", 0.1f);
+	float posDif = player.getPosition().x - enemy.getPosition().x;
 	if (abs(posDif) <= meter.toPixels(4)) {
 		if (posDif < 0 && !enemy.isMirroredX()) enemy.mirrorX();
 		else if (posDif > 0 && enemy.isMirroredX()) enemy.mirrorX();
-		enemy.animate("attack", 0.1, false);
-		if (abs(posDif) <= meter.toPixels(3)) player.animate("hurt", 0.1, false);
+		enemy.animate("attack", 0.1f, false);
+		if (abs(posDif) <= meter.toPixels(3)) player.animate("hurt", 0.1f, false);
 	}
 	if (abs(posDif) < meter.toPixels(10) && abs(posDif) > meter.toPixels(4)) {
-		enemy.animate("run", 0.1);
+		enemy.animate("run", 0.1f);
 		float speed = meter.toPixels(4);
 		if (posDif < 0) {
 			enemy.setVelocity(-speed, 0);
@@ -145,10 +173,12 @@ int main() {
 		.addAnimation("all", gw::helpers::multiRowAnimation(0, 0, {14, 13 ,13, 7, 9}));
 
 	// Make new still skeleton from already existing skeleton sprite
-	gw::Entity stillSkeleton(player);
-	stillSkeleton.defineBehavior(
-		[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
-	);
+	gw::Entity enemy1(player);
+	//enemy1.defineBehavior(
+	//	[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
+	//);
+	gw::Entity enemy2(enemy1);
+	enemy2.movePosition(-meter.toPixels(8), 0);
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
@@ -163,7 +193,7 @@ int main() {
 	);
 
 	// Start first effect, not second
-	explode.playEffect(1, 0.04, 300, 0);
+	explode.playEffect(1, 0.04f, 300, 0);
 
 	// Create backgrounds
 	gw::Sprite background1("./sprites/blue_city.png", 2302, 1395);
@@ -181,21 +211,33 @@ int main() {
 	structure2.asColumn(9);
 	structure2.positionRelativeTo(structure, gw::TileStructure::xCenter, gw::TileStructure::bottom);
 
+	gw::Sprite block("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
+	block.setSubsprite(9, 18, 2, 2);
+	block.setScale(3, 3);
+	block.setPosition(500, 600);
+	
+	gw::Sprite square(block);
+	square.setSubsprite(0, 0, 3, 3);
+
 	// Create game map
 	gw::GameMap map("Origin");
 	map.addRoomRight("Origin - right");
 
 	//// Add sprites to map
 	// Global Sprites
-	map.addGlobalSprite(player)
+	map	//.addGlobalSprite(player)
 		.addGlobalSprite(explode2);
 	// Origin room
 	map.curRoom->addSprite(background1)
-		.addSprite(stillSkeleton)
-		.addSprite(structure)
-		.addSprite(structure2);
+		.addSprite(square)
+		.addSprite(enemy1)
+		.addSprite(enemy2)
+		.addSprite(block)
+		/*.addSprite(structure)
+		.addSprite(structure2)*/;
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
+		.addSprite(enemy1)
 		.addSprite(explode);
 
 	gw::Game game(map, 1920, 1080, "First Game");
@@ -204,18 +246,27 @@ int main() {
 	sf::Clock timer;
 	// Main game loop
 	while (game.isPlaying()) {
-		
+
+		// Collision test //
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
+		gw::Vector2f collision = boxCollision(square, block);
+		square.movePosition(collision);
+		std::cout << collision.x << "     " << collision.y << std::endl;
+
 		// Some keyboard controls for testing
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
-			explode.playEffect(10, 0.07);
+			explode.playEffect(10, 0.07f);
 		}
 		if (bRelease()) { structure2.positionRelativeTo(structure, randHBound(), randVBound());}
 
 		// effect logic
 		if (explode.getPosition().x >= 1920) { explode.setVelocity(-300, 0); }
 		else if (explode.getPosition().x <= 0) { explode.setVelocity(300, 0); }
-		if (!explode.isPlaying()) { explode.playEffect(1, 0.04); }
-		if (abs(player.getPosition().x - explode.getPosition().x) <= 20 && map.curRoom != map.head) player.animate("hurt", 0.1, false);
+		if (!explode.isPlaying()) { explode.playEffect(1, 0.04f); }
+		if (abs(player.getPosition().x - explode.getPosition().x) <= 20 && map.curRoom != map.head) player.animate("hurt", 0.1f, false);
 
 		// Allow player to move between rooms
 		if (player.getPosition().x >= 1920 && !executed) {

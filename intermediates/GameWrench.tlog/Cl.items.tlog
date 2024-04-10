@@ -1,11 +1,11 @@
 C:\Dev\GameWrench\GameWrench\src\cpp\Utility\PixelConverter.cpp;C:\Dev\GameWrench\GameWrench\intermediates\PixelConverter.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\Game\SpriteCollection.cpp;C:\Dev\GameWrench\GameWrench\intermediates\SpriteCollection.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\SpriteCollection.cpp;C:\Dev\GameWrench\GameWrench\intermediates\SpriteCollection.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\AnimatedSprite.cpp;C:\Dev\GameWrench\GameWrench\intermediates\AnimatedSprite.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\Game\GameRoom.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameRoom.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\Game\GameMap.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameMap.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\GameRoom.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameRoom.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\GameMap.cpp;C:\Dev\GameWrench\GameWrench\intermediates\GameMap.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\Effect.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Effect.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\Entity.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Entity.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\Game\Game.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Game.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\Game.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Game.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Utility\Helpers.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Helpers.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\main.cpp;C:\Dev\GameWrench\GameWrench\intermediates\main.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\Sprite.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Sprite.obj

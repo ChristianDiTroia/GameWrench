@@ -48,9 +48,9 @@ void gw::AnimatedSprite::defineBehavior(std::function<void(AnimatedSprite& self)
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 void gw::AnimatedSprite::update(float deltaTime) {
+	updatePosition(deltaTime);
 	behavior(*this);
 	updateAnimation(deltaTime);
-	updatePosition(deltaTime);
 }
 
 void gw::AnimatedSprite::updatePosition(float deltaTime) {
