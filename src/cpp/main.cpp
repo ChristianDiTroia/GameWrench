@@ -174,11 +174,16 @@ int main() {
 
 	// Make new still skeleton from already existing skeleton sprite
 	gw::Entity enemy1(player);
-	//enemy1.defineBehavior(
-	//	[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
-	//);
+	enemy1.defineBehavior(
+		[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
+	);
 	gw::Entity enemy2(enemy1);
 	enemy2.movePosition(-meter.toPixels(8), 0);
+
+	gw::SpriteCollection enemies;
+	enemies.addSprite(enemy1)
+		.addSprite(enemy2);
+	enemies.setAllScales(meter.scalePixels(128, 5), meter.scalePixels(128, 5));
 
 	// Create an effect
 	std::string sfxPath = "./sprites/fireball_spritesheet.png";
@@ -225,14 +230,13 @@ int main() {
 
 	//// Add sprites to map
 	// Global Sprites
-	map	//.addGlobalSprite(player)
+	map.addGlobalSprite(player)
 		.addGlobalSprite(explode2);
 	// Origin room
 	map.curRoom->addSprite(background1)
 		.addSprite(square)
-		.addSprite(enemy1)
-		.addSprite(enemy2)
 		.addSprite(block)
+		.addCollection(enemies)
 		/*.addSprite(structure)
 		.addSprite(structure2)*/;
 	// Origin - right room
@@ -246,15 +250,14 @@ int main() {
 	sf::Clock timer;
 	// Main game loop
 	while (game.isPlaying()) {
-
-		// Collision test //
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
-		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
-		gw::Vector2f collision = boxCollision(square, block);
-		square.movePosition(collision);
-		std::cout << collision.x << "     " << collision.y << std::endl;
+		//// Collision test //
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
+		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
+		//gw::Vector2f collision = boxCollision(square, block);
+		//square.movePosition(collision);
+		//std::cout << collision.x << "     " << collision.y << std::endl;
 
 		// Some keyboard controls for testing
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {

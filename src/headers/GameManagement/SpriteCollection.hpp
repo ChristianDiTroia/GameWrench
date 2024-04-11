@@ -16,6 +16,10 @@ public:
 
     SpriteCollection() = default;
 
+    SpriteCollection(Sprite& initSprite);
+
+    SpriteCollection(AnimatedSprite& initSprite);
+
     // Copy constructor - initialize with sprites from another collection
     SpriteCollection(SpriteCollection& other);
 
@@ -31,6 +35,21 @@ public:
     SpriteCollection& addSprite(AnimatedSprite& animatedSprite);
     /// Add a SpriteCollection to this collection. Returns reference to this for chaining.
     SpriteCollection& addCollection(SpriteCollection& collection);
+
+    void setAllPositions(Vector2f position);
+    void setAllPositions(float x, float y);
+    void moveAllPositions(Vector2f distance);
+    void moveAllPositions(float x, float y);
+    void setAllScales(Vector2f scaleFactor);
+    void setAllScales(float xFactor, float yFactor);
+    void scaleAll(Vector2f scaleFactor);
+    void scaleAll(float xFactor, float yFactor);
+    void setAllRotations(float rotation);
+    void rotateAll(float rotation);
+    void mirrorAllX();
+    void mirrorAllY();
+    void hideAll();
+    void showAll();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Accessors
