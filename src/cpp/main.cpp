@@ -3,31 +3,28 @@
 
 #include "GameWrench.hpp"
 
-static gw::Vector2f boxCollision(gw::Sprite s1, gw::Sprite s2) {
+static gw::Vector2f boxCollision(gw::Sprite sprite1, gw::Sprite sprite2) {
 	using namespace gw;
 
-	Vector2f radius1 = s1.getSizeInPixels() / 2;
-	Vector2f radius2 = s2.getSizeInPixels() / 2;
-	float totalRadiusX = radius1.x + radius2.x;
-	float totalRadiusY = radius1.y + radius2.y;
+	// Find radius of each box //
+	Vector2f radius1 = sprite1.getSizeInPixels() / 2;
+	Vector2f radius2 = sprite2.getSizeInPixels() / 2;
+	// Sum of radii is the min distance between the boxes without a collision
+	float minDistX = radius1.x + radius2.x;
+	float mindDistY = radius1.y + radius2.y;
 
-	Vector2f displacement = s1.getPosition() - s2.getPosition();
+	// Find displacement on each axis //
+	Vector2f displacement = sprite1.getPosition() - sprite2.getPosition();
 	float dx = abs(displacement.x);
 	float dy = abs(displacement.y);
 
 	Vector2f collision(0, 0);
-	if (dx <= totalRadiusX && dy <= totalRadiusY) { // is colliding
-		float colX = dx / totalRadiusX;
-		float colY = dy / totalRadiusY;
-		if (colX > colY) { collision.x = dx - totalRadiusX; }		// x-axis collision
-		else if (colY > colX) { collision.y = dy - totalRadiusY; }	// y-axis collision
-		else {														// equal collision on both axes
-			collision.x = dx - totalRadiusX;
-			collision.y = dy - totalRadiusY;
-		}
+	if (dx <= minDistX && dy <= mindDistY) { // is colliding
+		float collisionX = dx / minDistX;
+		float collisionY = dy / mindDistY;
+		collision.x = (dx - minDistX) * (collisionX > collisionY);
+		collision.y = (dy - mindDistY) * (collisionY > collisionX);
 	}
-	if (s1.getPosition().x > s2.getPosition().x) { collision.x *= -1; }
-	if (s1.getPosition().y > s2.getPosition().y) { collision.y *= -1; }
 	return collision;
 }
 
@@ -193,9 +190,9 @@ int main() {
 	// Duplicate the effect
 	gw::Effect explode2(explode);
 	bool inAir = false;
-	player.defineBehavior(
-		[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
-	);
+	//player.defineBehavior(
+	//	[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
+	//);
 
 	// Start first effect, not second
 	explode.playEffect(1, 0.04f, 300, 0);
@@ -223,6 +220,7 @@ int main() {
 	
 	gw::Sprite square(block);
 	square.setSubsprite(0, 0, 3, 3);
+	square.movePosition(meter.toPixels(3), 0);
 
 	// Create game map
 	gw::GameMap map("Origin");
@@ -250,12 +248,15 @@ int main() {
 	sf::Clock timer;
 	// Main game loop
 	while (game.isPlaying()) {
-		//// Collision test //
+		// Collision test //
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
 		//gw::Vector2f collision = boxCollision(square, block);
+		//if (square.getPosition().x > block.getPosition().x) { collision.x *= -1; }
+		//if (square.getPosition().y > block.getPosition().y) { collision.y *= -1; }
+		//// if equal positioning, send sprite toward middle of the screen //
 		//square.movePosition(collision);
 		//std::cout << collision.x << "     " << collision.y << std::endl;
 

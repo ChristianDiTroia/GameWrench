@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\cpp\GameManagement\Collider.cpp" />
     <ClCompile Include="src\cpp\Utility\PixelConverter.cpp" />
     <ClCompile Include="src\cpp\GameManagement\SpriteCollection.cpp" />
     <ClCompile Include="src\cpp\Sprites\AnimatedSprite.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\GameManagement.hpp" />
+    <ClInclude Include="src\headers\GameManagement\Collider.hpp" />
     <ClInclude Include="src\headers\Sprites.hpp" />
     <ClInclude Include="src\headers\Utility.hpp" />
     <ClInclude Include="src\headers\Utility\PixelConverter.hpp" />
