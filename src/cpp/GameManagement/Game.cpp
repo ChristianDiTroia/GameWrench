@@ -26,6 +26,8 @@ gw::Game::Game(GameMap& map, int resolutionX, int resolutionY, std::string name)
 // Mutators
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+void gw::Game::addCollider(Collider& collider) { colliders.push_back(&collider); }
+
 /// Displays a graphical frame to the game window.
 /// Should be called repeatedly in a main game loop.
 void gw::Game::outputFrame() {
@@ -50,21 +52,42 @@ void gw::Game::outputFrame() {
         totalTime += deltaTime; // record actual time game is running
         deltaTime = std::min(deltaTime, 1.0f / 20.0f); // artificially keep deltaTime >= 20fps
 
-        // Clear previous frame //
+        // Clear previous frame
         window.clear();
-        // Draw Sprites //
-        for (gw::Sprite* sprite : map.curRoom->getSprites()) { window.draw(*sprite); }
-        for (gw::Sprite* sprite : map.getGlobalSprites()) { window.draw(*sprite); }
-        // Update and draw AnimatedSprites //
-        for (gw::AnimatedSprite* sprite : map.curRoom->getAnimatedSprites()) {
-            sprite->update(deltaTime);
-            window.draw(*sprite);
-        }
-        for (gw::AnimatedSprite* sprite : map.getGlobalAnimatedSprites()) {
-            sprite->update(deltaTime);
-            window.draw(*sprite);
-        }
-        // Display frame on screen //
+        // Update state of all sprites in the current room
+        updateGameState();
+        // Draw all sprites in the current room
+        drawAll();
+        // Display frame on screen
         window.display();
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Members
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void gw::Game::updateSprites(std::vector<gw::AnimatedSprite*> sprites) {
+    for (AnimatedSprite* sprite : sprites) { sprite->update(deltaTime); }
+}
+
+void gw::Game::updateGameState() {
+    updateSprites(map.curRoom->getAnimatedSprites());
+    updateSprites(map.getGlobalAnimatedSprites());
+    for (Collider* collider : colliders) { collider->resolveCollisions(); }
+}
+
+void gw::Game::draw(std::vector<Sprite*> sprites) {
+    for (Sprite* sprite : sprites) { window.draw(*sprite); }
+}
+
+void gw::Game::draw(std::vector<AnimatedSprite*> sprites) {
+    for (AnimatedSprite* sprite : sprites) { window.draw(*sprite); }
+}
+
+void gw::Game::drawAll() {
+    draw(map.curRoom->getSprites());
+    draw(map.curRoom->getAnimatedSprites());
+    draw(map.getGlobalSprites());
+    draw(map.getGlobalAnimatedSprites());
 }

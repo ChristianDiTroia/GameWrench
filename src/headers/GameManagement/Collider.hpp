@@ -6,18 +6,16 @@ namespace gw {
 
 class Collider
 {
-public:
+friend class Game;
 
-    enum DetectionMethod {
-        // Axis-aligned bounding box
-        AABB
-    };
+public:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Constructors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-    Collider(DetectionMethod collisionType = AABB);
+    Collider(std::function<void(Sprite& sprite, Sprite& collidedWith, Vector2f collision)>
+        handleCollision);
 
 	virtual ~Collider() = default;
 
@@ -30,14 +28,17 @@ public:
     Collider& canCollideWith(Sprite& sprite);
     Collider& canCollideWith(SpriteCollection& sprite);
 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// Collision Methods 
-///////////////////////////////////////////////////////////////////////////////////////////////////
-
-	/// Returns number of pixels in which sprite1 is colliding with sprite2 using AABB collision
-    static gw::Vector2f axisAlignedBoxCollision(gw::Sprite sprite1, gw::Sprite sprite2);
-
 private:
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    // Check for and resolve collisions using checkCollision and handleCollision
+    void resolveCollisions();
+
+    // Method of collision detection used by this Collider
+    virtual gw::Vector2f checkCollision(gw::Sprite& sprite1, gw::Sprite& sprite2) = 0;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Members 
@@ -47,7 +48,7 @@ private:
     SpriteCollection collidables;   // Sprites to check if sprites are colliding with
 
 	// What to do when two objects collide
-	std::function<void(Sprite& sprite, Sprite& collidedWith, Vector2f collision)>handleCollision;
+    std::function<void(Sprite& sprite, Sprite& collidedWith, Vector2f collision)> handleCollision;
 };
 
 } // namespace gw

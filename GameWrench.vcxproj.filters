@@ -60,6 +60,9 @@
     <ClCompile Include="src\cpp\GameManagement\Collider.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\GameManagement\BoxCollider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Sprites\AnimatedSprite.hpp">
@@ -117,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\headers\GameManagement\Collider.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\headers\GameManagement\BoxCollider.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

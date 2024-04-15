@@ -3,30 +3,67 @@
 using namespace gw;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-// Collision Methods 
+// Constructors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-gw::Vector2f gw::Collider::axisAlignedBoxCollision(gw::Sprite sprite1, gw::Sprite sprite2) {
-	using namespace gw;
+gw::Collider::Collider(std::function<void(Sprite& sprite, Sprite& collidedWith, 
+	Vector2f collision)> handleCollision) :
+	handleCollision(handleCollision)
+{}
 
-	// Find radius of each box //
-	Vector2f radius1 = sprite1.getSizeInPixels() / 2;
-	Vector2f radius2 = sprite2.getSizeInPixels() / 2;
-	// Sum of radii is the min distance between the boxes without a collision
-	float minDistX = radius1.x + radius2.x;
-	float mindDistY = radius1.y + radius2.y;
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Mutators 
+///////////////////////////////////////////////////////////////////////////////////////////////////
 
-	// Find displacement on each axis //
-	Vector2f displacement = sprite1.getPosition() - sprite2.getPosition();
-	float dx = abs(displacement.x);
-	float dy = abs(displacement.y);
+Collider& gw::Collider::applyCollision(Sprite& sprite) {
+	sprites.addSprite(sprite);
+	return *this;
+}
 
-	Vector2f collision(0, 0);
-	if (dx <= minDistX && dy <= mindDistY) { // is colliding
-		float collisionX = dx / minDistX;
-		float collisionY = dy / mindDistY;
-		collision.x = (dx - minDistX) * (collisionX > collisionY);
-		collision.y = (dy - mindDistY) * (collisionY > collisionX);
+Collider& gw::Collider::applyCollision(SpriteCollection& sprites) {
+	sprites.addCollection(sprites);
+	return *this;
+}
+
+Collider& gw::Collider::canCollideWith(Sprite& sprite) {
+	collidables.addSprite(sprite);
+	return *this;
+}
+
+Collider& gw::Collider::canCollideWith(SpriteCollection& sprites) {
+	collidables.addCollection(sprites);
+	return *this;
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Private Methods 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void gw::Collider::resolveCollisions() {
+	// Check sprites for collision
+	for (Sprite* sprite : sprites.getSprites()) {
+		// against sprites
+		for (Sprite* collidable : collidables.getSprites()) {
+			Vector2f collision = checkCollision(*sprite, *collidable);
+			handleCollision(*sprite, *collidable, collision);
+		}
+		// against animated sprites
+		for (Sprite* collidable : collidables.getAnimatedSprites()) {
+			Vector2f collision = checkCollision(*sprite, *collidable);
+			handleCollision(*sprite, *collidable, collision);
+		}
 	}
-	return collision;
+	// Check animated sprites for collision
+	for (Sprite* sprite : sprites.getAnimatedSprites()) {
+		// against sprites
+		for (Sprite* collidable : collidables.getSprites()) {
+			Vector2f collision = checkCollision(*sprite, *collidable);
+			handleCollision(*sprite, *collidable, collision);
+		}
+		// against animated sprites
+		for (Sprite* collidable : collidables.getAnimatedSprites()) {
+			Vector2f collision = checkCollision(*sprite, *collidable);
+			handleCollision(*sprite, *collidable, collision);
+		}
+	}
 }

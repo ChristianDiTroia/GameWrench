@@ -3,30 +3,14 @@
 
 #include "GameWrench.hpp"
 
-static gw::Vector2f boxCollision(gw::Sprite sprite1, gw::Sprite sprite2) {
-	using namespace gw;
-
-	// Find radius of each box //
-	Vector2f radius1 = sprite1.getSizeInPixels() / 2;
-	Vector2f radius2 = sprite2.getSizeInPixels() / 2;
-	// Sum of radii is the min distance between the boxes without a collision
-	float minDistX = radius1.x + radius2.x;
-	float mindDistY = radius1.y + radius2.y;
-
-	// Find displacement on each axis //
-	Vector2f displacement = sprite1.getPosition() - sprite2.getPosition();
-	float dx = abs(displacement.x);
-	float dy = abs(displacement.y);
-
-	Vector2f collision(0, 0);
-	if (dx <= minDistX && dy <= mindDistY) { // is colliding
-		float collisionX = dx / minDistX;
-		float collisionY = dy / mindDistY;
-		collision.x = (dx - minDistX) * (collisionX > collisionY);
-		collision.y = (dy - mindDistY) * (collisionY > collisionX);
-	}
-	return collision;
-}
+static void handleCollision (gw::Sprite& sprite, gw::Sprite& collidedWith, 
+	gw::Vector2f collision) {
+		if (sprite.getPosition().x > collidedWith.getPosition().x) { collision.x *= -1; }
+		if (sprite.getPosition().y > collidedWith.getPosition().y) { collision.y *= -1; }
+		// if equal positioning, send sprite toward middle of the screen //
+		sprite.movePosition(collision);
+		std::cout << collision.x << "     " << collision.y << std::endl;
+};
 
 static gw::TileStructure::HorizontalBound randHBound() {
 	int n = rand() % 3;
@@ -171,9 +155,9 @@ int main() {
 
 	// Make new still skeleton from already existing skeleton sprite
 	gw::Entity enemy1(player);
-	enemy1.defineBehavior(
-		[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
-	);
+	//enemy1.defineBehavior(
+	//	[&player](gw::AnimatedSprite& self) {enemyActions(self, player); }
+	//);
 	gw::Entity enemy2(enemy1);
 	enemy2.movePosition(-meter.toPixels(8), 0);
 
@@ -190,9 +174,9 @@ int main() {
 	// Duplicate the effect
 	gw::Effect explode2(explode);
 	bool inAir = false;
-	//player.defineBehavior(
-	//	[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
-	//);
+	player.defineBehavior(
+		[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
+	);
 
 	// Start first effect, not second
 	explode.playEffect(1, 0.04f, 300, 0);
@@ -215,12 +199,18 @@ int main() {
 
 	gw::Sprite block("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
 	block.setSubsprite(9, 18, 2, 2);
-	block.setScale(3, 3);
-	block.setPosition(500, 600);
+	block.setScale(4, 4);
+	block.setPosition(0, 600);
 	
 	gw::Sprite square(block);
 	square.setSubsprite(0, 0, 3, 3);
-	square.movePosition(meter.toPixels(3), 0);
+	square.movePosition(meter.toPixels(5), 0);
+	gw::SpriteCollection blocks;
+	for (int i = 0; i < 10; i++) {
+		gw::Sprite* newBlock = new gw::Sprite(square);
+		newBlock->movePosition(meter.toPixels(2 * i), 0);
+		blocks.addSprite(*newBlock);
+	}
 
 	// Create game map
 	gw::GameMap map("Origin");
@@ -234,6 +224,7 @@ int main() {
 	map.curRoom->addSprite(background1)
 		.addSprite(square)
 		.addSprite(block)
+		.addCollection(blocks)
 		.addCollection(enemies)
 		/*.addSprite(structure)
 		.addSprite(structure2)*/;
@@ -246,6 +237,14 @@ int main() {
 
 	bool executed = false;
 	sf::Clock timer;
+
+	gw::BoxCollider collider(handleCollision);
+	collider.applyCollision(player)
+		.canCollideWith(block)
+		.canCollideWith(square)
+		.canCollideWith(blocks);
+	game.addCollider(collider);
+
 	// Main game loop
 	while (game.isPlaying()) {
 		// Collision test //
@@ -253,12 +252,7 @@ int main() {
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
 		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
-		//gw::Vector2f collision = boxCollision(square, block);
-		//if (square.getPosition().x > block.getPosition().x) { collision.x *= -1; }
-		//if (square.getPosition().y > block.getPosition().y) { collision.y *= -1; }
-		//// if equal positioning, send sprite toward middle of the screen //
-		//square.movePosition(collision);
-		//std::cout << collision.x << "     " << collision.y << std::endl;
+
 
 		// Some keyboard controls for testing
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
