@@ -3,24 +3,15 @@
 
 #include "GameWrench.hpp"
 
-static void handleCollision (gw::Sprite& sprite, gw::Sprite& collidedWith, 
-	gw::Vector2f collision) {
-		if (sprite.getPosition().x > collidedWith.getPosition().x) { collision.x *= -1; }
-		if (sprite.getPosition().y > collidedWith.getPosition().y) { collision.y *= -1; }
-		// if equal positioning, send sprite toward middle of the screen //
-		sprite.movePosition(collision);
-		std::cout << collision.x << "     " << collision.y << std::endl;
-};
-
 static gw::TileStructure::HorizontalBound randHBound() {
 	int n = rand() % 3;
 	switch (n) {
-		case(0):
-			return gw::TileStructure::HorizontalBound::left;
-		case(1):
-			return gw::TileStructure::HorizontalBound::right;
-		case(2):
-			return gw::TileStructure::HorizontalBound::xCenter;
+	case(0):
+		return gw::TileStructure::HorizontalBound::left;
+	case(1):
+		return gw::TileStructure::HorizontalBound::right;
+	case(2):
+		return gw::TileStructure::HorizontalBound::xCenter;
 	}
 }
 
@@ -64,6 +55,14 @@ bReleased bRelease;
 // Define 1 in-game meter
 gw::helpers::PixelConverter meter(64);
 
+static void handleCollision (gw::Sprite& sprite, gw::Sprite& collidedWith, 
+	gw::Vector2f collision) {
+		if (sprite.getPosition().x > collidedWith.getPosition().x) { collision.x *= -1; }
+		if (sprite.getPosition().y > collidedWith.getPosition().y) { collision.y *= -1; }
+		// if equal positioning, send sprite toward middle of the screen //
+		sprite.movePosition(collision);
+};
+
 void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool& inAir) {
 	gw::Entity& player = dynamic_cast<gw::Entity&>(self);
 	// Default animation to idle
@@ -86,7 +85,7 @@ void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool& i
 	// Actions
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && !inAir) {
 		player.animate("jump_start", 0.05f, false);
-		player.addVelocity(0, -800);
+		player.addVelocity(0, -900);
 		inAir = true;
 		explode.setPosition(player.getPosition().x, player.getPosition().y + 128);
 		explode.playEffect(1, .02f);
@@ -106,6 +105,8 @@ void static playerActions(gw::AnimatedSprite& self, gw::Effect& explode, bool& i
 		player.animate("jump_end", 0.05f, false);
 		inAir = false;
 	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { player.movePosition(0, 1); }
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { player.movePosition(0, -1); }
 }
 
 void static enemyActions(gw::AnimatedSprite& self, gw::Entity& player) {
@@ -134,7 +135,6 @@ void static enemyActions(gw::AnimatedSprite& self, gw::Entity& player) {
 }
 
 int main() {
-
 	// Create player sprite from skeleton character
 	std::string spritePath = "./sprites/skeleton_spritesheet.png";
 	gw::Entity player(spritePath, 128, 128);
@@ -174,9 +174,9 @@ int main() {
 	// Duplicate the effect
 	gw::Effect explode2(explode);
 	bool inAir = false;
-	player.defineBehavior(
-		[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
-	);
+	//player.defineBehavior(
+	//	[&explode2, &inAir](gw::AnimatedSprite& self) { playerActions(self, explode2, inAir); }
+	//);
 
 	// Start first effect, not second
 	explode.playEffect(1, 0.04f, 300, 0);
@@ -191,11 +191,14 @@ int main() {
 	gw::TileStructure structure("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
 	structure.setSubsprite(9, 18, 2, 2);
 	structure.setScale(3, 3);
-	structure.asRectangle(5, 5, false);
-	structure.setPosition(300, 300);
-	gw::TileStructure structure2(structure);
-	structure2.asColumn(9);
-	structure2.positionRelativeTo(structure, gw::TileStructure::xCenter, gw::TileStructure::bottom);
+	structure.asRectangle(3, 5, false);
+	structure.setPosition(500, 300);
+
+	gw::TileStructure structure2("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
+	structure2.setSubsprite(9, 18, 2, 2);
+	structure2.setScale(3, 3);
+	structure2.asColumn(5);
+	/*structure2.positionRelativeTo(structure, gw::TileStructure::xCenter, gw::TileStructure::bottom);*/
 
 	gw::Sprite block("./sprites/pixel_adventure_sprites/Terrain/Terrain_(16x16).png", 16, 16);
 	block.setSubsprite(9, 18, 2, 2);
@@ -218,16 +221,16 @@ int main() {
 
 	//// Add sprites to map
 	// Global Sprites
-	map.addGlobalSprite(player)
-		.addGlobalSprite(explode2);
+	/*map.addGlobalSprite(player)
+		.addGlobalSprite(explode2);*/
 	// Origin room
 	map.curRoom->addSprite(background1)
 		.addSprite(square)
 		.addSprite(block)
-		.addCollection(blocks)
-		.addCollection(enemies)
-		/*.addSprite(structure)
-		.addSprite(structure2)*/;
+		//.addCollection(blocks)
+		//.addCollection(enemies)
+		.addSprite(structure)
+		.addSprite(structure2);
 	// Origin - right room
 	map.curRoom->right->addSprite(background2)
 		.addSprite(enemy1)
@@ -239,26 +242,28 @@ int main() {
 	sf::Clock timer;
 
 	gw::BoxCollider collider(handleCollision);
-	collider.applyCollision(player)
-		.canCollideWith(block)
-		.canCollideWith(square)
-		.canCollideWith(blocks);
+	collider.applyCollision(square)
+		.canCollideWith(structure2)
+		.canCollideWith(structure);
+		//.canCollideWith(blocks);
 	game.addCollider(collider);
 
 	// Main game loop
 	while (game.isPlaying()) {
 		// Collision test //
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
-		//if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) { square.movePosition(-8, 0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) { square.movePosition(8, 0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) { square.movePosition(0, -8); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) { square.movePosition(0, 8); }
 
 
 		// Some keyboard controls for testing
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::V)) {
 			explode.playEffect(10, 0.07f);
 		}
-		if (bRelease()) { structure2.positionRelativeTo(structure, randHBound(), randVBound());}
+		if (bRelease()) {
+			structure2.positionRelativeTo(structure, randHBound(), randVBound());
+		}
 
 		// effect logic
 		if (explode.getPosition().x >= 1920) { explode.setVelocity(-300, 0); }

@@ -1,6 +1,9 @@
 #pragma once
 
 #include "Sprite.hpp"
+#include "GameManagement/SpriteCollection.hpp"
+
+//inherit Transformable and SpriteCollection ????
 
 namespace gw {
 
@@ -26,6 +29,8 @@ public:
 // Constructors
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
+    TileStructure(Sprite& tileSprite);
+
     TileStructure(std::string filePath, Vector2u cellSize = Vector2u(0, 0));
 
     TileStructure(std::string filePath, int cellSizeX = 1, int cellSizeY = 1);
@@ -40,7 +45,14 @@ public:
     void asRow(int length);
     void asColumn(int height);
     void asRectangle(int length, int height, bool fill);
-    void positionRelativeTo(TileStructure other, HorizontalBound xBound, VerticalBound yBound);
+    void positionRelativeTo(TileStructure& other, HorizontalBound xBound, VerticalBound yBound);
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// Accessors 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+    int getLengthInTiles() { return length; }
+    int getHeightInTiles() { return height; }
 
 private:
 

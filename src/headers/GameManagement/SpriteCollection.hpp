@@ -21,7 +21,7 @@ public:
     SpriteCollection(AnimatedSprite& initSprite);
 
     // Copy constructor - initialize with sprites from another collection
-    SpriteCollection(SpriteCollection& other);
+    SpriteCollection(const SpriteCollection& other);
 
     virtual ~SpriteCollection() = default;
 
@@ -57,6 +57,9 @@ public:
 
     const std::vector<Sprite*>& getSprites() const { return sprites; }
     const std::vector<AnimatedSprite*>& getAnimatedSprites() const { return animatedSprites; }
+    int numSprites() const { return sprites.size(); }
+    int numAnimatedSprites() const { return animatedSprites.size(); }
+    int totalSprites() const { return sprites.size() + animatedSprites.size(); }
 
 private:
 

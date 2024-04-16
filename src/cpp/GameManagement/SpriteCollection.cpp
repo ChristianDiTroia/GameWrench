@@ -15,8 +15,8 @@ gw::SpriteCollection::SpriteCollection(AnimatedSprite& initSprite) {
 }
 
 // Copy constructor - initialize with sprites from another collection
-gw::SpriteCollection::SpriteCollection(SpriteCollection& other) {
-    addCollection(other);
+gw::SpriteCollection::SpriteCollection(const SpriteCollection& other) {
+    addCollection(const_cast<SpriteCollection&>(other));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

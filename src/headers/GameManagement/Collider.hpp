@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SpriteCollection.hpp"
+#include "Sprites/TileStructure.hpp"
 
 namespace gw {
 

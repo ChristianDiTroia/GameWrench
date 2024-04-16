@@ -67,7 +67,7 @@ public:
     bool isMirroredY() const { return mirroredY; }
     bool isHidden() const { return hidden; }
 
-public:
+protected:
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Protected Accessors 
