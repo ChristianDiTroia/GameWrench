@@ -91,18 +91,17 @@ void gw::TileStructure::positionRelativeTo(TileStructure& other, HorizontalBound
     /* Since TileStructures' origin tile is the top-left-most tile, the coodinates must be
     *  offset by the structure's length or height when placing to the left or top of other.
     *  The centers must always be offset half of the length or height.
-    *  Also must offset by the local origin of the tile away from the other structure.
     */
     Vector2f pixels = getSizeInPixels();
-    Vector2f origin = getOrigin();          // origin is the radius of the tile
+    Vector2f combinedRadius = getOrigin() + other.getOrigin();
     // X-axis positioning
-    if (xBound == left) { x -= length * pixels.x - origin.x; }
-    else if (xBound == xCenter) { x -= (length - 1) / 2.0f * pixels.x - origin.x; }
-    else { x += pixels.x / 2; }
+    if (xBound == left) { x -= pixels.x * (length - 1) + combinedRadius.x; }
+    else if (xBound == xCenter) { x -= pixels.x * (length - 1) / 2.0f; }
+    else { x += combinedRadius.x; } // rightBound
     // Y-axis positioning
-    if (yBound == top) {  y -= height * pixels.y - origin.y; }
-    else if (yBound == yCenter) { y -= (height - 1) / 2.0f * pixels.y - origin.y; }
-    else { y += origin.y; } //
+    if (yBound == top) { y -= pixels.y * (height - 1) + combinedRadius.y; }
+    else if (yBound == yCenter) { y -= pixels.y * (height - 1) / 2.0f; }
+    else { y += combinedRadius.y; } // leftBound
     setPosition(x, y);
 }
 
@@ -135,15 +134,14 @@ void gw::TileStructure::draw(sf::RenderTarget& target, sf::RenderStates states) 
 }
 
 void gw::TileStructure::calculateBounds() {
-    Vector2f origin = getOrigin();
     Vector2f position = getPosition();
     Vector2f pixels = getSizeInPixels();
-    leftBound = position.x - origin.x;
-    rightBound = position.x - origin.x + pixels.x * length;
-    topBound = position.y - origin.y;
-    bottomBound = position.y - origin.y + pixels.y * height;
-    centerX = position.x - origin.x + pixels.x * (length - 1) / 2.0f;
-    centerY = position.y - origin.y + pixels.y * (height - 1) / 2.0f;
+    leftBound = position.x;
+    rightBound = position.x + pixels.x * (length - 1);
+    topBound = position.y;
+    bottomBound = position.y + pixels.y * (height - 1);
+    centerX = (leftBound + rightBound) / 2;
+    centerY = (topBound + bottomBound) / 2;
 }
 
 float gw::TileStructure::resolveBound(HorizontalBound h) const {

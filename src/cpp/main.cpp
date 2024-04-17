@@ -241,7 +241,6 @@ int main() {
 	bool executed = false;
 	sf::Clock timer;
 
-	structure2.scale(0.75, 0.75);
 	gw::BoxCollider collider(handleCollision);
 	collider.applyCollision(square)
 		.canCollideWith(structure2)
