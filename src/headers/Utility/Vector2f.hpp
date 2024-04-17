@@ -34,6 +34,12 @@ public:
 	Vector2f operator*(Vector2f v) { return Vector2f(x * v.x, y * v.y); }
 	Vector2f operator/(Vector2f v) { return Vector2f(x / v.x, y / v.y); }
 
+	bool operator==(Vector2f v) { return x == v.x && y == v.y; }
+	bool operator>(Vector2f v) { return x > v.x && y > v.y; }
+	bool operator>=(Vector2f v) { return x >= v.x && y >= v.y; }
+	bool operator<(Vector2f v) { return x < v.x && y < v.y; }
+	bool operator<=(Vector2f v) { return x <= v.x && y <= v.y; }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Public Members 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -111,8 +111,7 @@ std::vector<Vector2f> gw::Sprite::getAllPositions() const {
 }
 
 Vector2f gw::Sprite::getOrigin() const {
-    sf::Vector2f origin = sprite.getOrigin();
-    return Vector2f(origin.x, origin.y) * getScale();
+    return getSizeInPixels() / 2;
 }
 
 Vector2f gw::Sprite::getScale() const {

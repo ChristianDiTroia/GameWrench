@@ -15,8 +15,8 @@ gw::BoxCollider::BoxCollider(std::function<void(Sprite& sprite, Sprite& collided
 
 gw::Vector2f gw::BoxCollider::axisAlignedBoxCollision(gw::Sprite& sprite1, gw::Sprite& sprite2) {
 	// Find radius of each box //
-	Vector2f radius1 = sprite1.getSizeInPixels() / 2;
-	Vector2f radius2 = sprite2.getSizeInPixels() / 2;
+	Vector2f radius1 = sprite1.getOrigin();
+	Vector2f radius2 = sprite2.getOrigin();
 	// Sum of radii is the min distance between the boxes without a collision //
 	float minDistX = radius1.x + radius2.x;
 	float mindDistY = radius1.y + radius2.y;
@@ -31,16 +31,16 @@ gw::Vector2f gw::BoxCollider::axisAlignedBoxCollision(gw::Sprite& sprite1, gw::S
 			// Check if there is a collision
 			if (dx <= minDistX && dy <= mindDistY) { // is colliding
 				// Calculate collision //
-				float collisionX = abs(dx - minDistX);
-				float collisionY = abs(dy - mindDistY);
+				float overlapX = abs(dx - minDistX);
+				float overlapY = abs(dy - mindDistY);
 				/* Determine on which axis the collision occurred and keep that value only
 				   if it is greater than the collision already found */
 				float ratioX = dx / minDistX;
 				float ratioY = dy / mindDistY;
-				collisionX = collisionX * (ratioX > ratioY);
-				collisionY = collisionY * (ratioY > ratioX);
-				if (collisionX > collision.x) { collision.x = collisionX; }
-				if (collisionY > collision.y) { collision.y = collisionY; }
+				overlapX = overlapX * (ratioX > ratioY);
+				overlapY = overlapY * (ratioY > ratioX);
+				if (overlapX > collision.x) { collision.x = overlapX; }
+				else if (overlapY > collision.y) { collision.y = overlapY; }
 			}
 		}
 	}
