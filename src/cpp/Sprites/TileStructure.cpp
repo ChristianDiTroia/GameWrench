@@ -106,7 +106,7 @@ void gw::TileStructure::positionRelativeTo(TileStructure& other, HorizontalBound
     setPosition(x, y);
 }
 
-std::vector<Vector2f> gw::TileStructure::getAllTileCoordinates() const {
+std::vector<Vector2f> gw::TileStructure::getAllPositions() const {
     std::vector<Vector2f> globalCoords;
     for (Vector2u localCoord : tiles) {
         globalCoords.push_back(
@@ -126,8 +126,9 @@ void gw::TileStructure::draw(sf::RenderTarget& target, sf::RenderStates states) 
         Vector2f tileSize = getSizeInPixels();
         sf::Transformable tf;
         for (Vector2u tile : tiles) {
+            // Apply a transform to translate each sprite to the correct global position
             tf.setPosition(tile.x * tileSize.x, tile.y * tileSize.y);
-            states.transform = tf.getTransform(); // Transform sprite to each tile location
+            states.transform = tf.getTransform();
             target.draw(getSprite(), states);
         }
     }

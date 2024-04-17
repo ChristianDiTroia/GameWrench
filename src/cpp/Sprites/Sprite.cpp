@@ -104,6 +104,12 @@ Vector2f gw::Sprite::getPosition() const {
     return Vector2f(pos.x, pos.y);
 }
 
+std::vector<Vector2f> gw::Sprite::getAllPositions() const {
+    std::vector<Vector2f> positions = std::vector<Vector2f>();
+    positions.push_back(getPosition());
+    return positions;
+}
+
 Vector2f gw::Sprite::getOrigin() const {
     sf::Vector2f origin = sprite.getOrigin();
     return Vector2f(origin.x, origin.y) * getScale();

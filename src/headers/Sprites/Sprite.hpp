@@ -55,6 +55,8 @@ public:
 
     Vector2f getSubsprite() const { return subsprite; }
     Vector2f getPosition() const;
+    /// For sprites that are drawn in multiple locations, get all corresponding positions
+    virtual std::vector<Vector2f> getAllPositions() const;
     Vector2f getOrigin() const;
     Vector2f getScale() const;
     float getRotation() const;

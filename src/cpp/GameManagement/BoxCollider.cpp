@@ -17,21 +17,32 @@ gw::Vector2f gw::BoxCollider::axisAlignedBoxCollision(gw::Sprite& sprite1, gw::S
 	// Find radius of each box //
 	Vector2f radius1 = sprite1.getSizeInPixels() / 2;
 	Vector2f radius2 = sprite2.getSizeInPixels() / 2;
-	// Sum of radii is the min distance between the boxes without a collision
+	// Sum of radii is the min distance between the boxes without a collision //
 	float minDistX = radius1.x + radius2.x;
 	float mindDistY = radius1.y + radius2.y;
-
-	// Find displacement on each axis //
-	Vector2f displacement = sprite1.getPosition() - sprite2.getPosition();
-	float dx = abs(displacement.x);
-	float dy = abs(displacement.y);
-
+	// Loop through and check all positions in which sprites are drawn //
 	Vector2f collision(0, 0);
-	if (dx <= minDistX && dy <= mindDistY) { // is colliding
-		float collisionX = dx / minDistX;
-		float collisionY = dy / mindDistY;
-		collision.x = (dx - minDistX) * (collisionX > collisionY);
-		collision.y = (dy - mindDistY) * (collisionY > collisionX);
+	for (Vector2f position1 : sprite1.getAllPositions()) {
+		for (Vector2f position2 : sprite2.getAllPositions()) {
+			// Find displacement on each axis //
+			Vector2f displacement = position1 - position2;
+			float dx = abs(displacement.x);
+			float dy = abs(displacement.y);
+			// Check if there is a collision
+			if (dx <= minDistX && dy <= mindDistY) { // is colliding
+				// Calculate collision //
+				float collisionX = abs(dx - minDistX);
+				float collisionY = abs(dy - mindDistY);
+				/* Determine on which axis the collision occurred and keep that value only
+				   if it is greater than the collision already found */
+				float ratioX = dx / minDistX;
+				float ratioY = dy / mindDistY;
+				collisionX = collisionX * (ratioX > ratioY);
+				collisionY = collisionY * (ratioY > ratioX);
+				if (collisionX > collision.x) { collision.x = collisionX; }
+				if (collisionY > collision.y) { collision.y = collisionY; }
+			}
+		}
 	}
 	return collision;
 }

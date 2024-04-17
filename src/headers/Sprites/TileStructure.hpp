@@ -1,9 +1,6 @@
 #pragma once
 
 #include "Sprite.hpp"
-#include "GameManagement/SpriteCollection.hpp"
-
-//inherit Transformable and SpriteCollection ????
 
 namespace gw {
 
@@ -51,6 +48,7 @@ public:
 // Accessors 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
+    virtual std::vector<Vector2f> getAllPositions() const override;
     int getLengthInTiles() { return length; }
     int getHeightInTiles() { return height; }
 

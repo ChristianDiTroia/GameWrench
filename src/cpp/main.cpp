@@ -57,8 +57,8 @@ gw::helpers::PixelConverter meter(64);
 
 static void handleCollision (gw::Sprite& sprite, gw::Sprite& collidedWith, 
 	gw::Vector2f collision) {
-		if (sprite.getPosition().x > collidedWith.getPosition().x) { collision.x *= -1; }
-		if (sprite.getPosition().y > collidedWith.getPosition().y) { collision.y *= -1; }
+		if (sprite.getPosition().x < collidedWith.getPosition().x) { collision.x *= -1; }
+		if (sprite.getPosition().y < collidedWith.getPosition().y) { collision.y *= -1; }
 		// if equal positioning, send sprite toward middle of the screen //
 		sprite.movePosition(collision);
 };
