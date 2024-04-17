@@ -49,8 +49,8 @@ public:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
     virtual std::vector<Vector2f> getAllPositions() const override;
-    int getLengthInTiles() { return length; }
-    int getHeightInTiles() { return height; }
+    int getLengthInTiles() const { return length; }
+    int getHeightInTiles() const { return height; }
 
 private:
 

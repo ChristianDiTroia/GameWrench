@@ -90,7 +90,7 @@ void gw::TileStructure::positionRelativeTo(TileStructure& other, HorizontalBound
     float y = other.resolveBound(yBound);
     /* Since TileStructures' origin tile is the top-left-most tile, the coodinates must be
     *  offset by the structure's length or height when placing to the left or top of other.
-    *  In the case of centers, must only offset half of the length or height.
+    *  The centers must always be offset half of the length or height.
     *  Also must offset by the local origin of the tile away from the other structure.
     */
     Vector2f pixels = getSizeInPixels();
