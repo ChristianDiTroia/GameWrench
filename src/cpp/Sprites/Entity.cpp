@@ -73,7 +73,9 @@ bool gw::Entity::animate(std::string animation, float timePerFrame, bool interru
 
 const std::vector<std::string>& gw::Entity::getAnimationList() const { return names; }
 
-const std::string& gw::Entity::getCurrentAnimation() const { return names[curAnimation]; }
+const std::string& gw::Entity::getCurrentAnimation() const { 
+	return curAnimation > 0 ? names[curAnimation] : "";
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Methods 
