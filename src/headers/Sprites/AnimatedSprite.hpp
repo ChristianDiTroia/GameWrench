@@ -35,6 +35,8 @@ public:
 	void setVelocity(float xVelocity, float yVelocity);
 	void addVelocity(Vector2f velocity);
 	void addVelocity(float xVelocity, float yVelocity);
+	void applyGravity(Vector2f velocityPerSecond);
+	void applyGravity(float xVelocityPerSecond, float yVelocityPerSecond);
 	/// <summary>
 	/// Define a behavior function that will execute before every frame to update this sprite
 	/// </summary>
@@ -71,6 +73,7 @@ private:
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Vector2f velocity;									// X, Y pixels per second
+	Vector2f gravity;									// Velocity to add per second
 	std::function<void(AnimatedSprite& self)>behavior;	// User-defined behavior function
 };
 

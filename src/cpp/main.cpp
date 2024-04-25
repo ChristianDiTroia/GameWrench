@@ -36,20 +36,25 @@ Released bRelease(sf::Keyboard::B);
 // Define 1 in-game meter
 gw::helpers::PixelConverter meter(16);
 
-static void playerCollision (gw::Sprite& sprite, gw::Sprite& collidedWith, 
-	gw::Vector2f collision) {
+static void playerCollision (Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
+
+	// Find which axis is colliding more
 	bool onX = collision.x > collision.y;
 	bool onY = collision.y > collision.x;
-	collision.x = collision.x * onX;
-	collision.y = collision.y * onY;
+
+	// Orient direction to push out of collision
 	if (sprite.getPosition().x < collidedWith.getPosition().x) { collision.x *= -1; }
 	if (sprite.getPosition().y < collidedWith.getPosition().y) { collision.y *= -1; }
+
 	Entity& player = dynamic_cast<Entity&>(sprite);
-	if (onY) { // stop vertical momentum on y-axis collisions
+	if (onY && collision.x == 0) { // stop vertical momentum on y-axis collisions
 		player.setVelocity(player.getVelocity().x, 0);
 		// send player back down if colliding with object above
 		if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
 	}
+
+	collision.x = collision.x * onX;
+	collision.y = collision.y * onY;
 	sprite.movePosition(collision);
 };
 
@@ -84,7 +89,6 @@ void static playerActions(gw::AnimatedSprite& self) {
 	}
 	if (inAir) { player.animate("jump", 1); }
 
-	player.addVelocity(0, meter.toPixels(1)); // gravity
 	if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
 }
 
@@ -145,6 +149,7 @@ int main() {
 	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(19.5));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
+	ninjaFrog.applyGravity(0, meter.toPixels(130));
 	map.addGlobalSprite(ninjaFrog);
 
 	// collision detection with the floor

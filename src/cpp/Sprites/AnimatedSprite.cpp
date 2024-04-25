@@ -12,12 +12,15 @@ gw::AnimatedSprite::AnimatedSprite(std::string filePath, Vector2u cellSize) :
 
 gw::AnimatedSprite::AnimatedSprite(std::string filePath, int cellSizeX, int cellSizeY) :
 	Sprite(filePath, cellSizeX, cellSizeY),
+	velocity(0, 0),
+	gravity(0, 0),
 	behavior([](AnimatedSprite&){}) // init empty behavior func until user provides an impl
 {}
 
 gw::AnimatedSprite::AnimatedSprite(const AnimatedSprite& other) :
 	Sprite(other),
 	velocity(other.velocity),
+	gravity(other.gravity),
 	behavior(other.behavior)
 {}
 
@@ -39,6 +42,15 @@ void gw::AnimatedSprite::addVelocity(float xVelocity, float yVelocity) {
 	velocity.y += yVelocity;
 }
 
+void gw::AnimatedSprite::applyGravity(Vector2f velocityPerSecond) { 
+	applyGravity(velocityPerSecond.x, velocityPerSecond.y); 
+}
+
+void gw::AnimatedSprite::applyGravity(float xVelocityPerSecond, float yVelocityPerSecond) {
+	gravity.x = xVelocityPerSecond;
+	gravity.y = yVelocityPerSecond;
+}
+
 void gw::AnimatedSprite::defineBehavior(std::function<void(AnimatedSprite& self)> behavior) {
 	this->behavior = behavior;
 }
@@ -54,5 +66,6 @@ void gw::AnimatedSprite::update(float deltaTime) {
 }
 
 void gw::AnimatedSprite::updatePosition(float deltaTime) {
+	addVelocity(gravity * deltaTime);
 	movePosition(velocity.x * deltaTime, velocity.y * deltaTime);
 }
