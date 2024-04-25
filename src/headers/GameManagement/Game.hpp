@@ -35,6 +35,7 @@ public:
 
     bool isPlaying() const { return running; }
     float elapsedTime() const { return totalTime; }
+    float getCurDeltaTime() const { return deltaTime; }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // Public Members
@@ -48,10 +49,10 @@ private:
 // Private Methods
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void updateSprites(std::vector<AnimatedSprite*> sprites);
+    void updateSprites(const std::vector<AnimatedSprite*>& sprites);
     void updateGameState();
-    void draw(std::vector<Sprite*> sprites);
-    void draw(std::vector<AnimatedSprite*> sprites);
+    void draw(const std::vector<Sprite*>& sprites);
+    void draw(const std::vector<AnimatedSprite*>& sprites);
     void drawAll();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

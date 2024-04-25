@@ -5,66 +5,70 @@
 
 using namespace gw;
 
-// Define 1 in-game meter
-gw::helpers::PixelConverter meter(16);
+namespace demo2setup
+{
+	// Define 1 in-game meter
+	helpers::PixelConverter meter(16);
 
-static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
+	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
 
-	// Find which axis is colliding more
-	bool onX = collision.x > collision.y;
-	bool onY = collision.y > collision.x;
+		// Find which axis is colliding more
+		bool onX = collision.x > collision.y;
+		bool onY = collision.y > collision.x;
 
-	// Orient direction to push out of collision
-	if (sprite.getPosition().x < collidedWith.getPosition().x) { collision.x *= -1; }
-	if (sprite.getPosition().y < collidedWith.getPosition().y) { collision.y *= -1; }
+		Entity& player = dynamic_cast<Entity&>(sprite);
+		if (onY && collision.x <= 1) { // stop vertical momentum on y-axis collisions
+			player.setVelocity(player.getVelocity().x, 0);
+			// send player back down if colliding with object above
+			if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
+		}
 
-	Entity& player = dynamic_cast<Entity&>(sprite);
-	if (onY && collision.x == 0) { // stop vertical momentum on y-axis collisions
-		player.setVelocity(player.getVelocity().x, 0);
-		// send player back down if colliding with object above
-		if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
+		// Make corrections to push sprite out of collision
+		collision.x = collision.x * onX;
+		collision.y = collision.y * onY;
+		if (sprite.getPosition().x < collidedWith.getPosition().x) { collision.x *= -1; }
+		if (sprite.getPosition().y < collidedWith.getPosition().y) { collision.y *= -1; }
+		sprite.movePosition(collision);
+	};
+
+	static void playerActions(AnimatedSprite& self) {
+		Entity& player = dynamic_cast<Entity&>(self);
+		typedef sf::Keyboard kb;
+
+		player.animate("idle", 0.07);
+
+		bool D = false; bool A = false;
+		if (kb::isKeyPressed(kb::D)) {
+			player.animate("run", 0.06);
+			if (player.isMirroredX()) { player.mirrorX(); }
+			D = true;
+		}
+		if (kb::isKeyPressed(kb::A)) {
+			player.animate("run", 0.05);
+			if (!player.isMirroredX()) { player.mirrorX(); }
+			A = true;
+		}
+
+		float speedx = meter.toPixels(16);
+		Vector2f velocity(0, player.getVelocity().y);
+		velocity.x = D * speedx + A * -speedx;
+		player.setVelocity(velocity);
+
+		bool inAir = player.getVelocity().y != 0;
+		float speedy = meter.toPixels(-50);
+		if (kb::isKeyPressed(kb::Space) && !inAir) {
+			player.animate("jump", 1);
+			player.setVelocity(player.getVelocity().x, speedy);
+		}
+		if (inAir) { player.animate("jump", 1); }
+
+		if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
 	}
 
-	collision.x = collision.x * onX;
-	collision.y = collision.y * onY;
-	sprite.movePosition(collision);
-};
-
-static void playerActions(AnimatedSprite& self) {
-	Entity& player = dynamic_cast<Entity&>(self);
-	typedef sf::Keyboard kb;
-
-	player.animate("idle", 0.07);
-
-	bool D = false; bool A = false;
-	if (kb::isKeyPressed(kb::D)) {
-		player.animate("run", 0.06);
-		if (player.isMirroredX()) { player.mirrorX(); }
-		D = true;
-	}
-	if (kb::isKeyPressed(kb::A)) {
-		player.animate("run", 0.05);
-		if (!player.isMirroredX()) { player.mirrorX(); }
-		A = true;
-	}
-
-	float speedx = meter.toPixels(16);
-	Vector2f velocity(0, player.getVelocity().y);
-	velocity.x = D * speedx + A * -speedx;
-	player.setVelocity(velocity);
-
-	bool inAir = player.getVelocity().y != 0;
-	float speedy = meter.toPixels(-50);
-	if (kb::isKeyPressed(kb::Space) && !inAir) {
-		player.animate("jump", 1);
-		player.setVelocity(player.getVelocity().x, speedy);
-	}
-	if (inAir) { player.animate("jump", 1); }
-
-	if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
-}
+} // namespace demo2
 
 void demos::runDemo2() {
+	using namespace demo2setup;
 
 	// create map and game objects
 	GameMap map;
@@ -85,7 +89,7 @@ void demos::runDemo2() {
 
 	TileStructure platform1(floor);
 	platform1.setSubsprite(8, 0, 3, 3);
-	platform1.movePosition(meter.toPixels(5), meter.toPixels(-5));
+	platform1.movePosition(meter.toPixels(5), meter.toPixels(-6));
 	platform1.asRow(4);
 
 	TileStructure platform2(platform1);
@@ -94,7 +98,7 @@ void demos::runDemo2() {
 	TileStructure platform3(platform2);
 	platform3.setSubsprite(9, 13, 2, 2);
 	meter.scaleSprite(platform3, 2, 2);
-	platform3.movePosition(meter.toPixels(-12), meter.toPixels(-7));
+	platform3.movePosition(meter.toPixels(-12), meter.toPixels(-6));
 	platform3.asRow(6);
 
 	TileStructure beam(platform3);

@@ -2,6 +2,8 @@
 
 #include "GameManagement/Game.hpp"
 
+#include <iostream>
+
 using namespace gw;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +69,7 @@ void gw::Game::outputFrame() {
 // Private Members
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Game::updateSprites(std::vector<gw::AnimatedSprite*> sprites) {
+void gw::Game::updateSprites(const std::vector<gw::AnimatedSprite*>& sprites) {
     for (AnimatedSprite* sprite : sprites) { sprite->update(deltaTime); }
 }
 
@@ -77,17 +79,17 @@ void gw::Game::updateGameState() {
     for (Collider* collider : colliders) { collider->resolveCollisions(); }
 }
 
-void gw::Game::draw(std::vector<Sprite*> sprites) {
+void gw::Game::draw(const std::vector<Sprite*>& sprites) {
     for (Sprite* sprite : sprites) { window.draw(*sprite); }
 }
 
-void gw::Game::draw(std::vector<AnimatedSprite*> sprites) {
+void gw::Game::draw(const std::vector<AnimatedSprite*>& sprites) {
     for (AnimatedSprite* sprite : sprites) { window.draw(*sprite); }
 }
 
 void gw::Game::drawAll() {
-    draw(map.curRoom->getSprites());
-    draw(map.curRoom->getAnimatedSprites());
     draw(map.getGlobalSprites());
+    draw(map.curRoom->getSprites());
     draw(map.getGlobalAnimatedSprites());
+    draw(map.curRoom->getAnimatedSprites());
 }
