@@ -35,7 +35,7 @@ namespace demo2setup
 		Entity& player = dynamic_cast<Entity&>(self);
 		typedef sf::Keyboard kb;
 
-		player.animate("idle", 0.07);
+		player.animate("idle", 0.06);
 
 		bool D = false; bool A = false;
 		if (kb::isKeyPressed(kb::D)) {
@@ -55,12 +55,19 @@ namespace demo2setup
 		player.setVelocity(velocity);
 
 		bool inAir = player.getVelocity().y != 0;
-		float speedy = meter.toPixels(-50);
+		float speedy = meter.toPixels(-40);
 		if (kb::isKeyPressed(kb::Space) && !inAir) {
 			player.animate("jump", 1);
 			player.setVelocity(player.getVelocity().x, speedy);
 		}
-		if (inAir) { player.animate("jump", 1); }
+		if (inAir) {
+			if (player.getVelocity().y > 0) {
+				player.animate("fall", 1);
+			}
+			else {
+				player.animate("jump", 1);
+			}
+		}
 
 		if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
 	}
@@ -133,11 +140,12 @@ void demos::runDemo2() {
 	Entity ninjaFrog("./sprites/pixel_adventure_sprites/Main characters/Ninja Frog/ninjaFrogSpriteSheet_32x32.png", 32, 32);
 	ninjaFrog.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 9))
 		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
-		.addAnimation("jump", gw::helpers::rowAnimation(0, 0, 0));
+		.addAnimation("jump", gw::helpers::rowAnimation(0, 0, 0))
+		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
 	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(19.5));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
-	ninjaFrog.applyGravity(0, meter.toPixels(130));
+	ninjaFrog.applyGravity(0, meter.toPixels(100));
 	map.addGlobalSprite(ninjaFrog);
 
 	// collision detection with the floor

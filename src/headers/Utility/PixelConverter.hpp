@@ -23,7 +23,11 @@ public:
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     float fromPixels(float pixels) const;
+    Vector2f fromPixels(Vector2f pixels) const;
+    Vector2f fromPixels(float pixelsX, float pixelsY) const;
     float toPixels(float gameUnits) const;
+    Vector2f toPixels(Vector2f gameUnits) const;
+    Vector2f toPixels(float gameUnitsX, float gameUnitsY) const;
     /// Returns the scale factor to convert the pixels to gameUnits
     float scalePixels(int pixels, float gameUnits) const;
     /// Scales the given sprite to the given number of gameUnits

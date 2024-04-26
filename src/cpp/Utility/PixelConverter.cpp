@@ -27,8 +27,24 @@ float gw::helpers::PixelConverter::fromPixels(float pixels) const {
     return converter.unit1ToUnit2(pixels);
 }
 
+gw::Vector2f gw::helpers::PixelConverter::fromPixels(Vector2f pixels) const {
+    return fromPixels(pixels.x, pixels.y);
+}
+
+gw::Vector2f gw::helpers::PixelConverter::fromPixels(float pixelsX, float pixelsY) const {
+    return Vector2f(fromPixels(pixelsX), fromPixels(pixelsY));
+}
+
 float gw::helpers::PixelConverter::toPixels(float gameUnits) const {
     return converter.unit2ToUnit1(gameUnits);
+}
+
+gw::Vector2f gw::helpers::PixelConverter::toPixels(Vector2f gameUnits) const {
+    return toPixels(gameUnits.x, gameUnits.y);
+}
+
+gw::Vector2f gw::helpers::PixelConverter::toPixels(float gameUnitsX, float gameUnitsY) const {
+    return Vector2f(toPixels(gameUnitsX), toPixels(gameUnitsY));
 }
 
 float gw::helpers::PixelConverter::scalePixels(int pixels, float gameUnits) const {

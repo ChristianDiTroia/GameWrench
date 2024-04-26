@@ -4,7 +4,7 @@
 
 int main() {
 
-    demos::runDemo3();
+    demos::runDemo2();
 }
 
 
