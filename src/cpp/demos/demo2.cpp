@@ -2,6 +2,7 @@
 
 #include "GameWrench.hpp"
 
+#include <iostream>
 
 using namespace gw;
 
@@ -21,6 +22,10 @@ namespace demo2setup
 			player.setVelocity(player.getVelocity().x, 0);
 			// send player back down if colliding with object above
 			if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
+		}
+		else if (onX) {
+			player.animate("cling", 0.1, false);
+			player.setVelocity(player.getVelocity().x, 0);
 		}
 
 		// Make corrections to push sprite out of collision
@@ -61,8 +66,7 @@ namespace demo2setup
 			player.setVelocity(player.getVelocity().x, speedy);
 		}
 		if (inAir) {
-			if (player.getVelocity().y > 0) {
-				player.animate("fall", 1);
+			if (player.getVelocity().y > 0 && player.getCurrentAnimation() != std::string("cling")) {
 			}
 			else {
 				player.animate("jump", 1);
@@ -83,7 +87,7 @@ void demos::runDemo2() {
 
 	// set background
 	Sprite background("./sprites/pixel_adventure_sprites/background/Yellow.png", 64, 64);
-	meter.scaleSprite(background, 40, 22.5);
+	meter.scaleSprite(background, 40, 23);
 	background.setPosition(meter.toPixels(20), meter.toPixels(11.25));
 	map.addGlobalSprite(background);
 
@@ -140,9 +144,10 @@ void demos::runDemo2() {
 	Entity ninjaFrog("./sprites/pixel_adventure_sprites/Main characters/Ninja Frog/ninjaFrogSpriteSheet_32x32.png", 32, 32);
 	ninjaFrog.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 9))
 		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
-		.addAnimation("jump", gw::helpers::rowAnimation(0, 0, 0))
-		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
-	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(19.5));
+		.addAnimation("jump", gw::helpers::rowAnimation(0, 1, 1))
+		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0))
+		.addAnimation("cling", gw::helpers::rowAnimation(0, 2, 6));
+	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(8));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
 	ninjaFrog.applyGravity(0, meter.toPixels(100));

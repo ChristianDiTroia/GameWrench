@@ -103,8 +103,8 @@ void demos::runDemo3() {
 
 	// set background
 	Sprite background("./sprites/pixel_adventure_sprites/background/Yellow.png", 64, 64);
-	meter.scaleSprite(background, 40, 22.5);
-	background.setPosition(meter.toPixels(20), meter.toPixels(11.25));
+	meter.scaleSprite(background, 40, 23);
+	background.setPosition(meter.toPixels(20, 11.5));
 	map.addGlobalSprite(background);
 
 	// create the floor
@@ -112,20 +112,19 @@ void demos::runDemo3() {
 	floor.setSubsprite(0, 6, 3, 3);
 	meter.scaleSprite(floor, 2, 2);
 	floor.asRow(20);
-	floor.setPosition(meter.toPixels(1), meter.toPixels(21.5));
+	floor.setPosition(meter.toPixels(1, 21.5));
 
 	TileStructure platform1(floor);
 	platform1.setSubsprite(8, 0, 3, 3);
-	platform1.movePosition(meter.toPixels(5), meter.toPixels(-6));
+	platform1.movePosition(meter.toPixels(5, -6));
 	platform1.asRow(4);
 
 	TileStructure platform2(platform1);
-	platform2.movePosition(meter.toPixels(20), 0);
-
+	platform2.movePosition(meter.toPixels(20, 0));
 	TileStructure platform3(platform2);
 	platform3.setSubsprite(9, 13, 2, 2);
 	meter.scaleSprite(platform3, 2, 2);
-	platform3.movePosition(meter.toPixels(-12), meter.toPixels(-6));
+	platform3.movePosition(meter.toPixels(-12, -6));
 	platform3.asRow(6);
 
 	TileStructure beam(platform3);
@@ -137,7 +136,7 @@ void demos::runDemo3() {
 	wall1.setSubsprite(4, 17, 3, 3);
 	wall1.asColumn(20);
 	wall1.positionRelativeTo(floor, TileStructure::left, TileStructure::top);
-	wall1.movePosition(meter.toPixels(2), 0);
+	wall1.movePosition(meter.toPixels(2, 0));
 
 	TileStructure wall2(wall1);
 	wall1.positionRelativeTo(floor, TileStructure::right, TileStructure::top);
@@ -164,14 +163,14 @@ void demos::runDemo3() {
 	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(19.5));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
-	ninjaFrog.applyGravity(0, meter.toPixels(100));
+	ninjaFrog.applyGravity(meter.toPixels(0, 100));
 
 	// create enemy characters
 	Entity enemy(ninjaFrog);
 	enemy.defineBehavior(
 		[&ninjaFrog](AnimatedSprite& self) { enemyActions(self, ninjaFrog); }
 	);
-	enemy.movePosition(meter.toPixels(4), 0);
+	enemy.movePosition(meter.toPixels(4, 0));
 
 
 	SpriteCollection characters;
