@@ -107,7 +107,7 @@ namespace demo2setup
 
 		TileStructure& beam = *(new TileStructure(platform3));
 		beam.setSubsprite(8, 15, 1, 3);
-		beam.asColumn(4);
+		beam.asRectangle(2, 4, false);
 		beam.positionRelativeTo(platform3, TileStructure::xCenter, TileStructure::bottom);
 
 		TileStructure& wall1 = *(new TileStructure(platform3));
