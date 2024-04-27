@@ -1,5 +1,4 @@
 #include "Sprites/TileStructure.hpp"
-#include <iostream>
 
 using namespace gw;
 

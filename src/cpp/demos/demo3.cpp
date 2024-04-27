@@ -16,10 +16,13 @@ namespace demo3setup
 		bool onY = collision.y > collision.x;
 
 		Entity& player = dynamic_cast<Entity&>(sprite);
-		if (onY&& collision.x <= 1) { // stop vertical momentum on y-axis collisions
+		if (onY /*&& collision.x <= 1*/) { // stop vertical momentum on y-axis collisions
 			player.setVelocity(player.getVelocity().x, 0);
-			// send player back down if colliding with object above
-			if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
+			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
+		}
+		else if (onX) { // wall cling
+			if (player.getVelocity().y >= 0) { player.setSubsprite(0, 3); } // don't cling if jumping
+			player.setVelocity(player.getVelocity().x, 0); // stop falling when clinging
 		}
 
 		// Make corrections to push sprite out of collision
@@ -77,8 +80,8 @@ namespace demo3setup
 
 		// Make an enemy that follows the player when close by
 		Vector2f dist = playr.getPosition() - enemy.getPosition();
-		if (abs(dist.x) <= meter.toPixels(6) && abs(dist.x) > 1 && abs(dist.y) < meter.toPixels(8)) {
-			enemy.setVelocity(meter.toPixels(8), 0);
+		if (abs(dist.x) <= meter.toPixels(8) && abs(dist.x) > 1 && abs(dist.y) < meter.toPixels(8)) {
+			enemy.setVelocity(meter.toPixels(8, 0));
 			if (enemy.isMirroredX()) { enemy.mirrorX(); }
 			if (dist.x < 0) { // player towards the left
 				enemy.setVelocity(enemy.getVelocity() * -1);
@@ -87,7 +90,7 @@ namespace demo3setup
 			enemy.animate("run", 0.07);
 		}
 		else {
-			enemy.setVelocity(0, 0);
+			enemy.setVelocity(0, enemy.getVelocity().y);
 			enemy.animate("idle", 0.06);
 		}
 	}
@@ -160,7 +163,7 @@ void demos::runDemo3() {
 		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
 		.addAnimation("jump", gw::helpers::rowAnimation(0, 1, 1))
 		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
-	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(19.5));
+	ninjaFrog.setPosition(meter.toPixels(20, 8));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
 	ninjaFrog.applyGravity(meter.toPixels(0, 100));
@@ -170,8 +173,7 @@ void demos::runDemo3() {
 	enemy.defineBehavior(
 		[&ninjaFrog](AnimatedSprite& self) { enemyActions(self, ninjaFrog); }
 	);
-	enemy.movePosition(meter.toPixels(4, 0));
-
+	enemy.movePosition(meter.toPixels(8, 5));
 
 	SpriteCollection characters;
 	characters.addSprite(ninjaFrog)

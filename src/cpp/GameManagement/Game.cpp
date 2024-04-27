@@ -1,8 +1,6 @@
-#include <algorithm>
-
 #include "GameManagement/Game.hpp"
 
-#include <iostream>
+#include <algorithm>
 
 using namespace gw;
 
@@ -76,7 +74,8 @@ void gw::Game::updateSprites(const std::vector<gw::AnimatedSprite*>& sprites) {
 void gw::Game::updateGameState() {
     updateSprites(map.curRoom->getAnimatedSprites());
     updateSprites(map.getGlobalAnimatedSprites());
-    for (Collider* collider : colliders) { collider->resolveCollisions(); }
+    if (map.curRoom->roomName == "room1")
+        for (Collider* collider : colliders) { collider->resolveCollisions(); }
 }
 
 void gw::Game::draw(const std::vector<Sprite*>& sprites) {

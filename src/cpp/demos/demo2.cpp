@@ -1,7 +1,6 @@
 #include "demos/demos.hpp"
 
 #include "GameWrench.hpp"
-
 #include <iostream>
 
 using namespace gw;
@@ -18,14 +17,13 @@ namespace demo2setup
 		bool onY = collision.y > collision.x;
 
 		Entity& player = dynamic_cast<Entity&>(sprite);
-		if (onY && collision.x <= 1) { // stop vertical momentum on y-axis collisions
+		if (onY /*&& collision.x <= 1*/) { // stop vertical momentum on y-axis collisions
 			player.setVelocity(player.getVelocity().x, 0);
-			// send player back down if colliding with object above
-			if (player.getPosition().y > collidedWith.getPosition().y) { player.addVelocity(0, 1); }
+			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
 		}
-		else if (onX) {
-			player.animate("cling", 0.1, false);
-			player.setVelocity(player.getVelocity().x, 0);
+		else if (onX) { // wall cling
+			if (player.getVelocity().y >= 0) { player.setSubsprite(0, 3); } // don't cling if jumping
+			player.setVelocity(player.getVelocity().x, 0); // stop falling when clinging
 		}
 
 		// Make corrections to push sprite out of collision
@@ -66,7 +64,8 @@ namespace demo2setup
 			player.setVelocity(player.getVelocity().x, speedy);
 		}
 		if (inAir) {
-			if (player.getVelocity().y > 0 && player.getCurrentAnimation() != std::string("cling")) {
+			if (player.getVelocity().y > 0) {
+				player.animate("fall", 1);
 			}
 			else {
 				player.animate("jump", 1);
@@ -76,88 +75,153 @@ namespace demo2setup
 		if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
 	}
 
+	static SpriteCollection* buildRoom1() {
+		// create the floor
+		TileStructure& floor = *(new TileStructure("./sprites/pixel_adventure_sprites/terrain/Terrain_(16x16).png", 16, 16));
+		floor.setSubsprite(0, 6, 3, 3);
+		meter.scaleSprite(floor, 2, 2);
+		floor.asRow(20);
+		floor.setPosition(meter.toPixels(1, 21.5));
+
+		TileStructure& platform1 = *(new TileStructure(floor));
+		platform1.setSubsprite(8, 0, 3, 3);
+		platform1.movePosition(meter.toPixels(6, -6));
+		platform1.asRow(4);
+
+		TileStructure& platform2 = *(new TileStructure(platform1));
+		platform2.movePosition(meter.toPixels(20, 0));
+
+		TileStructure& platform3 = *(new TileStructure(platform2));
+		platform3.setSubsprite(9, 13, 2, 2);
+		meter.scaleSprite(platform3, 2, 2);
+		platform3.movePosition(meter.toPixels(-12, -6));
+		platform3.asRow(6);
+
+		TileStructure& platform4 = *( new TileStructure(platform3));
+		platform4.setSubsprite(5, 13, 2, 2);
+		meter.scaleSprite(platform4, 1, 1);
+		platform4.movePosition(meter.toPixels(-12.5, -6));
+
+		TileStructure& platform5 = *(new TileStructure(platform4));
+		platform5.movePosition(meter.toPixels(30, 0));
+
+		TileStructure& beam = *(new TileStructure(platform3));
+		beam.setSubsprite(8, 15, 1, 3);
+		beam.asColumn(4);
+		beam.positionRelativeTo(platform3, TileStructure::xCenter, TileStructure::bottom);
+
+		TileStructure& wall1 = *(new TileStructure(platform3));
+		wall1.setSubsprite(4, 17, 3, 3);
+		wall1.asColumn(20);
+		wall1.positionRelativeTo(floor, TileStructure::left, TileStructure::top);
+		wall1.movePosition(meter.toPixels(2, 0));
+
+		TileStructure& wall2 = *(new TileStructure(wall1));
+		wall1.positionRelativeTo(floor, TileStructure::right, TileStructure::top);
+		wall1.movePosition(meter.toPixels(-2, 0));
+
+		// put all structures into a collection
+		SpriteCollection* room1 = new SpriteCollection;
+		room1->addSprite(platform1)
+			.addSprite(platform2)
+			.addSprite(platform3)
+			.addSprite(platform4)
+			.addSprite(platform5)
+			.addSprite(beam)
+			.addSprite(wall1)
+			.addSprite(wall2)
+			.addSprite(floor); // draw floor last
+
+		return room1;
+	}
+
+	static SpriteCollection* buildRoom2() {
+		TileStructure& roof = *(new TileStructure("./sprites/pixel_adventure_sprites/terrain/Terrain_(16x16).png", 16, 16));
+		roof.setSubsprite(0, 0, 3, 3);
+		meter.scaleSprite(roof, 2, 2);
+		roof.asRow(20);
+		roof.setPosition(meter.toPixels(1, 1));
+
+		TileStructure& platform1 = *(new TileStructure(roof));
+		platform1.setPosition(meter.toPixels(6.5, 22.5));
+
+		SpriteCollection* room2 = new SpriteCollection;
+		room2->addSprite(roof)
+			.addSprite(platform1);
+
+		return room2;
+	}
+
+	static void deleteCollection(SpriteCollection* collection) {
+		for (Sprite* sprite : collection->getSprites()) { delete sprite; }
+		for (Sprite* sprite : collection->getAnimatedSprites()) { delete sprite; }
+		delete collection;
+	}
+
 } // namespace demo2
 
 void demos::runDemo2() {
 	using namespace demo2setup;
 
 	// create map and game objects
-	GameMap map;
-	Game game(map, 640, 360, "GameWrench First Game!!!");
+	GameMap map("room1");
+	map.addRoomTop("room2");
+	Game game(map, 640, 360, "GameWrench Demo 2!!!");
 
-	// set background
-	Sprite background("./sprites/pixel_adventure_sprites/background/Yellow.png", 64, 64);
-	meter.scaleSprite(background, 40, 23);
-	background.setPosition(meter.toPixels(20), meter.toPixels(11.25));
-	map.addGlobalSprite(background);
+	//// Set backgrounds ////
 
-	// create the floor
-	TileStructure floor("./sprites/pixel_adventure_sprites/terrain/Terrain_(16x16).png", 16, 16);
-	floor.setSubsprite(0, 6, 3, 3);
-	meter.scaleSprite(floor, 2, 2);
-	floor.asRow(20);
-	floor.setPosition(meter.toPixels(1), meter.toPixels(21.5));
+	Sprite background1("./sprites/pixel_adventure_sprites/background/Yellow.png", 64, 64);
+	meter.scaleSprite(background1, 40, 23);
+	background1.setPosition(meter.toPixels(20, 11.25));
+	map.curRoom->addSprite(background1);
 
-	TileStructure platform1(floor);
-	platform1.setSubsprite(8, 0, 3, 3);
-	platform1.movePosition(meter.toPixels(5), meter.toPixels(-6));
-	platform1.asRow(4);
+	Sprite background2("./sprites/pixel_adventure_sprites/background/Blue.png", 64, 64);
+	meter.scaleSprite(background2, 40, 23);
+	background2.setPosition(meter.toPixels(20, 11.25));
+	map.curRoom->top->addSprite(background2);
 
-	TileStructure platform2(platform1);
-	platform2.movePosition(meter.toPixels(20), 0);
-
-	TileStructure platform3(platform2);
-	platform3.setSubsprite(9, 13, 2, 2);
-	meter.scaleSprite(platform3, 2, 2);
-	platform3.movePosition(meter.toPixels(-12), meter.toPixels(-6));
-	platform3.asRow(6);
-
-	TileStructure beam(platform3);
-	beam.setSubsprite(8, 15, 1, 3);
-	beam.asColumn(4);
-	beam.positionRelativeTo(platform3, TileStructure::xCenter, TileStructure::bottom);
-
-	TileStructure wall1(platform3);
-	wall1.setSubsprite(4, 17, 3, 3);
-	wall1.asColumn(20);
-	wall1.positionRelativeTo(floor, TileStructure::left, TileStructure::top);
-	wall1.movePosition(meter.toPixels(2), 0);
-
-	TileStructure wall2(wall1);
-	wall1.positionRelativeTo(floor, TileStructure::right, TileStructure::top);
-	wall1.movePosition(meter.toPixels(-2), 0);
-
-	// put all structures into a collection
-	SpriteCollection terrain;
-	terrain.addSprite(platform1)
-		.addSprite(platform2)
-		.addSprite(platform3)
-		.addSprite(beam)
-		.addSprite(wall1)
-		.addSprite(wall2)
-		.addSprite(floor); // draw floor last
-
-	map.addGlobalSpriteCollection(terrain);
-	map.curRoom->addCollection(terrain);
+	// create rooms
+	SpriteCollection* room1 = buildRoom1();
+	map.curRoom->addCollection(*room1);
+	SpriteCollection* room2 = buildRoom2();
+	map.curRoom->top->addCollection(*room2);
 
 	// create player character
 	Entity ninjaFrog("./sprites/pixel_adventure_sprites/Main characters/Ninja Frog/ninjaFrogSpriteSheet_32x32.png", 32, 32);
 	ninjaFrog.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 9))
 		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
 		.addAnimation("jump", gw::helpers::rowAnimation(0, 1, 1))
-		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0))
-		.addAnimation("cling", gw::helpers::rowAnimation(0, 2, 6));
-	ninjaFrog.setPosition(meter.toPixels(20), meter.toPixels(8));
+		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
+	ninjaFrog.setPosition(meter.toPixels(20, 8));
 	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
-	ninjaFrog.applyGravity(0, meter.toPixels(100));
+	ninjaFrog.applyGravity(meter.toPixels(0, 100));
 	map.addGlobalSprite(ninjaFrog);
 
-	// collision detection with the floor
-	BoxCollider floorCollision(playerCollision);
-	floorCollision.applyCollision(ninjaFrog)
-		.canCollideWith(terrain);
-	game.addCollider(floorCollision);
+	// collision detection with the terrain
+	BoxCollider room1Collision(playerCollision);
+	room1Collision.applyCollision(ninjaFrog)
+		.canCollideWith(*room1);
+	game.addCollider(room1Collision);
 
-	while (game.isPlaying()) { game.outputFrame(); }
+	while (game.isPlaying()) {
+
+		game.outputFrame();
+
+		// Map navigation logic //
+		if (map.curRoom->roomName == "room1" && ninjaFrog.getPosition().y < meter.toPixels(-1)) {
+			// Jump up to room2
+			map.curRoom = map.curRoom->top;
+			ninjaFrog.setPosition(ninjaFrog.getPosition().x, meter.toPixels(21));
+			ninjaFrog.setVelocity(ninjaFrog.getVelocity().x, meter.toPixels(-40));
+		}
+		else if (map.curRoom->roomName == "room2" && ninjaFrog.getPosition().y > meter.toPixels(24)) {
+			// Fall down to bottom room1
+			map.curRoom = map.curRoom->bottom;
+			ninjaFrog.setPosition(ninjaFrog.getPosition().x, 0);
+		}
+	}
+
+	deleteCollection(room1);
+	deleteCollection(room2);
 }
