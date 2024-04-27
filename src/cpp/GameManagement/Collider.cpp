@@ -7,8 +7,9 @@ using namespace gw;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 gw::Collider::Collider(std::function<void(Sprite& sprite, Sprite& collidedWith, 
-	Vector2f collision)> handleCollision) :
-	handleCollision(handleCollision)
+	Vector2f collision)> handleCollision, bool pushOut) :
+	handleCollision(handleCollision),
+	pushOut(pushOut)
 {}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,31 +40,38 @@ Collider& gw::Collider::canCollideWith(SpriteCollection& sprites) {
 // Private Methods 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Collider::resolveCollisions() {
-	// Check sprites for collision
-	for (Sprite* sprite : sprites.getSprites()) {
-		// against sprites
-		for (Sprite* collidable : collidables.getSprites()) {
-			Vector2f collision = checkCollision(*sprite, *collidable);
-			handleCollision(*sprite, *collidable, collision);
-		}
-		// against animated sprites
-		for (Sprite* collidable : collidables.getAnimatedSprites()) {
-			Vector2f collision = checkCollision(*sprite, *collidable);
-			handleCollision(*sprite, *collidable, collision);
-		}
+void gw::Collider::resolveAllCollisions() {
+	for (Sprite* sprite : sprites.getSprites()) { resolveCollisions(*sprite); }
+}
+
+void gw::Collider::resolveCollisions(Sprite& sprite) {
+	// check against the sprites
+	for (Sprite* collidable : collidables.getSprites()) {
+		resolveCollision(sprite, *collidable);
 	}
-	// Check animated sprites for collision
-	for (Sprite* sprite : sprites.getAnimatedSprites()) {
-		// against sprites
-		for (Sprite* collidable : collidables.getSprites()) {
-			Vector2f collision = checkCollision(*sprite, *collidable);
-			handleCollision(*sprite, *collidable, collision);
-		}
-		// against animated sprites
-		for (Sprite* collidable : collidables.getAnimatedSprites()) {
-			Vector2f collision = checkCollision(*sprite, *collidable);
-			handleCollision(*sprite, *collidable, collision);
-		}
+	// check against the animated sprites
+	for (Sprite* collidable : collidables.getAnimatedSprites()) {
+		resolveCollision(sprite, *collidable);
 	}
+}
+
+void gw::Collider::resolveCollision(Sprite& sprite, Sprite& collidable) {
+	Vector2f collision = checkCollision(sprite, collidable);
+	handleCollision(sprite, collidable, collision);
+	if (pushOut && collision != Vector2f(0, 0)) {
+		pushOutOfCollision(sprite, collidable, collision);
+		/* Recursive call to check if sprite was pushed into another collision.
+		*  Continue resolving until there are no collisions with this sprite */
+		resolveCollisions(sprite);
+	}
+}
+
+void gw::Collider::pushOutOfCollision(Sprite& sprite, Sprite& collidable, Vector2f collision) {
+	// Find and keep the axis on which the collision occurred
+	collision.x = collision.x * (collision.x > collision.y);
+	collision.y = collision.y * (collision.y > collision.x);
+	// Find the direction the sprite needs to be moved
+	if (sprite.getPosition().x < collidable.getPosition().x) { collision.x *= -1; }
+	if (sprite.getPosition().y < collidable.getPosition().y) { collision.y *= -1; }
+	sprite.movePosition(collision);
 }

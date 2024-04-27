@@ -26,8 +26,6 @@ gw::Game::Game(GameMap& map, int resolutionX, int resolutionY, std::string name)
 // Mutators
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Game::addCollider(Collider& collider) { colliders.push_back(&collider); }
-
 /// Displays a graphical frame to the game window.
 /// Should be called repeatedly in a main game loop.
 void gw::Game::outputFrame() {
@@ -74,8 +72,7 @@ void gw::Game::updateSprites(const std::vector<gw::AnimatedSprite*>& sprites) {
 void gw::Game::updateGameState() {
     updateSprites(map.curRoom->getAnimatedSprites());
     updateSprites(map.getGlobalAnimatedSprites());
-    if (map.curRoom->roomName == "room1")
-        for (Collider* collider : colliders) { collider->resolveCollisions(); }
+    for (Collider* collider : map.curRoom->colliders) { collider->resolveAllCollisions(); }
 }
 
 void gw::Game::draw(const std::vector<Sprite*>& sprites) {

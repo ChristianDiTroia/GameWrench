@@ -11,27 +11,17 @@ namespace demo2setup
 	helpers::PixelConverter meter(16);
 
 	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
-
-		// Find which axis is colliding more
-		bool onX = collision.x > collision.y;
-		bool onY = collision.y > collision.x;
-
 		Entity& player = dynamic_cast<Entity&>(sprite);
-		if (onY /*&& collision.x <= 1*/) { // stop vertical momentum on y-axis collisions
+		if ((collision.y > collision.x) /*&& collision.x <= 1*/) { // collision onY
+			// stop vertical momentum on y-axis collisions
 			player.setVelocity(player.getVelocity().x, 0);
 			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
 		}
-		else if (onX) { // wall cling
+		else if (collision.x > collision.y) { // collision onX
+			// wall cling ability
 			if (player.getVelocity().y >= 0) { player.setSubsprite(0, 3); } // don't cling if jumping
 			player.setVelocity(player.getVelocity().x, 0); // stop falling when clinging
 		}
-
-		// Make corrections to push sprite out of collision
-		collision.x = collision.x * onX;
-		collision.y = collision.y * onY;
-		if (sprite.getPosition().x < collidedWith.getPosition().x) { collision.x *= -1; }
-		if (sprite.getPosition().y < collidedWith.getPosition().y) { collision.y *= -1; }
-		sprite.movePosition(collision);
 	};
 
 	static void playerActions(AnimatedSprite& self) {
@@ -199,10 +189,10 @@ void demos::runDemo2() {
 	map.addGlobalSprite(ninjaFrog);
 
 	// collision detection with the terrain
-	BoxCollider room1Collision(playerCollision);
+	BoxCollider room1Collision(playerCollision, true);
 	room1Collision.applyCollision(ninjaFrog)
 		.canCollideWith(*room1);
-	game.addCollider(room1Collision);
+	map.curRoom->addCollider(room1Collision);
 
 	while (game.isPlaying()) {
 

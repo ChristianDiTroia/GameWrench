@@ -12,7 +12,8 @@ namespace gw
 /// updateAnimation should determine what the next frame on screen should display.
 class AnimatedSprite : public gw::Sprite
 {
-friend class Game; // Game class should be only caller of update()
+
+	friend class Game; // Game class should be only caller of update()
 
 public:
 

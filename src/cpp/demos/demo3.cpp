@@ -185,7 +185,7 @@ void demos::runDemo3() {
 	terrainCollision.applyCollision(ninjaFrog)
 		.applyCollision(enemy)
 		.canCollideWith(terrain);
-	game.addCollider(terrainCollision);
+	map.curRoom->addCollider(terrainCollision);
 
 	while (game.isPlaying()) { game.outputFrame(); }
 }

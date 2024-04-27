@@ -1,7 +1,6 @@
 #pragma once
 
 #include "GameMap.hpp"
-#include "Collider.hpp"
 
 namespace gw {
 
@@ -26,7 +25,6 @@ public:
 // Mutators
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    void addCollider(Collider& collider);
     void outputFrame();
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +62,6 @@ private:
     float deltaTime;                    // The time between the previous two frames
     float totalTime;                    // Total in-game seconds since first frame output
     bool running;                       // Has the game been paused or closed
-    std::vector<Collider*> colliders;   // Collision detection and resolution
 };
 
 } // namespace gw
