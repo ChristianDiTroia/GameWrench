@@ -12,7 +12,7 @@ namespace demo2setup
 
 	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
 		Entity& player = dynamic_cast<Entity&>(sprite);
-		if ((collision.y > collision.x) /*&& collision.x <= 1*/) { // collision onY
+		if ((collision.y > collision.x) && collision.x <= 1) { // collision onY
 			// stop vertical momentum on y-axis collisions
 			player.setVelocity(player.getVelocity().x, 0);
 			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
@@ -133,7 +133,10 @@ namespace demo2setup
 		roof.setPosition(meter.toPixels(1, 1));
 
 		TileStructure& platform1 = *(new TileStructure(roof));
-		platform1.setPosition(meter.toPixels(6.5, 22.5));
+		platform1.setPosition(meter.toPixels(8, 21));
+		meter.scaleSprite(platform1, 3, 3);
+		platform1.setSubsprite(5, 12);
+		platform1.asRow(6);
 
 		SpriteCollection* room2 = new SpriteCollection;
 		room2->addSprite(roof)

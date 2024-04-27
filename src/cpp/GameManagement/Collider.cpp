@@ -62,7 +62,7 @@ void gw::Collider::resolveCollision(Sprite& sprite, Sprite& collidable) {
 		pushOutOfCollision(sprite, collidable, collision);
 		/* Recursive call to check if sprite was pushed into another collision.
 		*  Continue resolving until there are no collisions with this sprite */
-		resolveCollisions(sprite);
+		resolveCollisions(sprite); // *NOTE*: this is likely unecessary, but is a temp fix
 	}
 }
 
