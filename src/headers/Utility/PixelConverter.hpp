@@ -30,6 +30,8 @@ public:
     Vector2f toPixels(float gameUnitsX, float gameUnitsY) const;
     /// Returns the scale factor to convert the pixels to gameUnits
     float scalePixels(int pixels, float gameUnits) const;
+    /// Returns the scale factor to convert the vector2f of pixels to gameUnits
+    Vector2f scalePixels(Vector2f pixels, Vector2f gameUnits) const;
     /// Scales the given sprite to the given number of gameUnits
     void scaleSprite(Sprite &sprite, Vector2f gameUnits) const;
     /// Scales the given sprite to the given number of gameUnits

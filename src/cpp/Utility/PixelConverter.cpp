@@ -10,19 +10,6 @@ gw::helpers::PixelConverter::PixelConverter(float pixelsPerUnit) :
 // Conversions
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::helpers::PixelConverter::scaleSprite(Sprite &sprite, Vector2f gameUnits) const {
-    scaleSprite(sprite, gameUnits.x, gameUnits.y);
-}
-
-void gw::helpers::PixelConverter::scaleSprite(Sprite &sprite, float gameUnitsX, 
-    float gameUnitsY) const 
-{
-    Vector2f sizeInPixels = sprite.getSizeInPixels();
-    float scaleX = scalePixels(sizeInPixels.x, gameUnitsX);
-    float scaleY = scalePixels(sizeInPixels.y, gameUnitsY);
-    sprite.scale(scaleX, scaleY);
-}
-
 float gw::helpers::PixelConverter::fromPixels(float pixels) const {
     return converter.unit1ToUnit2(pixels);
 }
@@ -49,4 +36,19 @@ gw::Vector2f gw::helpers::PixelConverter::toPixels(float gameUnitsX, float gameU
 
 float gw::helpers::PixelConverter::scalePixels(int pixels, float gameUnits) const {
     return converter.scaleFactor(pixels, gameUnits);
+}
+
+gw::Vector2f gw::helpers::PixelConverter::scalePixels(Vector2f pixels, Vector2f gameUnits) const {
+    return Vector2f(scalePixels(pixels.x, gameUnits.x), scalePixels(pixels.y, gameUnits.y));
+}
+
+void gw::helpers::PixelConverter::scaleSprite(Sprite& sprite, float gameUnitsX,
+    float gameUnitsY) const
+{
+    scaleSprite(sprite, Vector2f(gameUnitsX, gameUnitsY));
+}
+
+void gw::helpers::PixelConverter::scaleSprite(Sprite& sprite, Vector2f gameUnits) const {
+    Vector2f sizeInPixels = sprite.getSizeInPixels();
+    sprite.scale(scalePixels(sizeInPixels, gameUnits));
 }

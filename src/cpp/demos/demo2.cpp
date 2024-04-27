@@ -134,8 +134,8 @@ namespace demo2setup
 
 		TileStructure& platform1 = *(new TileStructure(roof));
 		platform1.setPosition(meter.toPixels(8, 21));
-		meter.scaleSprite(platform1, 3, 3);
 		platform1.setSubsprite(5, 12);
+		meter.scaleSprite(platform1, 2, 2);
 		platform1.asRow(6);
 
 		SpriteCollection* room2 = new SpriteCollection;
@@ -186,19 +186,23 @@ void demos::runDemo2() {
 		.addAnimation("jump", gw::helpers::rowAnimation(0, 1, 1))
 		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
 	ninjaFrog.setPosition(meter.toPixels(20, 8));
-	bool inAir = false;
 	ninjaFrog.defineBehavior(playerActions);
 	ninjaFrog.applyGravity(meter.toPixels(0, 100));
 	map.addGlobalSprite(ninjaFrog);
 
-	// collision detection with the terrain
+	//// Collision detection with the terrain ////
+
 	BoxCollider room1Collision(playerCollision, true);
 	room1Collision.applyCollision(ninjaFrog)
 		.canCollideWith(*room1);
 	map.curRoom->addCollider(room1Collision);
 
-	while (game.isPlaying()) {
+	BoxCollider room2Collision(playerCollision, true);
+	room2Collision.applyCollision(ninjaFrog)
+		.canCollideWith(*room2);
+	map.curRoom->top->addCollider(room2Collision);
 
+	while (game.isPlaying()) {
 		game.outputFrame();
 
 		// Map navigation logic //
