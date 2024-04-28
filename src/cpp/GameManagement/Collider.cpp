@@ -22,8 +22,8 @@ Collider& gw::Collider::applyCollision(Sprite& sprite) {
 }
 
 Collider& gw::Collider::applyCollision(SpriteCollection& sprites) {
-	sprites.addCollection(sprites);
-	return *this;
+	this->sprites.addCollection(sprites);
+ 	return *this;
 }
 
 Collider& gw::Collider::canCollideWith(Sprite& sprite) {
@@ -42,6 +42,7 @@ Collider& gw::Collider::canCollideWith(SpriteCollection& sprites) {
 
 void gw::Collider::resolveAllCollisions() {
 	for (Sprite* sprite : sprites.getSprites()) { resolveCollisions(*sprite); }
+	for (AnimatedSprite* sprite : sprites.getAnimatedSprites()) { resolveCollisions(*sprite); }
 }
 
 void gw::Collider::resolveCollisions(Sprite& sprite) {
