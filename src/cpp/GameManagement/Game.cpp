@@ -20,6 +20,10 @@ gw::Game::Game(GameMap& map, int resolutionX, int resolutionY, std::string name)
     running(true)
 {
     window.setVerticalSyncEnabled(true); // framerate == monitor's refresh rate
+    window.setView(sf::View(
+        sf::Vector2f(resolutionX / 2.0f, resolutionY / 2.0f),
+        sf::Vector2f(resolutionX, resolutionY)
+    ));
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

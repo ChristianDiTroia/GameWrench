@@ -135,7 +135,7 @@ namespace demo2setup
 		TileStructure& platform1 = *(new TileStructure(roof));
 		platform1.setSubsprite(5, 13, 2, 2);
 		meter.scaleSprite(platform1, 1, 1);
-		platform1.setPosition(meter.toPixels(12, 20));
+		platform1.setPosition(meter.toPixels(12.25, 20));
 		platform1.asRectangle(16, 3, true);
 
 		TileStructure& platform2 = *(new TileStructure(platform1));
