@@ -12,7 +12,7 @@ namespace demo2setup
 
 	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
 		Entity& player = dynamic_cast<Entity&>(sprite);
-		if ((collision.y > collision.x) && collision.x <= 1) { // collision onY
+		if ((collision.y > collision.x) /*&& collision.x <= 1*/) { // collision onY
 			// stop vertical momentum on y-axis collisions
 			player.setVelocity(player.getVelocity().x, 0);
 			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
@@ -133,14 +133,53 @@ namespace demo2setup
 		roof.setPosition(meter.toPixels(1, 1));
 
 		TileStructure& platform1 = *(new TileStructure(roof));
-		platform1.setPosition(meter.toPixels(8, 21));
-		platform1.setSubsprite(5, 12);
-		meter.scaleSprite(platform1, 2, 2);
-		platform1.asRow(6);
+		platform1.setSubsprite(5, 13, 2, 2);
+		meter.scaleSprite(platform1, 1, 1);
+		platform1.setPosition(meter.toPixels(12, 20));
+		platform1.asRectangle(16, 3, true);
+
+		TileStructure& platform2 = *(new TileStructure(platform1));
+		platform2.setSubsprite(1, 13, 2, 2);
+		platform2.asRectangle(3, 6, true);
+		platform2.positionRelativeTo(platform1, TileStructure::xCenter, TileStructure::top);
+
+		TileStructure& platform3 = *(new TileStructure(platform2));
+		platform3.asRectangle(3, 3, true);
+		platform3.positionRelativeTo(platform2, TileStructure::left, TileStructure::bottom);
+		platform3.movePosition(meter.toPixels(0, -3.05));
+
+		TileStructure& platform4 = *(new TileStructure(platform3));
+		platform4.positionRelativeTo(platform2, TileStructure::right, TileStructure::bottom);
+		platform4.movePosition(meter.toPixels(0, -3.05));
+
+		TileStructure& platform5 = *(new TileStructure(platform4));
+		platform5.asRectangle(2, 2, false);
+		platform5.positionRelativeTo(platform4, TileStructure::right, TileStructure::bottom);
+		platform5.movePosition(meter.toPixels(0, -2));
+
+		TileStructure& platform6 = *(new TileStructure(platform5));
+		platform5.positionRelativeTo(platform3, TileStructure::left, TileStructure::bottom);
+		platform5.movePosition(meter.toPixels(0, -2));
+
+		TileStructure& wall1 = *(new TileStructure(platform5));
+		wall1.setSubsprite(4, 17, 3, 3);
+		meter.scaleSprite(wall1, 2, 2);
+		wall1.setPosition(meter.toPixels(1, 3));
+		wall1.asColumn(11);
+
+		TileStructure& wall2 = *(new TileStructure(wall1));
+		wall2.setPosition(meter.toPixels(39, 3));
 
 		SpriteCollection* room2 = new SpriteCollection;
 		room2->addSprite(roof)
-			.addSprite(platform1);
+			.addSprite(platform1)
+			.addSprite(platform2)
+			.addSprite(platform3)
+			.addSprite(platform4)
+			.addSprite(platform5)
+			.addSprite(platform6)
+			.addSprite(wall1)
+			.addSprite(wall2);
 
 		return room2;
 	}
