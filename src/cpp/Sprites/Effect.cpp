@@ -27,6 +27,7 @@ gw::Effect::Effect(const Effect& other) :
 	timer(other.timer),
 	curFrame(other.curFrame),
 	animationCycles(other.animationCycles),
+	continuousPlay(false),
 	animationTime(other.animationTime)
 {}
 
@@ -34,7 +35,10 @@ gw::Effect::Effect(const Effect& other) :
 // Mutators 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-void gw::Effect::setAnimation(std::vector<Vector2f> subsprites) { animation = subsprites; }
+void gw::Effect::setAnimation(std::vector<Vector2f> subsprites) { 
+	animation = subsprites; 
+	continuousPlay = false; // stop continous playing if new animation created
+}
 
 void gw::Effect::playEffect(int animationCycles, float timePerFrame, Vector2f velocity) {
 	playEffect(animationCycles, timePerFrame, velocity.x, velocity.y);
@@ -51,6 +55,13 @@ void gw::Effect::playEffect(int animationCycles, float timePerFrame) {
 	this->animationCycles = animationCycles * (animationCycles > 0); // force animationCycles >= 0
 	animationTime = timePerFrame;
 }
+
+void gw::Effect::playEffect(float timePerFrame) {
+	continuousPlay = true;
+	playEffect(1, timePerFrame);
+}
+
+void gw::Effect::stopPlaying() { continuousPlay = false; }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Private Methods 
@@ -73,7 +84,7 @@ void gw::Effect::updateAnimation(float deltaTime) {
 		else if (timer >= animationTime) {
 			curFrame = (curFrame + 1) % animation.size();
 			timer -= animationTime; // keep extra time so next frame shown sooner
-			if (curFrame == animation.size() - 1) { animationCycles--; } // one cycle completed
+			if (!continuousPlay && curFrame == animation.size() - 1) { animationCycles--; } // one cycle completed
 		}
 		setSubsprite(animation[curFrame]);
 	}

@@ -7,25 +7,25 @@ using namespace gw;
 
 namespace demo2setup
 {	
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Global data
+////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+	// Game status - change this from anywhere to determine if the player has lost
+	bool gameOver = false;
+
+	// Define player globally as it is involved in most operations
 	Entity ninjaFrog("./sprites/pixel_adventure_sprites/Main characters/Ninja Frog/ninjaFrogSpriteSheet_32x32.png", 32, 32);
 
-	// Define 1 in-game meter
+	// Define 1 in-game meter for pixel unit conversions
 	helpers::PixelConverter meter(16);
 
-	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
-		Entity& player = dynamic_cast<Entity&>(sprite);
-		if ((collision.y > collision.x) /*&& collision.x <= 1*/) { // collision on Y
-			// stop vertical momentum on y-axis collisions
-			player.setVelocity(player.getVelocity().x, 0);
-			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
-		}
-		else if (collision.x > collision.y) { // collision on X
-			// wall cling ability
-			if (player.getVelocity().y >= 0) { player.setSubsprite(0, 3); } // don't cling if jumping
-			player.setVelocity(player.getVelocity().x, 0); // stop falling when clinging
-		}
-	};
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Game behavior functions (actions and collision)
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// Define the player's controls
 	static void playerActions(AnimatedSprite& self) {
 		Entity& player = dynamic_cast<Entity&>(self);
 		typedef sf::Keyboard kb;
@@ -67,14 +67,22 @@ namespace demo2setup
 		if (player.getVelocity().y == 0) { player.addVelocity(0, 1); } // prevent y-vel == 0 inAir
 	}
 
-	static void rockHeadCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
-		Entity& rockHead = dynamic_cast<Entity&>(sprite);
-		if (collision.y > collision.x) { // collision on Y
-			rockHead.setVelocity(rockHead.getVelocity().x, 0); // stop momentum on y-axis collisions
-			if (rockHead.getPosition().y < collidedWith.getPosition().y) rockHead.setVelocity(meter.toPixels(0, -5)); // hit ground - send back up
+	// Define what happens when player collides with terrain
+	static void playerCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
+		Entity& player = dynamic_cast<Entity&>(sprite);
+		if ((collision.y > collision.x) /*&& collision.x <= 1*/) { // collision on Y
+			// stop vertical momentum on y-axis collisions
+			player.setVelocity(player.getVelocity().x, 0);
+			if (player.getPosition().y > collidedWith.getPosition().y) player.addVelocity(0, 1); // bumped head - send back down
+		}
+		else if (collision.x > collision.y) { // collision on X
+			// wall cling ability
+			if (player.getVelocity().y >= 0) { player.setSubsprite(0, 3); } // don't cling if jumping
+			player.setVelocity(player.getVelocity().x, 0); // stop falling when clinging
 		}
 	};
-
+	
+	// Define rockHead behavior
 	static void rockHeadActions(AnimatedSprite& self) {
 		Entity& rockHead = dynamic_cast<Entity&>(self);
 
@@ -89,21 +97,52 @@ namespace demo2setup
 
 	}
 
-	static void enemyCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision, GameMap& map) {
-		map.curToHead();
+	// Define what happens when rockHead collides with terrain
+	static void rockHeadCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
+		Entity& rockHead = dynamic_cast<Entity&>(sprite);
+		if (collision.y > collision.x) { // collision on Y
+			rockHead.setVelocity(rockHead.getVelocity().x, 0); // stop momentum on y-axis collisions
+			if (rockHead.getPosition().y < collidedWith.getPosition().y) rockHead.setVelocity(meter.toPixels(0, -5)); // hit ground - send back up
+		}
+	};
+
+	// Define enemy behavior
+	static void enemyActions(AnimatedSprite& self) {
+		Entity& enemy = dynamic_cast<Entity&>(self);
+
+		// Make an enemy that follows the player when close by
+		float velocity = 0;
+		Vector2f dist = ninjaFrog.getPosition() - enemy.getPosition();
+		if (abs(dist.x) <= meter.toPixels(10) && abs(dist.x) > 1 && abs(dist.y) < meter.toPixels(8)) {
+			if (dist.x > 0) { // player towards the right
+				velocity = meter.toPixels(4);
+				if (enemy.isMirroredX()) { enemy.mirrorX(); }
+			} else if (dist.x < 0) { // player towards the left
+				velocity = meter.toPixels(-4);
+				if (!enemy.isMirroredX()) { enemy.mirrorX(); }
+			}
+			enemy.animate("run", 0.1); // player in sight, chase player
+		}
+		else { // too close or too far from player, idle
+			enemy.animate("idle", 0.1);
+		}
+
+		enemy.setVelocity(velocity, enemy.getVelocity().y);
 	}
 
-	static SpriteCollection* room1RockHeads() {
-		Entity& rockHead = *(new Entity("./sprites/pixel_adventure_sprites/Traps/Rock Head/Blink (42x42).png", 42, 42));
-		rockHead.addAnimation("blink", helpers::rowAnimation(0, 0, 3));
-		rockHead.setPosition(meter.toPixels(20, 1.1));
+	// Define what happens when the player collides with an enemy
+	static void enemyCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) { gameOver = true;	}
+	
+	// Define what happens when the player collides with an item
+	static void itemCollision(Sprite& sprite, Sprite& collidedWith, Vector2f collision) {
 
-		SpriteCollection* room1Rockheads = new SpriteCollection;
-		room1Rockheads->addSprite(rockHead);
-
-		return room1Rockheads;
 	}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Level design
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	// Room 1 terrain
 	static SpriteCollection* buildRoom1() {
 		TileStructure& floor = *(new TileStructure("./sprites/pixel_adventure_sprites/terrain/Terrain_(16x16).png", 16, 16));
 		floor.setSubsprite(0, 6, 3, 3);
@@ -162,14 +201,48 @@ namespace demo2setup
 		return room1;
 	}
 
-	static SpriteCollection* room1Obstacles() {
+	// Room 1 rock head enemies
+	static SpriteCollection* room1RockHeads() {
+		Entity& rockHead = *(new Entity("./sprites/pixel_adventure_sprites/Traps/Rock Head/Blink (42x42).png", 42, 42));
+		rockHead.addAnimation("blink", helpers::rowAnimation(0, 0, 3));
+		rockHead.setPosition(meter.toPixels(20, 1.1));
 
-		SpriteCollection* room1Obstacles = new SpriteCollection;
+		SpriteCollection* room1Rockheads = new SpriteCollection;
+		room1Rockheads->addSprite(rockHead);
 
-
-		return room1Obstacles;
+		return room1Rockheads;
 	}
 
+	// Room 1 character enemies
+	static SpriteCollection* room1Enemies() {
+		Entity& enemy1 = *(new Entity("./sprites/pixel_adventure_sprites/Main Characters/Mask dude/maskdude_spritesheet(32x32).png", 32, 32));
+		enemy1.addAnimation("idle", helpers::rowAnimation(2, 0, 10))
+			.addAnimation("run", helpers::rowAnimation(3, 0, 11));
+		meter.scaleSprite(enemy1, 2, 2);
+		enemy1.setPosition(meter.toPixels(30, 13.5));
+		enemy1.applyGravity(meter.toPixels(0, 100));
+
+		SpriteCollection* room1enemies = new SpriteCollection;
+
+		room1enemies->addSprite(enemy1);
+
+		return room1enemies;
+	}
+
+	// Room 1 collectables
+	static SpriteCollection* room1Items() {
+		Effect& orange1 = *(new Effect("./sprites/pixel_adventure_sprites/Items/Fruits/Orange.png", 32, 32));
+		orange1.setAnimation(helpers::rowAnimation(0, 0, 16));
+		orange1.playEffect(0.1);
+		orange1.setPosition(meter.toPixels(20, 8));
+		
+		SpriteCollection* room1Items = new SpriteCollection;
+		room1Items->addSprite(orange1);
+
+		return room1Items;
+	}
+
+	// Room 2 terrain
 	static SpriteCollection* buildRoom2() {
 		TileStructure& roof = *(new TileStructure("./sprites/pixel_adventure_sprites/terrain/Terrain_(16x16).png", 16, 16));
 		roof.setSubsprite(0, 0, 3, 3);
@@ -240,6 +313,29 @@ namespace demo2setup
 		return room2;
 	}
 
+	// Room 2 obstacles
+	static SpriteCollection* room2Obstacles() {
+		Sprite& spikes1 = *(new Sprite("./sprites/pixel_adventure_sprites/Traps/Spike Head/idle.png", 5, 5));
+		spikes1.setSubsprite(1, 1, 9, 9);
+		meter.scaleSprite(spikes1, 3, 3);
+		spikes1.setPosition(meter.toPixels(26, 9));
+
+		Sprite& spikes2 = *(new Sprite(spikes1));
+		spikes2.movePosition(meter.toPixels(8, 0));
+
+		Sprite& spikes3 = *(new Sprite(spikes1));
+		meter.scaleSprite(spikes3, 5, 5);
+		spikes3.movePosition(meter.toPixels(-13, 5));
+
+		SpriteCollection* room2Obstacles = new SpriteCollection;
+
+		room2Obstacles->addSprite(spikes1)
+			.addSprite(spikes2)
+			.addSprite(spikes3);
+
+		return room2Obstacles;
+	}
+
 	static void deleteCollection(SpriteCollection* collection) {
 		for (Sprite* sprite : collection->getSprites()) { delete sprite; }
 		for (Sprite* sprite : collection->getAnimatedSprites()) { delete sprite; }
@@ -251,7 +347,8 @@ namespace demo2setup
 void demos::runDemo2() {
 	using namespace demo2setup;
 
-	// create map and game objects
+	//// Create map and game objects ////
+
 	GameMap map("room1");
 	map.addRoomTop("room2");
 	Game game(map, 640, 360, "GameWrench Demo 2!!!");
@@ -268,14 +365,20 @@ void demos::runDemo2() {
 	background2.setPosition(meter.toPixels(20, 11.25));
 	map.curRoom->top->addSprite(background2);
 
-	//// create room layouts/terrain ////
+	Sprite gameOverFlash("./sprites/pixel_adventure_sprites/background/Green.png", 64, 64);
+	meter.scaleSprite(gameOverFlash, 40, 23);
+	gameOverFlash.setPosition(meter.toPixels(20, 11.25));
+	gameOverFlash.hide();
+	map.addGlobalSprite(gameOverFlash);
+
+	//// Create room layouts/terrain ////
 
 	SpriteCollection* room1 = buildRoom1();
 	map.curRoom->addCollection(*room1);
 	SpriteCollection* room2 = buildRoom2();
 	map.curRoom->top->addCollection(*room2);
 
-	// create player character
+	//// Create player character ////
 
 	ninjaFrog.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 9))
 		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
@@ -294,10 +397,23 @@ void demos::runDemo2() {
 	}
 	map.curRoom->addCollection(*rockHeads);
 
-	//// Collision detection with the terrain ////
+	SpriteCollection* enemies = room1Enemies();
+	for (AnimatedSprite* enemy : enemies->getAnimatedSprites()) {
+		enemy->defineBehavior(enemyActions);
+	}
+	map.curRoom->addCollection(*enemies);
+
+	SpriteCollection* itemsRoom1 = room1Items();
+	map.curRoom->addCollection(*itemsRoom1);
+
+	SpriteCollection* obstacles = room2Obstacles();
+	map.curRoom->top->addCollection(*obstacles);
+
+	//// Collision detection ////
 
 	BoxCollider room1Collider(playerCollision, true);
 	room1Collider.applyCollision(ninjaFrog)
+		.applyCollision(*enemies)
 		.canCollideWith(*room1);
 	map.curRoom->addCollider(room1Collider);
 
@@ -306,12 +422,10 @@ void demos::runDemo2() {
 		.canCollideWith(*room1);
 	map.curRoom->addCollider(rockHeadCollider);
 
-	BoxCollider enemiesCollider(
-		[&map](Sprite& sprite, Sprite& collidedWith, Vector2f collision) { enemyCollision(sprite, collidedWith, collision, map); },
-		true
-	);
+	BoxCollider enemiesCollider(enemyCollision, true);
 	enemiesCollider.applyCollision(ninjaFrog)
-		.canCollideWith(*rockHeads);
+		.canCollideWith(*rockHeads)
+		.canCollideWith(*enemies);
 	map.curRoom->addCollider(enemiesCollider);
 
 	BoxCollider room2Collider(playerCollision, true);
@@ -319,8 +433,27 @@ void demos::runDemo2() {
 		.canCollideWith(*room2);
 	map.curRoom->top->addCollider(room2Collider);
 
+	BoxCollider obstaclesCollider(enemyCollision, true);
+	obstaclesCollider.applyCollision(ninjaFrog)
+		.canCollideWith(*obstacles);
+	map.curRoom->top->addCollider(obstaclesCollider);
+
+	int gameOverFrames = 0;
 	while (game.isPlaying()) {
-		game.outputFrame();
+		if (gameOver) { // player got hit by an enemy
+			map.curToHead();
+			ninjaFrog.setPosition(meter.toPixels(10, 13.5));
+			ninjaFrog.setVelocity(0, 0);
+			enemies->getAnimatedSprites()[0]->setPosition(meter.toPixels(30, 13.5));
+			enemies->getAnimatedSprites()[0]->setVelocity(0, 0);
+			gameOverFlash.show();
+			gameOverFrames++;
+			if (gameOverFrames > 30) {
+				gameOverFrames = 0;
+				gameOverFlash.hide();
+				gameOver = false;
+			}
+		}
 
 		// Map navigation logic //
 		if (map.curRoom->roomName == "room1" && ninjaFrog.getPosition().y < meter.toPixels(-1)) {
@@ -334,8 +467,13 @@ void demos::runDemo2() {
 			map.curRoom = map.curRoom->bottom;
 			ninjaFrog.setPosition(ninjaFrog.getPosition().x, 0);
 		}
+
+		game.outputFrame();
 	}
 
 	deleteCollection(room1);
 	deleteCollection(room2);
+	deleteCollection(rockHeads);
+	deleteCollection(enemies);
+	deleteCollection(obstacles);
 }

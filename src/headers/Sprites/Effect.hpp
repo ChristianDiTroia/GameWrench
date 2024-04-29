@@ -28,6 +28,8 @@ public:
 	void playEffect(int animationCycles, float timePerFrame, Vector2f velocity);
 	void playEffect(int animationCycles, float timePerFrame, float velocityX, float velocityY);
 	void playEffect(int animationCycles, float timePerFrame);
+	void playEffect(float timePerFrame);
+	void stopPlaying();
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // Mutators 
@@ -55,6 +57,7 @@ private:
 	float timer;
 	int curFrame;						// Current frame of animation
 	int animationCycles;				// Number of animation cycles per effect
+	bool continuousPlay;				// Should the effect play forever?
 	float animationTime;				// Time to display one frame of the effect
 };
 

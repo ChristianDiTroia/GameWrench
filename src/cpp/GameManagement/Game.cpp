@@ -88,8 +88,8 @@ void gw::Game::draw(const std::vector<AnimatedSprite*>& sprites) {
 }
 
 void gw::Game::drawAll() {
-    draw(map.getGlobalSprites());
     draw(map.curRoom->getSprites());
-    draw(map.getGlobalAnimatedSprites());
     draw(map.curRoom->getAnimatedSprites());
+    draw(map.getGlobalAnimatedSprites());
+    draw(map.getGlobalSprites());
 }
