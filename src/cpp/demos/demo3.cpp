@@ -3,8 +3,6 @@
 #include "GameWrench.hpp"
 #include <SFML/Audio.hpp>
 
-#include <iostream>
-
 using namespace gw;
 
 namespace demo3setup
@@ -49,7 +47,7 @@ namespace demo3setup
 			D = true;
 		}
 		if (kb::isKeyPressed(kb::A)) {
-			player.animate("run", 0.05);
+			player.animate("run", 0.06);
 			if (!player.isMirroredX()) { player.mirrorX(); }
 			A = true;
 		}
@@ -199,13 +197,14 @@ namespace demo3setup
 
 		TileStructure& wall1 = *(new TileStructure(platform3));
 		wall1.setSubsprite(4, 17, 3, 3);
+		meter.scaleSprite(wall1, 2, 2);
 		wall1.asColumn(20);
 		wall1.positionRelativeTo(floor, TileStructure::left, TileStructure::top);
 		wall1.movePosition(meter.toPixels(2, 0));
 
 		TileStructure& wall2 = *(new TileStructure(wall1));
-		wall1.positionRelativeTo(floor, TileStructure::right, TileStructure::top);
-		wall1.movePosition(meter.toPixels(-2, 0));
+		wall2.positionRelativeTo(floor, TileStructure::right, TileStructure::top);
+		wall2.movePosition(meter.toPixels(-2, 0));
 
 		SpriteCollection* room1 = new SpriteCollection;
 		room1->addSprite(platform1)
@@ -396,13 +395,17 @@ namespace demo3setup
 void demos::runDemo3() {
 	using namespace demo3setup;
 
-	//// Create map and game objects ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create map and game objects
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	GameMap map("room1");
 	map.addRoomTop("room2");
-	Game game(map, 640, 360, "GameWrench Demo 2!!!");
+	Game game(map, 640, 360, "GameWrench Demo 3!!!");
 
-	////////// Create SFML sounds //////////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create SFML sounds
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	sf::SoundBuffer jumpBuffer;
 	jumpBuffer.loadFromFile("./sounds/jump.wav");
@@ -420,7 +423,9 @@ void demos::runDemo3() {
 	winBuffer.loadFromFile("./sounds/synth.wav");
 	winSound.setBuffer(winBuffer);
 
-	//// Set backgrounds ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Set backgrounds
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	Sprite background1("./sprites/pixel_adventure_sprites/background/Yellow.png", 64, 64);
 	meter.scaleSprite(background1, 40, 23);
@@ -438,25 +443,31 @@ void demos::runDemo3() {
 	gameOverFlash.hide();
 	map.addGlobalSprite(gameOverFlash);
 
-	//// Create room layouts/terrain ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create room layouts/terrain
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	SpriteCollection* room1 = buildRoom1();
 	map.curRoom->addCollection(*room1);
 	SpriteCollection* room2 = buildRoom2();
 	map.curRoom->top->addCollection(*room2);
 
-	//// Create player character ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create player character
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	ninjaFrog.addAnimation("idle", gw::helpers::rowAnimation(2, 0, 9))
-		.addAnimation("run", gw::helpers::rowAnimation(3, 0, 10))
-		.addAnimation("jump", gw::helpers::rowAnimation(0, 1, 1))
-		.addAnimation("fall", gw::helpers::rowAnimation(0, 0, 0));
+	ninjaFrog.addAnimation("idle", helpers::rowAnimation(2, 0, 9))
+		.addAnimation("run", helpers::rowAnimation(3, 0, 10))
+		.addAnimation("jump", helpers::rowAnimation(0, 1, 1))
+		.addAnimation("fall", helpers::rowAnimation(0, 0, 0));
 	ninjaFrog.setPosition(meter.toPixels(10, 13.5));
 	ninjaFrog.defineBehavior(playerActions);
 	ninjaFrog.applyGravity(meter.toPixels(0, 100));
 	map.addGlobalSprite(ninjaFrog);
 
-	//// Create entities ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Create entities
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	SpriteCollection* enemies = room1Enemies();
 	for (AnimatedSprite* enemy : enemies->getAnimatedSprites()) {
@@ -479,7 +490,9 @@ void demos::runDemo3() {
 	SpriteCollection* itemsRoom2 = room2Items();
 	map.curRoom->top->addCollection(*itemsRoom2);
 
-	//// Collision detection ////
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Collision detection
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	BoxCollider room1Collider(playerCollision, true);
 	room1Collider.applyCollision(ninjaFrog)
@@ -517,6 +530,10 @@ void demos::runDemo3() {
 	room2ItemsCollider.applyCollision(ninjaFrog)
 		.canCollideWith(*itemsRoom2);
 	map.curRoom->top->addCollider(room2ItemsCollider);
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Run game
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	int gameOverFrames = 0;
 	while (game.isPlaying()) {
@@ -559,6 +576,10 @@ void demos::runDemo3() {
 
 		game.outputFrame();
 	}
+
+////////////////////////////////////////////////////////////////////////////////////////////////////
+// Clean up memory
+////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	deleteCollection(room1);
 	deleteCollection(room2);
