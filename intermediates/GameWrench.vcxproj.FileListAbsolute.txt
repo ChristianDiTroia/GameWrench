@@ -1,6 +1,13 @@
+C:\Dev\GameWrench\GameWrench\bin\sfml-audio-d-2.dll
+C:\Dev\GameWrench\GameWrench\bin\sfml-system-d-2.dll
+C:\Dev\GameWrench\GameWrench\bin\OpenAL32.dll
+C:\Dev\GameWrench\GameWrench\bin\vorbisenc.dll
+C:\Dev\GameWrench\GameWrench\bin\vorbis.dll
+C:\Dev\GameWrench\GameWrench\bin\ogg.dll
+C:\Dev\GameWrench\GameWrench\bin\vorbisfile.dll
+C:\Dev\GameWrench\GameWrench\bin\FLAC.dll
 C:\Dev\GameWrench\GameWrench\bin\sfml-graphics-d-2.dll
 C:\Dev\GameWrench\GameWrench\bin\sfml-window-d-2.dll
-C:\Dev\GameWrench\GameWrench\bin\sfml-system-d-2.dll
 C:\Dev\GameWrench\GameWrench\bin\freetyped.dll
 C:\Dev\GameWrench\GameWrench\bin\zlibd1.dll
 C:\Dev\GameWrench\GameWrench\bin\bz2d.dll

@@ -147,7 +147,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\cpp\demos\demo3.cpp" />
+    <ClCompile Include="src\cpp\demos\demo1.cpp" />
+    <ClCompile Include="src\cpp\demos\demo2.cpp" />
     <ClCompile Include="src\cpp\GameManagement\BoxCollider.cpp" />
     <ClCompile Include="src\cpp\GameManagement\Collider.cpp" />
     <ClCompile Include="src\cpp\Utility\PixelConverter.cpp" />
@@ -164,7 +165,7 @@
     <ClCompile Include="src\cpp\Utility\UnitConverter.cpp" />
     <ClCompile Include="src\cpp\Utility\Vector2u.cpp" />
     <ClCompile Include="src\cpp\Sprites\TileStructure.cpp" />
-    <ClCompile Include="src\cpp\demos\demo2.cpp" />
+    <ClCompile Include="src\cpp\demos\demo3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\cpp\demos\demos.hpp" />

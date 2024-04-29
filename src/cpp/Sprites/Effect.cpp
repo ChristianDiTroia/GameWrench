@@ -15,6 +15,7 @@ gw::Effect::Effect(std::string filePath, int cellSizeX, int cellSizeY) :
 	timer(0),
 	curFrame(-1),
 	animationCycles(0),
+	continuousPlay(false),
 	animationTime(0)
 {
 	hide();
@@ -27,7 +28,7 @@ gw::Effect::Effect(const Effect& other) :
 	timer(other.timer),
 	curFrame(other.curFrame),
 	animationCycles(other.animationCycles),
-	continuousPlay(false),
+	continuousPlay(other.continuousPlay),
 	animationTime(other.animationTime)
 {}
 

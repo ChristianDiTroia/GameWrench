@@ -1,4 +1,5 @@
-C:\Dev\GameWrench\GameWrench\src\cpp\demos\demo3.cpp;C:\Dev\GameWrench\GameWrench\intermediates\demo3.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\demos\demo1.cpp;C:\Dev\GameWrench\GameWrench\intermediates\demo1.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\demos\demo2.cpp;C:\Dev\GameWrench\GameWrench\intermediates\demo2.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\BoxCollider.cpp;C:\Dev\GameWrench\GameWrench\intermediates\BoxCollider.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\GameManagement\Collider.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Collider.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Utility\PixelConverter.cpp;C:\Dev\GameWrench\GameWrench\intermediates\PixelConverter.obj
@@ -15,4 +16,4 @@ C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\Sprite.cpp;C:\Dev\GameWrench\GameWr
 C:\Dev\GameWrench\GameWrench\src\cpp\Utility\UnitConverter.cpp;C:\Dev\GameWrench\GameWrench\intermediates\UnitConverter.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Utility\Vector2u.cpp;C:\Dev\GameWrench\GameWrench\intermediates\Vector2u.obj
 C:\Dev\GameWrench\GameWrench\src\cpp\Sprites\TileStructure.cpp;C:\Dev\GameWrench\GameWrench\intermediates\TileStructure.obj
-C:\Dev\GameWrench\GameWrench\src\cpp\demos\demo2.cpp;C:\Dev\GameWrench\GameWrench\intermediates\demo2.obj
+C:\Dev\GameWrench\GameWrench\src\cpp\demos\demo3.cpp;C:\Dev\GameWrench\GameWrench\intermediates\demo3.obj
