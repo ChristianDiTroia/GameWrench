@@ -58,9 +58,9 @@ void gw::Collider::resolveCollisions(Sprite& sprite) {
 
 void gw::Collider::resolveCollision(Sprite& sprite, Sprite& collidable) {
 	Vector2f collision = checkCollision(sprite, collidable);
-	handleCollision(sprite, collidable, collision);
-	if (pushOut && collision != Vector2f(0, 0)) {
-		pushOutOfCollision(sprite, collidable, collision);
+	if (collision != Vector2f(0, 0)) {
+		handleCollision(sprite, collidable, collision);
+		if (pushOut) pushOutOfCollision(sprite, collidable, collision);
 		/* NOTE: it is possible for pushOutOfCollision to be push sprite into another collision.
 		*  New collisions must be fixed in the next frame to avoid recusrively checking collision. */
 	}
