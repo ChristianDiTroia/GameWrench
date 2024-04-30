@@ -1,4 +1,4 @@
-#include "demos/demos.hpp"
+#include "./demos.hpp"
 
 #include "GameWrench.hpp"
 #include <SFML/Audio.hpp>
@@ -420,7 +420,7 @@ void demos::runDemo3() {
 	defeatSound.setBuffer(defeatBuffer);
 
 	sf::SoundBuffer winBuffer;
-	winBuffer.loadFromFile("./sounds/synth.wav");
+	winBuffer.loadFromFile("./sounds/win.wav");
 	winSound.setBuffer(winBuffer);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

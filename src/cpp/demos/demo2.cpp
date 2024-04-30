@@ -1,4 +1,4 @@
-#include "demos/demos.hpp"
+#include "./demos.hpp"
 
 #include "GameWrench.hpp"
 #include <SFML/Audio.hpp>

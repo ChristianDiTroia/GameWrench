@@ -72,6 +72,9 @@
     <ClCompile Include="src\cpp\demos\demo1.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\cpp\demos\demo4.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\headers\Sprites\AnimatedSprite.hpp">
@@ -146,18 +149,6 @@
     <None Include=".gitattributes" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="sprites\fireball_spritesheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="sprites\skeleton_spritesheet.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="sprites\blue_city.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="sprites\misty_city.png">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="sprites\pixel_adventure_sprites\Terrain\Terrain_(16x16).png">
       <Filter>Resource Files</Filter>
     </Image>

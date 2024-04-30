@@ -8,4 +8,6 @@ namespace demos
 
     void runDemo3();
 
+    void runDemo4();
+
 }

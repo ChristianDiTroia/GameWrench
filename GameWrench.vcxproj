@@ -149,6 +149,7 @@
   <ItemGroup>
     <ClCompile Include="src\cpp\demos\demo1.cpp" />
     <ClCompile Include="src\cpp\demos\demo2.cpp" />
+    <ClCompile Include="src\cpp\demos\demo4.cpp" />
     <ClCompile Include="src\cpp\GameManagement\BoxCollider.cpp" />
     <ClCompile Include="src\cpp\GameManagement\Collider.cpp" />
     <ClCompile Include="src\cpp\Utility\PixelConverter.cpp" />
@@ -198,11 +199,7 @@
     <None Include="vcpkg.json" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="sprites\blue_city.png" />
-    <Image Include="sprites\fireball_spritesheet.png" />
-    <Image Include="sprites\misty_city.png" />
     <Image Include="sprites\pixel_adventure_sprites\Terrain\Terrain_(16x16).png" />
-    <Image Include="sprites\skeleton_spritesheet.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
