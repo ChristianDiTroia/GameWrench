@@ -3,5 +3,5 @@
 #include "./demos/demos.hpp"
 
 int main() {
-    demos::runDemo3();
+    demos::runDemo4();
 }
