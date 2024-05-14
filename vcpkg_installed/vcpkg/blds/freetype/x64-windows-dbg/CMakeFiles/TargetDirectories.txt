@@ -1,8 +1,0 @@
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/freetype.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/package.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/package_source.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/edit_cache.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/rebuild_cache.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/list_install_components.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/install.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/freetype/x64-windows-dbg/CMakeFiles/install/local.dir

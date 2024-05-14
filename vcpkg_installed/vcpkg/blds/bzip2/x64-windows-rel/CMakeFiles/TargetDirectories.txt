@@ -1,8 +1,0 @@
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/bz2.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/bzip2.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/bzip2recover.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/edit_cache.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/rebuild_cache.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/list_install_components.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/install.dir
-C:/Dev/gamewrench_old/GameWrench_Old/vcpkg_installed/vcpkg/blds/bzip2/x64-windows-rel/CMakeFiles/install/local.dir
